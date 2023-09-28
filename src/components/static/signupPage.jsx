@@ -23,7 +23,7 @@ const SignupPage = () => {
   });
 
   const checkHasError = () => {
-    let x = Object.values(errors).some((error) => error !== "");
+    const x = Object.values(errors).some((error) => error !== "");
     setHasError(x);
   };
   const handleInputChange = (e) => {
@@ -84,17 +84,17 @@ const SignupPage = () => {
     }
   };
 
-  const handelSubmitButton = (e) => {
+  const handelSubmitButton = () => {
     if (!hasErrors) {
       var jsonUser = JSON.stringify(formData);
       localStorage.setItem(formData.email, jsonUser);
       dispatch(LoginAction(formData));
       dispatch(GetCurrentUserAction(formData.email));
+      alert("SignUp Complete You will now be redirect to the home page.");
       history.push("/");
     }
   };
 
- 
   useEffect(() => {
     checkHasError();
   }, [formData]);
@@ -221,8 +221,8 @@ const SignupPage = () => {
                           <button
                             onClick={handelSubmitButton}
                             disabled={hasErrors}
-                            data-bs-toggle="modal"
-                            data-bs-target="#submitModal"
+                            // data-bs-toggle="modal"
+                            // data-bs-target="#submitModal"
                             type="button"
                             className="btn btn-primary btn-lg"
                           >

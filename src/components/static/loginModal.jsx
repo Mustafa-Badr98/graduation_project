@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import { LoginAction } from "../../store/actions/loginAction";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const LoginModal = () => {
+  // const history = useHistory();
   const dispatch = useDispatch();
-  const isLogged = useSelector((state) => state.IsLog.isLogedIn);
+  // const isLogged = useSelector((state) => state.IsLog.isLogedIn);
 
   const [hasErrors, setHasError] = useState(true);
 
@@ -69,10 +71,9 @@ const LoginModal = () => {
       if (key === email && parsedData.password === password) {
         console.log("Horaaaaai");
         return true;
-      } else {
-        return false;
       }
     }
+    return false;
   };
   const handleSubmitButton = (e) => {
     e.preventDefault();
@@ -84,6 +85,7 @@ const LoginModal = () => {
         dispatch(LoginAction());
         dispatch(GetCurrentUserAction(formData.email));
         alert("login complete");
+        // history.push('/')
       } else {
         alert("did you forget your password or email ? ");
       }

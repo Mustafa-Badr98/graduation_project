@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MyNavbar from "../static/myNavbar";
 import { useSelector } from "react-redux";
 import CartItemComp from "../static/cartItem";
+import MyAlert from "../static/alert";
 
 const CartPage = () => {
   const productItem = useSelector((state) => state.CartList.cartList);
@@ -230,7 +231,6 @@ const CartPage = () => {
                     src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
                     alt="Mastercard"
                   />
-                 
                 </div>
               </div>
             </div>
@@ -263,6 +263,8 @@ const CartPage = () => {
                   </ul>
 
                   <button
+                    data-bs-toggle="modal"
+                    data-bs-target="#AlertModal"
                     type="button"
                     className="btn btn-primary btn-lg btn-block"
                   >
@@ -274,6 +276,10 @@ const CartPage = () => {
           </div>
         </div>
       </section>
+      <MyAlert
+        title="Check Out Done"
+        description="Thank you For Shopping with us We hope that wont be the last.. we will keep improve to best suit your needs"
+      />
     </>
   );
 };

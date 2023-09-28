@@ -9,8 +9,13 @@ import CartPage from "./components/pages/cart";
 import LoginModal from "./components/static/loginModal";
 import MyNavbar from "./components/static/myNavbar";
 import FavPage from "./components/pages/FavPage";
+import WishListPage from "./components/pages/WishListPage";
+import { useDispatch } from "react-redux";
+import { GetProductsListAction } from "./store/actions/GetProductsList";
 
 function App() {
+  const dispatch = useDispatch();
+  dispatch(GetProductsListAction());
   return (
     <>
       <BrowserRouter>
@@ -19,6 +24,7 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/cart" component={CartPage} />
+          <Route exact path="/wishlist" component={WishListPage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/:id" component={viewSingleProductPage} />
 

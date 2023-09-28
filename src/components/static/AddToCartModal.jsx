@@ -5,7 +5,7 @@ const AddToCartModal = () => {
       <div
         className="modal fade"
         id="addToCartModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="addToCartModalLabel"
         aria-hidden="true"
       >

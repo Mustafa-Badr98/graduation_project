@@ -7,8 +7,8 @@ const MyAlert = (props) => {
     <>
       <div
         className="modal fade"
-        id="submitModal"
-        tabindex="-1"
+        id="AlertModal"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >

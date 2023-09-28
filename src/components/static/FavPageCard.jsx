@@ -11,21 +11,18 @@ import { RemoveFromWishListAction } from "../../store/actions/RemoveFromWishActi
 
 const ProductCard = (props) => {
   const dispatch = useDispatch();
-  const localProduct = props.productObject;
-
   const isLogedIn = useSelector((state) => state.IsLog.isLogedIn);
-  const wishListLocalInProductCard = useSelector(
-    (state) => state.WishLIST.wishList
-  );
-  const globalProductList = useSelector((state) => state.Products.productList);
 
   const [is_fav, setFav] = useState(false);
-  const [is_wish, setWish] = useState(false);
 
-  const checkIsFavWhenMountAndUnMount = () => {
+  const product = props.productObject;
+  // console.log(product);
+  const param = useParams();
+
+  const checkIsFav = () => {
     const sessionStorageKeys = Object.keys(sessionStorage);
     try {
-      if (sessionStorageKeys.includes(localProduct.id.toString())) {
+      if (sessionStorageKeys.includes(product.id.toString())) {
         setFav(true);
       }
     } catch (error) {
@@ -33,27 +30,13 @@ const ProductCard = (props) => {
     }
   };
 
-  const checkIsWishedWhenMountAndUnMount = () => {
-    // console.log("came From Is Wished Check");
-
-    wishListLocalInProductCard.some((products) => {
-      if (localProduct.id === products.id) {
-        // console.log("found in wish List.");
-        setWish(true);
-      } else {
-      }
-    });
-  };
   useEffect(() => {
-    setWish(false);
-    setFav(false)
-    checkIsFavWhenMountAndUnMount();
-    checkIsWishedWhenMountAndUnMount();
-  }, [globalProductList]);
+    checkIsFav();
+  }, );
 
   const AddCartHandlerButton = () => {
     // if (isLogedIn) {
-    dispatch(AddToCartAction(localProduct));
+    dispatch(AddToCartAction(product));
 
     // } else {
     // alert("you must be logged in to add to cart");
@@ -62,23 +45,12 @@ const ProductCard = (props) => {
 
   const addToFavHandler = () => {
     if (is_fav) {
-      dispatch(UpdateFavCountRemove(localProduct));
+      dispatch(UpdateFavCountRemove(product));
       setFav(false);
     } else {
-      dispatch(UpdateFavCountAdd(localProduct));
+      dispatch(UpdateFavCountAdd(product));
       setFav(true);
     }
-    // checkIsFav();
-  };
-
-  const AddToWishHandler = () => {
-    setWish(true);
-    dispatch(AddToWishListAction(localProduct));
-  };
-
-  const RemoveFromWishHandler = () => {
-    setWish(false);
-    dispatch(RemoveFromWishListAction(localProduct));
   };
 
   return (
@@ -88,7 +60,7 @@ const ProductCard = (props) => {
           <div className="row">
             <div className="offset-1 col-lg-6 col">
               <img
-                src={localProduct.Photos}
+                src={product.Photos}
                 className="img-fluid rounded-start"
                 alt="..."
               />
@@ -97,27 +69,23 @@ const ProductCard = (props) => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-8">
-                    <h5 className="card-title">{localProduct.Title}</h5>
+                    <h5 className="card-title">{product.Title}</h5>
                   </div>
                   <div className="col-4">
-                    <h5 className="card-title">{localProduct.Price} €</h5>
+                    <h5 className="card-title">{product.Price} €</h5>
                   </div>
                 </div>
 
-                <p className="card-text pt-3">{localProduct.Description}</p>
-                <h5 className="card-text pt-3">
-                  Size : <strong>{localProduct["Property size:"]} M </strong>
-                </h5>
-
+                <p className="card-text pt-3">{product.Description}</p>
                 <p className="card-text">
                   <small className="text-muted">
-                    Last updated {localProduct.Timestamp}
+                    Last updated {product.Timestamp}
                   </small>
                 </p>
 
                 <div className="card-body d-flex justify-content-end">
                   <Link
-                    to={`/${localProduct.id}`}
+                    to={`/${product.id}`}
                     className="card-link text-light btn btn-secondary"
                   >
                     More Details
@@ -135,7 +103,7 @@ const ProductCard = (props) => {
                     <>
                       <a
                         onClick={addToFavHandler}
-                        className="text-dark fs-3 ms-4 "
+                        className="text-dark fs-2 ms-4 "
                       >
                         <i className="fa-solid fa-heart"></i>
                       </a>
@@ -144,28 +112,10 @@ const ProductCard = (props) => {
                     <>
                       <a
                         onClick={addToFavHandler}
-                        className="text-dark fs-3 ms-4 "
+                        className="text-dark fs-2 ms-4 "
                       >
                         <i className="fa-regular fa-heart"></i>
                       </a>
-                    </>
-                  )}
-
-                  {is_wish ? (
-                    <>
-                      <i
-                        onClick={RemoveFromWishHandler}
-                        className="fs-2 fa-solid fa-book-open ms-4"
-                        style={{ color: "chocolate" }}
-                      ></i>
-                    </>
-                  ) : (
-                    <>
-                      {" "}
-                      <i
-                        onClick={AddToWishHandler}
-                        className="fa-sharp fa-solid fa-book-open fs-2 ms-4"
-                      ></i>
                     </>
                   )}
                 </div>

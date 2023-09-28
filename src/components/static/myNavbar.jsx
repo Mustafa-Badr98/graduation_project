@@ -9,20 +9,30 @@ const MyNavbar = () => {
   const cartNumbers = useSelector((state) => state.CartList.cartList.length);
   const userName = useSelector((state) => state.currentUSER.currentUser);
   const FavCount = useSelector((state) => state.FavCOUNT.favCount);
+  const WishCount = useSelector((state) => state.WishLIST.wishList.length);
 
-  const [userFirstChar, setUser] = useState(userName[0]);
+
+  const [localUserName, setUser] = useState(userName);
 
   const dispatch = useDispatch();
 
   function logoutHandler() {
-    dispatch(LogoutAction());
+    const userConfirmed = window.confirm(
+      "Are you sure you want to Logout ? we will miss you ):  "
+    );
+    if (userConfirmed) {
+      dispatch(LogoutAction());
+    }
+    else{
+      return -1
+    }
   }
   // const dispatch = useDispatch();
   // dispatch(LoginAction(""));
   useEffect(() => {
-    setUser(userName[0]);
-  }, [isLogedIn]);
-  console.log(isLogedIn);
+    setUser(userName);
+  },[isLogedIn] );
+  // console.log(isLogedIn);
   return (
     <>
       <div className="container ">
@@ -51,14 +61,29 @@ const MyNavbar = () => {
             className="collapse navbar-collapse d-lg-flex justify-content-between"
             id="navbarNav"
           >
-            <ul className="navbar-nav">
+            <ul className="navbar-nav mt-2">
+              <li className="nav-item">
+                <Link className="nav-link text-dark " to="/wishList">
+                  <i className="fa-sharp fa-solid fa-book-open fs-5 "></i>
+                  <span
+                    style={{
+                      backgroundColor: "chocolate",
+                      borderRadius: "20px",
+                      width: "100px",
+                    }}
+                    className="fs-6 text-light ms-1 pe-2 ps-2"
+                  >
+                    {WishCount}
+                  </span>
+                </Link>
+              </li>
               <li className="nav-item">
                 <Link
                   to="/Fav"
                   className="nav-link text-dark me-2"
                   href="#contact"
                 >
-                  Favorites
+                  <i className="fa-solid fa-heart fs-5"></i>
                   <span
                     style={{
                       backgroundColor: "chocolate",
@@ -99,7 +124,11 @@ const MyNavbar = () => {
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
                         className="text-light fs-6 me-2 btn btn-dark"
-                        style={{ borderRadius: "20px" ,border:"none",backgroundColor:"chocolate"}}
+                        style={{
+                          borderRadius: "20px",
+                          border: "none",
+                          backgroundColor: "chocolate",
+                        }}
                       >
                         LogIn
                       </span>
@@ -123,7 +152,7 @@ const MyNavbar = () => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        {`${userFirstChar}`}
+                        {`${localUserName[0].toUpperCase()}`}
                       </button>
                       <ul className="dropdown-menu">
                         <li>
