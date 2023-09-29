@@ -6,6 +6,8 @@ import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import HeroSection from "../static/heroSection";
 import SearchComp from "../static/SearchComp";
 import FilterComp from "../static/FilterComp";
+import NothingFoundAlert from "../static/nothingFoundAlert";
+import LoadingSpinner from "../static/loadingSpinner";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
@@ -31,33 +33,13 @@ const HomePage = () => {
       </div>
 
       {localIsLoading ? (
-        <>
-          <div className="d-flex justify-content-center mt-5">
-            <div className="spinner-border" role="status">
-              <span className="sr-only">Loading...</span>
-            </div>
-          </div>{" "}
-        </>
+        <LoadingSpinner />
       ) : (
         products.map((item, index) => {
           return <ProductCard key={index} productObject={item} />;
         })
       )}
-      {isResultFound === false && (
-        <>
-          <div className="container mt-5">
-            <div className="row">
-              <div className="offset-2 col-7">
-                <div className="alert alert-warning" role="alert">
-                  <h4 className="alert-heading">Nothing Found!</h4>
-                  <p>Try Searching For more Relevant Titles.</p>
-                  <hr />
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      {isResultFound === false && <NothingFoundAlert />}
 
       <MyFooter />
     </>

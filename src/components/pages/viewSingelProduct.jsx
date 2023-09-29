@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
-import "./viewSingleProductCSS.css";
+import cx from "classnames";
+
+import viewSinglePageStyles from "./viewSingleProduct.module.css";
 import MyFooter from "../static/footer";
 import { useDispatch } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
 import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 import { AddToCartAction } from "../../store/actions/AddToCart";
 import AddToCartModal from "../static/AddToCartModal";
+
 const ViewSingleProductPage = () => {
   const dispatch = useDispatch();
   const [is_fav, setFav] = useState(false);
@@ -55,28 +58,24 @@ const ViewSingleProductPage = () => {
     <>
       <div className="container">
         <div className="card">
-          <div className="container-fliud">
-            <div className="wrapper row">
-              <div className="preview col-md-6">
-                <div className="preview-pic tab-content">
-                  <div className="tab-pane active" id="pic-1">
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-6">
+                <div
+                  className={cx(
+                    viewSinglePageStyles["preview-picstyles"],
+                    viewSinglePageStyles["tab-content"]
+                  )}
+                >
+                  <div
+                    className={cx(viewSinglePageStyles["tab-pane"], "active")}
+                    id="pic-1"
+                  >
                     <img src={product.Photos} />
                   </div>
-                  <div className="tab-pane" id="pic-2">
-                    <img src="http://placekitten.com/400/252" />
-                  </div>
-                  <div className="tab-pane" id="pic-3">
-                    <img src="http://placekitten.com/400/252" />
-                  </div>
-                  <div className="tab-pane" id="pic-4">
-                    <img src="http://placekitten.com/400/252" />
-                  </div>
-                  <div className="tab-pane" id="pic-5">
-                    <img src="http://placekitten.com/400/252" />
-                  </div>
                 </div>
-                <ul className="preview-thumbnail nav nav-tabs">
-                  <li className="active">
+                <ul className={`preview-thumbnail nav nav-tabs`}>
+                  <li className={`active`}>
                     <a data-target="#pic-1" data-toggle="tab">
                       <img src="http://placekitten.com/200/126" />
                     </a>
@@ -103,37 +102,46 @@ const ViewSingleProductPage = () => {
                   </li>
                 </ul>
               </div>
-              <div className="details col-md-6">
-                <h3 className="product-title">{product.Title}</h3>
-                <div className="rating">
-                  <div className="stars">
-                    <span className="fa fa-star checked"></span>
-                    <span className="fa fa-star checked"></span>
-                    <span className="fa fa-star checked"></span>
-                    <span className="fa fa-star"></span>
-                    <span className="fa fa-star"></span>
+              <div className={cx(viewSinglePageStyles.details, "col-md-6")}>
+                <h3 className={viewSinglePageStyles["product-title"]}>
+                  {product.Title}
+                </h3>
+                <div className={viewSinglePageStyles["rating"]}>
+                  <div className={viewSinglePageStyles.stars}>
+                    <span
+                      className={cx("fa fa-star", viewSinglePageStyles.checked)}
+                    ></span>
+                    <span className={cx("fa fa-star", viewSinglePageStyles.checked)}></span>
+                    <span className={cx("fa fa-star", viewSinglePageStyles.checked)}></span>
+                    <span className={cx("fa fa-star", viewSinglePageStyles.checked)}></span>
+                    <span className={cx("fa fa-star")}></span>
                   </div>
-                  <span className="review-no">41 reviews</span>
+                  <span className={viewSinglePageStyles['review-no']}>41 reviews</span>
                 </div>
-                <p className="product-description">{product.Description}</p>
-                <h4 className="price">
+                <p className={`product-description`}>{product.Description}</p>
+                <h4 className={`price`}>
                   current price: <span>{product.Price} €</span>
                 </h4>
-                <p className="vote">
+                <p className={`vote`}>
                   <strong>91%</strong> of buyers enjoyed this product!{" "}
                   <strong>(87 votes)</strong>
                 </p>
-                <h5 className="sizes">
+                <h5 className={`sizes`}>
                   size:
-                  <span className="ms-2" data-toggle="tooltip" title="By Metar">
+                  <span
+                    className={`ms-2`}
+                    data-toggle="tooltip"
+                    title="By Meter"
+                  >
                     {product["Property size:"]} M
                   </span>
                 </h5>
 
-                <div className="action">
+                <div>
                   <button
                     onClick={AddCartHandlerButton}
-                    className="add-to-cart btn btn-default"
+                    className={`btn`}
+                    style={{ backgroundColor: "chocolate" }}
                     data-bs-toggle="modal"
                     data-bs-target="#addToCartModal"
                     type="button"
@@ -144,18 +152,18 @@ const ViewSingleProductPage = () => {
                     <>
                       <a
                         onClick={addToFavHandler}
-                        className="text-dark fs-3 ms-4 "
+                        className={`text-dark fs-3 ms-4`}
                       >
-                        <i className="fa-solid fa-heart"></i>
+                        <i className={`fa-solid fa-heart`}></i>
                       </a>
                     </>
                   ) : (
                     <>
                       <a
                         onClick={addToFavHandler}
-                        className="text-dark fs-3 ms-4 "
+                        className={`text-dark fs-3 ms-4 `}
                       >
-                        <i className="fa-regular fa-heart"></i>
+                        <i className={`fa-regular fa-heart`}></i>
                       </a>
                     </>
                   )}
@@ -165,7 +173,7 @@ const ViewSingleProductPage = () => {
           </div>
         </div>
       </div>
-      <AddToCartModal/>
+      <AddToCartModal />
       <MyFooter />
     </>
   );
