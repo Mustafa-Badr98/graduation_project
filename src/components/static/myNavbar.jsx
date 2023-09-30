@@ -11,7 +11,6 @@ const MyNavbar = () => {
   const FavCount = useSelector((state) => state.FavCOUNT.favCount);
   const WishCount = useSelector((state) => state.WishLIST.wishList.length);
 
-
   const [localUserName, setUser] = useState(userName);
 
   const dispatch = useDispatch();
@@ -22,16 +21,15 @@ const MyNavbar = () => {
     );
     if (userConfirmed) {
       dispatch(LogoutAction());
-    }
-    else{
-      return -1
+    } else {
+      return -1;
     }
   }
   // const dispatch = useDispatch();
   // dispatch(LoginAction(""));
   useEffect(() => {
     setUser(userName);
-  },[isLogedIn] );
+  }, [isLogedIn]);
   // console.log(isLogedIn);
   return (
     <>
@@ -61,7 +59,7 @@ const MyNavbar = () => {
             className="collapse navbar-collapse d-lg-flex justify-content-between"
             id="navbarNav"
           >
-            <ul className="navbar-nav mt-2">
+            <ul className="navbar-nav mt-2 d-none d-lg-flex">
               <li className="nav-item">
                 <Link className="nav-link text-dark " to="/wishList">
                   <i className="fa-sharp fa-solid fa-book-open fs-5 "></i>
@@ -115,32 +113,34 @@ const MyNavbar = () => {
               </li>
             </ul>
 
-            <div className="float-end">
+            <div className="float-start">
               <ul className="navbar-nav">
                 {!isLogedIn ? (
                   <>
-                    <li className="nav-item">
-                      <span
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                        className="text-light fs-6 me-2 btn btn-dark"
-                        style={{
-                          borderRadius: "20px",
-                          border: "none",
-                          backgroundColor: "chocolate",
-                        }}
-                      >
-                        LogIn
-                      </span>
-                    </li>
-                    <li className="nav-item">
-                      <Link
-                        className="nav-link text-dark fs-6  me-2"
-                        to="/register"
-                      >
-                        SignUp
-                      </Link>
-                    </li>
+                    <div className="d-flex flex-column flex-lg-row">
+                      <li className="nav-item">
+                        <span
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          className="text-light fs-6 me-2 btn btn-dark"
+                          style={{
+                            borderRadius: "20px",
+                            border: "none",
+                            backgroundColor: "chocolate",
+                          }}
+                        >
+                          LogIn
+                        </span>
+                      </li>
+                      <li className="nav-item">
+                        <Link
+                          className="nav-link text-dark fs-6 ms-2 me-2"
+                          to="/register"
+                        >
+                          SignUp
+                        </Link>
+                      </li>
+                    </div>
                   </>
                 ) : (
                   <>
@@ -170,7 +170,7 @@ const MyNavbar = () => {
               </ul>
             </div>
           </div>
-          <div className="d-flex justify-content-end me-5">
+          <div className="d-flex justify-content-end me-5  d-lg-flex">
             <a href="https://www.facebook.com/">
               <i className="fab fa-facebook text-dark pe-2"></i>
             </a>

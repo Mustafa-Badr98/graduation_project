@@ -8,6 +8,7 @@ import SearchComp from "../static/SearchComp";
 import FilterComp from "../static/FilterComp";
 import NothingFoundAlert from "../static/nothingFoundAlert";
 import LoadingSpinner from "../static/loadingSpinner";
+import ListingCard from "../static/listingCard";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
@@ -23,15 +24,17 @@ const HomePage = () => {
       <HeroSection />
       <div className="container mt-5">
         <div className="row">
-          <div className="offset-3 col-5">
-            <SearchComp />
-          </div>
-          <div className="offset-1 col-3">
-            <FilterComp />
+          <div className=" col-3">
+            <h2 className="fw-bold ">Check our Listings</h2>
           </div>
         </div>
       </div>
 
+      <div className="container mt-5">
+        <div className="row">
+          <ListingCard />
+        </div>
+      </div>
       {localIsLoading ? (
         <LoadingSpinner />
       ) : (
