@@ -115,6 +115,9 @@ const MyNavbar = () => {
 
             <div className="float-start">
               <ul className="navbar-nav">
+                <li className="nav-item ">
+                  <Link to="/sellProduct" className="btn btn-danger rounded-5 me-3 ">Sell</Link>
+                </li>
                 {!isLogedIn ? (
                   <>
                     <div className="d-flex flex-column flex-lg-row">
@@ -134,7 +137,7 @@ const MyNavbar = () => {
                       </li>
                       <li className="nav-item">
                         <Link
-                          className="nav-link text-dark fs-6 ms-2 me-2"
+                          className="nav-link text-dark fs-6 me-2"
                           to="/register"
                         >
                           SignUp

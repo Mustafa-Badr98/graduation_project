@@ -68,7 +68,7 @@ const ViewSingleProductPage = () => {
                   )}
                 >
                   <div
-                    className={cx(viewSinglePageStyles["tab-pane"], "active")}
+                    className={cx(viewSinglePageStyles["tab-pane"], "active","btn","btn-danger")}
                     id="pic-1"
                   >
                     <img src={product.Photos} />

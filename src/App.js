@@ -12,6 +12,7 @@ import FavPage from "./components/pages/FavPage";
 import WishListPage from "./components/pages/WishListPage";
 import { useDispatch } from "react-redux";
 import { GetProductsListAction } from "./store/actions/GetProductsList";
+import SellPage from "./components/pages/sellPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -26,8 +27,8 @@ function App() {
           <Route exact path="/cart" component={CartPage} />
           <Route exact path="/wishlist" component={WishListPage} />
           <Route exact path="/Fav" component={FavPage} />
+          <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/:id" component={viewSingleProductPage} />
-
           <Route exact path="/*" component={NotFoundPage} />
         </Switch>
       </BrowserRouter>
