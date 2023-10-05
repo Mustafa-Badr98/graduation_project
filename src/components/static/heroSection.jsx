@@ -29,18 +29,17 @@ const HeroSection = () => {
                   Purpose{" "}
                 </label>
                 <select
+                  defaultValue="Sell"
                   id="purposeSelect"
-                  class="form-select "
+                  className="form-select "
                   aria-label="Default select example"
                 >
-                  <option value="Sell" selected>
-                    Sell
-                  </option>
+                  <option value="Sell">Sell</option>
                   <option value="Rent">Rent</option>
                 </select>
               </div>
               <div className="col-6">
-                <label className="text-light" for="floatingInput">
+                <label className="text-light" htmlFor="floatingInput">
                   Location
                 </label>
                 <div className="form">
@@ -58,11 +57,12 @@ const HeroSection = () => {
                   Property Type{" "}
                 </label>
                 <select
+                  defaultValue="Villas For Sale"
                   id="purposeSelect"
-                  class="form-select "
+                  className="form-select "
                   aria-label="Default select example"
                 >
-                  <option className="fs-6" value="Sell" selected>
+                  <option className="fs-6" value="Apartments & Duplex for Sale">
                     Apartments & Duplex for Sale
                   </option>
                   <option value="Villas For Sale">Villas For Sale</option>
@@ -82,12 +82,13 @@ const HeroSection = () => {
                   Area{" "}
                 </label>
                 <select
+                  defaultValue=""
                   id="purposeSelect"
-                  class="form-select "
+                  className="form-select "
                   aria-label="Default select example"
                 >
-                  <option value="" disabled selected hidden>
-                    Select an area
+                  <option value="" disabled hidden>
+                    Select area
                   </option>
                   <option value="100">100M</option>
                   <option value="200">200M</option>
@@ -99,11 +100,12 @@ const HeroSection = () => {
                   Beds / Bathrooms{" "}
                 </label>
                 <select
+                  defaultValue=""
                   id="purposeSelect"
-                  class="form-select "
+                  className="form-select "
                   aria-label="Default select example"
                 >
-                  <option value="" disabled selected hidden></option>
+                  <option value="" disabled hidden></option>
                   <option value="100">1 Bed 1 Bath</option>
                   <option value="200">2 Bed 2 Bath</option>
                 </select>
@@ -123,8 +125,7 @@ const HeroSection = () => {
                 </div>
               </div>
               <div className="col-2">
-               <div className="btn btn-danger w-100 mt-4">Find</div>
-              
+                <div className="btn btn-danger w-100 mt-4">Find</div>
               </div>
             </div>
           </div>

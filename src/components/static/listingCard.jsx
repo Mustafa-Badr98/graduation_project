@@ -11,19 +11,19 @@ const ListingCard = () => {
   };
   return (
     <>
-      <div class="col-lg-4 col-md-6 col-sm-10 ">
-        <div class="card">
+      <div className="col-lg-4 col-md-6 col-sm-10 ">
+        <div className="card">
           <img
             src="https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070__340.jpg"
             alt=""
-            class="card-img-top"
+            className="card-img-top"
           />
           {heartFav ? (
             <>
               {" "}
               <i
                 onClick={togglerHeart}
-                class="fas fa-heart clickable-heart"
+                className="fas fa-heart clickable-heart"
                 style={{
                   position: "absolute",
                   top: "10px",
@@ -38,7 +38,7 @@ const ListingCard = () => {
             <>
               <i
                 onClick={togglerHeart}
-                class="fas fa-heart clickable-heart"
+                className="fas fa-heart clickable-heart"
                 style={{
                   position: "absolute",
                   top: "10px",
@@ -51,31 +51,31 @@ const ListingCard = () => {
             </>
           )}
 
-          <div class="card-body">
-            <h5 class="card-title">Villa In Cairo</h5>
-            <p class="card-text">
+          <div className="card-body">
+            <h5 className="card-title">Villa In Cairo</h5>
+            <p className="card-text">
               The very best waterfront location in Tahrir square and beside many
               cool places
             </p>
-            <div class="row align-items-center">
-              <div class="col">
+            <div className="row align-items-center">
+              <div className="col">
                 <span>
-                  <i class="fas fa-th-large"></i>
+                  <i className="fas fa-th-large"></i>
                   <span> 3</span>
                 </span>
                 <span className="ms-1">Bedrooms</span>
               </div>
-              <div class="col">
+              <div className="col">
                 <span>
-                  <i class="fas fa-shower"></i>
+                  <i className="fas fa-shower"></i>
                   <span> 2</span>
                 </span>
                 <span className="ms-1">Bathrooms</span>
               </div>
-              <div class="col">
+              <div className="col">
                 <span className="row">
                   <div className="col-12">
-                    <i class="fas fa-vector-square"></i>
+                    <i className="fas fa-vector-square"></i>
                     <span>Area</span>
                   </div>
                 </span>
@@ -86,12 +86,12 @@ const ListingCard = () => {
                 </span>
               </div>
             </div>
-            <div class="row mt-5">
-              <div class="col-6 mt-2">
+            <div className="row mt-5">
+              <div className="col-6 mt-2">
                 <span>For Sale</span>
                 <span className="ms-1 fw-bold">$410,000</span>
               </div>
-              <div class="offset-2 col-4">
+              <div className="offset-2 col-4">
                 <span
                   style={{ borderRadius: "20px", fontSize: "14px" }}
                   className="btn btn-secondary"
