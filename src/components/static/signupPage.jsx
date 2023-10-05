@@ -89,7 +89,7 @@ const SignupPage = () => {
       var jsonUser = JSON.stringify(formData);
       localStorage.setItem(formData.email, jsonUser);
       dispatch(LoginAction(formData));
-      dispatch(GetCurrentUserAction(formData.email));
+      dispatch(GetCurrentUserAction(formData));
       alert("SignUp Complete You will now be redirect to the home page.");
       history.push("/");
     }

@@ -6,10 +6,10 @@ import { LogoutAction } from "../../store/actions/logoutAction";
 
 const MyNavbar = () => {
   const isLogedIn = useSelector((state) => state.IsLog.isLogedIn);
-  const cartNumbers = useSelector((state) => state.CartList.cartList.length);
-  const userName = useSelector((state) => state.currentUSER.currentUser);
+  const user = useSelector((state) => state.currentUSER.currentUser);
   const FavCount = useSelector((state) => state.FavCOUNT.favCount);
-  const WishCount = useSelector((state) => state.WishLIST.wishList.length);
+  // const WishCount = useSelector((state) => state.WishLIST.wishList.length);
+  // const cartNumbers = useSelector((state) => state.CartList.cartList.length);
 
   const dispatch = useDispatch();
 
@@ -124,7 +124,7 @@ const MyNavbar = () => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        {`${userName[0].toUpperCase()}`}
+                        {`${user["email"][0].toUpperCase()}`}
                       </button>
                       <ul className="dropdown-menu">
                         <li>
