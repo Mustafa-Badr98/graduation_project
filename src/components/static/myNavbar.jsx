@@ -5,7 +5,7 @@ import { LoginAction } from "../../store/actions/loginAction";
 import { LogoutAction } from "../../store/actions/logoutAction";
 
 const MyNavbar = () => {
-  const isLogedIn = useSelector((state) => state.IsLog.isLogedIn);
+  const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const user = useSelector((state) => state.currentUSER.currentUser);
   const FavCount = useSelector((state) => state.FavCOUNT.favCount);
   // const WishCount = useSelector((state) => state.WishLIST.wishList.length);
@@ -25,8 +25,8 @@ const MyNavbar = () => {
   }
   // const dispatch = useDispatch();
   // dispatch(LoginAction(""));
-  useEffect(() => {}, [isLogedIn]);
-  // console.log(isLogedIn);
+  useEffect(() => {}, [isLoggedIn]);
+  // console.log(isLoggedIn);
   return (
     <>
       <div className="container ">
@@ -79,21 +79,39 @@ const MyNavbar = () => {
 
             <div className="float-start">
               <ul className="navbar-nav">
-                <li className="nav-item ">
-                  <Link
-                    to="/sellProduct"
-                    className="btn btn-danger rounded-5 me-3 "
-                  >
-                    Sell
-                  </Link>
-                </li>
-                {!isLogedIn ? (
+                {isLoggedIn ? (
+                  <>
+                    {" "}
+                    <li className="nav-item ">
+                      <Link
+                        to="/sellProduct"
+                        className="btn btn-danger rounded-5 me-3 "
+                      >
+                        Sell
+                      </Link>
+                    </li>{" "}
+                  </>
+                ) : (
+                  <>
+                    <li className="nav-item ">
+                      <span
+                        data-bs-toggle="modal"
+                        data-bs-target="#loginModal"
+                        className="btn btn-danger rounded-5 me-3 "
+                      >
+                        Sell
+                      </span>
+                    </li>
+                  </>
+                )}
+
+                {!isLoggedIn ? (
                   <>
                     <div className="d-flex flex-column flex-lg-row">
                       <li className="nav-item">
                         <span
                           data-bs-toggle="modal"
-                          data-bs-target="#exampleModal"
+                          data-bs-target="#loginModal"
                           className="text-light fs-6 me-2 btn btn-dark"
                           style={{
                             borderRadius: "20px",

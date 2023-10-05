@@ -99,7 +99,7 @@ const LoginModal = () => {
     <>
       <div
         className="modal fade"
-        id="exampleModal"
+        id="loginModal"
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
