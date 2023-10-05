@@ -11,7 +11,7 @@ const MyNavbar = () => {
   const FavCount = useSelector((state) => state.FavCOUNT.favCount);
   const WishCount = useSelector((state) => state.WishLIST.wishList.length);
 
-  const [localUserName, setUser] = useState(userName);
+ 
 
   const dispatch = useDispatch();
 
@@ -28,7 +28,7 @@ const MyNavbar = () => {
   // const dispatch = useDispatch();
   // dispatch(LoginAction(""));
   useEffect(() => {
-    setUser(userName);
+   
   }, [isLogedIn]);
   // console.log(isLogedIn);
   return (
@@ -155,7 +155,7 @@ const MyNavbar = () => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        {`${localUserName[0].toUpperCase()}`}
+                        {`${userName[0].toUpperCase()}`}
                       </button>
                       <ul className="dropdown-menu">
                         <li>

@@ -12,6 +12,7 @@ import { RemoveFromWishListAction } from "../../store/actions/RemoveFromWishActi
 const ProductCard = (props) => {
   const dispatch = useDispatch();
   const localProduct = props.productObject;
+  console.log(localProduct)
 
   const isLogedIn = useSelector((state) => state.IsLog.isLogedIn);
   const wishListLocalInProductCard = useSelector(
