@@ -50,7 +50,11 @@ export default function GetProductsListReducer(state = INITIAL_VALUE, action) {
           found: false,
         };
       }
-
+    case "ADD_TO_PRODUCT_LIST":
+      return {
+        ...state,
+        productList: [action.payload, ...state.productList],
+      };
     default:
       return state;
   }

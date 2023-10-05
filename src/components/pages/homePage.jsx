@@ -9,6 +9,7 @@ import FilterComp from "../static/FilterComp";
 import NothingFoundAlert from "../static/nothingFoundAlert";
 import LoadingSpinner from "../static/loadingSpinner";
 import ListingCard from "../static/listingCard";
+import { AddToProductListAction } from "../../store/actions/AddToProductList";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
@@ -17,6 +18,9 @@ const HomePage = () => {
   const isResultFound = useSelector((state) => state.Products.found);
   // console.log(isResultFound);
 
+
+  
+
   useEffect(() => {}, [products]);
   console.log(products);
   return (
@@ -24,7 +28,7 @@ const HomePage = () => {
       <HeroSection />
       <div className="container mt-5">
         <div className="row">
-          <div className=" col-3">
+          <div className="col-3">
             <h2 className="fw-bold ">Check our Listings</h2>
           </div>
         </div>

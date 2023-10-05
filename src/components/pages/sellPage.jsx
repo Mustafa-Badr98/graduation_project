@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import MyFooter from "../static/footer";
+import { useDispatch, useSelector } from "react-redux";
+import { AddToUserProductListAction } from "../../store/actions/AddToUserProductList";
+import { AddToProductListAction } from "../../store/actions/AddToProductList";
 
 function SellPage() {
+  const LocalProductList = useSelector((state) => state.Products.productList);
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     adName: "",
     governorate: "",
@@ -110,6 +116,22 @@ function SellPage() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
+      const newSell = {
+        id: LocalProductList.length + 1,
+        title: formData.adName,
+        description: formData.otherInfo,
+        location: formData.governorate + formData.city + formData.region,
+        numOfBedrooms: formData.rooms,
+        numOfBathrooms: "2",
+        propertySize: formData.area,
+        price: formData.price,
+        type: formData.type,
+        photo:
+          "https://en.bailypearl.com/wp-content/uploads/2021/05/villa-la-croix-valmer-vue-aerienne-2-2560x1633.jpg",
+        timeStamp: Date.now(),
+      };
+      dispatch(AddToUserProductListAction(newSell));
+      dispatch(AddToProductListAction(newSell));
       console.log("Form data:", formData);
     }
   };
@@ -379,7 +401,7 @@ function SellPage() {
                           <img
                             src={URL.createObjectURL(photo)}
                             alt={`Selected Photo ${index + 1}`}
-                            style={{ maxWidth: "14rem" ,maxHeight:"10rem"}}
+                            style={{ maxWidth: "14rem", maxHeight: "10rem" }}
                             className="mb-4"
                           />
                           <span

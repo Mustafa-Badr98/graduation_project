@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
 import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { AddToProductListAction } from "../../store/actions/AddToProductList";
 
 const ListingCard = (props) => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const ListingCard = (props) => {
   }, []);
   return (
     <>
-      <div className="col-lg-3 col-md-4 col-sm-8 offset-1 mt-5">
+      <div className="col-xl-3 col-lg-5 col-md-6 col-sm-8 offset-1 mt-5">
         <div className="card">
           <img src={localProduct.photo} alt="" className="card-img-top" />
           {is_fav ? (
@@ -106,13 +107,13 @@ const ListingCard = (props) => {
               </div>
             </div>
             <div className="row mt-5">
-              <div className="col-6 mt-2">
-                <span className="fs-5 fw-bold">For {localProduct.type} : </span>
-                <span className="ms-1 fs-4 fw-bold">${localProduct.price}</span>
+              <div className="col-5 mt-2">
+                <span className="fs-6 fw-bold">For {localProduct.type} : </span>
+                <span className="ms-1 fs-5 fw-bold">${localProduct.price}</span>
               </div>
               <div className="offset-2 col-2">
                 <Link
-                to={`/${localProduct.id}`}
+                  to={`/${localProduct.id}`}
                   style={{ borderRadius: "20px", fontSize: "10px" }}
                   className="btn btn-primary"
                 >

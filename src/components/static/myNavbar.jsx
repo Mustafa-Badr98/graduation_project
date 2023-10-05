@@ -79,7 +79,15 @@ const MyNavbar = () => {
 
             <div className="float-start">
               <ul className="navbar-nav">
-                {isLoggedIn ? (
+                <li className="nav-item ">
+                  <Link
+                    to="/sellProduct"
+                    className="btn btn-danger rounded-5 me-3 "
+                  >
+                    Sell
+                  </Link>
+                </li>
+                {/* {isLoggedIn ? (
                   <>
                     {" "}
                     <li className="nav-item ">
@@ -103,8 +111,7 @@ const MyNavbar = () => {
                       </span>
                     </li>
                   </>
-                )}
-
+                )} */}
                 {!isLoggedIn ? (
                   <>
                     <div className="d-flex flex-column flex-lg-row">
@@ -145,6 +152,14 @@ const MyNavbar = () => {
                         {`${user["email"][0].toUpperCase()}`}
                       </button>
                       <ul className="dropdown-menu">
+                      <li>
+                          <Link
+                            to="/userAds"
+                            className="dropdown-item"
+                          >
+                            My Ads
+                          </Link>
+                        </li>
                         <li>
                           <span
                             onClick={logoutHandler}
