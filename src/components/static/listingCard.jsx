@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
 import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const ListingCard = (props) => {
   const dispatch = useDispatch();
@@ -109,9 +110,18 @@ const ListingCard = (props) => {
                 <span className="fs-5 fw-bold">For {localProduct.type} : </span>
                 <span className="ms-1 fs-4 fw-bold">${localProduct.price}</span>
               </div>
-              <div className="offset-2 col-4">
+              <div className="offset-2 col-2">
+                <Link
+                to={`/${localProduct.id}`}
+                  style={{ borderRadius: "20px", fontSize: "10px" }}
+                  className="btn btn-primary"
+                >
+                  More Details
+                </Link>
+              </div>
+              <div className="col-2">
                 <span
-                  style={{ borderRadius: "20px", fontSize: "14px" }}
+                  style={{ borderRadius: "20px", fontSize: "10px" }}
                   className="btn btn-secondary"
                 >
                   Contact Seller
