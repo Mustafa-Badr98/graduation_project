@@ -30,18 +30,18 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="container mt-5">
+      <div className="container-fluid mt-5">
         <div className="row">
-          <ListingCard />
+          {localIsLoading ? (
+            <LoadingSpinner />
+          ) : (
+            products.map((item, index) => {
+              return <ListingCard key={index} productObject={item} />;
+            })
+          )}
         </div>
       </div>
-      {localIsLoading ? (
-        <LoadingSpinner />
-      ) : (
-        products.map((item, index) => {
-          return <ProductCard key={index} productObject={item} />;
-        })
-      )}
+
       {isResultFound === false && <NothingFoundAlert />}
 
       <MyFooter />

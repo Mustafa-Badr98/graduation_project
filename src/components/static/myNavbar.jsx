@@ -11,8 +11,6 @@ const MyNavbar = () => {
   const FavCount = useSelector((state) => state.FavCOUNT.favCount);
   const WishCount = useSelector((state) => state.WishLIST.wishList.length);
 
- 
-
   const dispatch = useDispatch();
 
   function logoutHandler() {
@@ -27,20 +25,21 @@ const MyNavbar = () => {
   }
   // const dispatch = useDispatch();
   // dispatch(LoginAction(""));
-  useEffect(() => {
-   
-  }, [isLogedIn]);
+  useEffect(() => {}, [isLogedIn]);
   // console.log(isLogedIn);
   return (
     <>
       <div className="container ">
-        <nav id="nav" className="navbar navbar-expand-lg bg-body p-0">
+        <nav
+          id="nav"
+          className="navbar navbar-expand-lg bg-body p-0 sticky-top"
+        >
           <Link
             to="/"
             className="navbar-brand text-dark ms-4 mt-2"
             href="#home"
           >
-            <h2>E-Commerce</h2>
+            <h2>Realtor</h2>
           </Link>
 
           <button
@@ -61,26 +60,7 @@ const MyNavbar = () => {
           >
             <ul className="navbar-nav mt-2 d-none d-lg-flex">
               <li className="nav-item">
-                <Link className="nav-link text-dark " to="/wishList">
-                  <i className="fa-sharp fa-solid fa-book-open fs-5 "></i>
-                  <span
-                    style={{
-                      backgroundColor: "chocolate",
-                      borderRadius: "20px",
-                      width: "100px",
-                    }}
-                    className="fs-6 text-light ms-1 pe-2 ps-2"
-                  >
-                    {WishCount}
-                  </span>
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/Fav"
-                  className="nav-link text-dark me-2"
-                  href="#contact"
-                >
+                <Link to="/Fav" className="nav-link text-dark me-2" href="#fav">
                   <i className="fa-solid fa-heart fs-5"></i>
                   <span
                     style={{
@@ -95,28 +75,17 @@ const MyNavbar = () => {
                   </span>
                 </Link>
               </li>
-
-              <li className="nav-item">
-                <Link className="nav-link text-dark " to="/cart">
-                  <i className="fs-5 fa-solid text-dark fa-cart-shopping "></i>
-                  <span
-                    style={{
-                      backgroundColor: "chocolate",
-                      borderRadius: "20px",
-                      width: "100px",
-                    }}
-                    className="fs-6 text-light ms-1 pe-2 ps-2"
-                  >
-                    {cartNumbers}
-                  </span>
-                </Link>
-              </li>
             </ul>
 
             <div className="float-start">
               <ul className="navbar-nav">
                 <li className="nav-item ">
-                  <Link to="/sellProduct" className="btn btn-danger rounded-5 me-3 ">Sell</Link>
+                  <Link
+                    to="/sellProduct"
+                    className="btn btn-danger rounded-5 me-3 "
+                  >
+                    Sell
+                  </Link>
                 </li>
                 {!isLogedIn ? (
                   <>

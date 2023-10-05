@@ -1,28 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
+import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 
-const ListingCard = () => {
-  const [heartFav, setHeartFav] = useState(false);
-  const togglerHeart = () => {
-    if (heartFav === false) {
-      setHeartFav(true);
+const ListingCard = (props) => {
+  const dispatch = useDispatch();
+  const localProduct = props.productObject;
+  const [is_fav, setFav] = useState(false);
+
+  const addToFavHandler = () => {
+    if (is_fav) {
+      dispatch(UpdateFavCountRemove(localProduct));
+      setFav(false);
     } else {
-      setHeartFav(false);
+      dispatch(UpdateFavCountAdd(localProduct));
+      setFav(true);
+    }
+    // checkIsFav();
+  };
+
+  const checkIsFavWhenMountAndUnMount = () => {
+    const sessionStorageKeys = Object.keys(sessionStorage);
+    try {
+      if (sessionStorageKeys.includes(localProduct.id.toString())) {
+        setFav(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  useEffect(() => {
+    setFav(false);
+    checkIsFavWhenMountAndUnMount();
+  }, []);
   return (
     <>
-      <div className="col-lg-4 col-md-6 col-sm-10 ">
+      <div className="col-lg-3 col-md-4 col-sm-8 offset-1 mt-5">
         <div className="card">
-          <img
-            src="https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070__340.jpg"
-            alt=""
-            className="card-img-top"
-          />
-          {heartFav ? (
+          <img src={localProduct.photo} alt="" className="card-img-top" />
+          {is_fav ? (
             <>
               {" "}
               <i
-                onClick={togglerHeart}
+                onClick={addToFavHandler}
                 className="fas fa-heart clickable-heart"
                 style={{
                   position: "absolute",
@@ -37,7 +58,7 @@ const ListingCard = () => {
           ) : (
             <>
               <i
-                onClick={togglerHeart}
+                onClick={addToFavHandler}
                 className="fas fa-heart clickable-heart"
                 style={{
                   position: "absolute",
@@ -52,23 +73,20 @@ const ListingCard = () => {
           )}
 
           <div className="card-body">
-            <h5 className="card-title">Villa In Cairo</h5>
-            <p className="card-text">
-              The very best waterfront location in Tahrir square and beside many
-              cool places
-            </p>
+            <h5 className="card-title">{localProduct.title}</h5>
+            <p className="card-text">{localProduct.description}</p>
             <div className="row align-items-center">
               <div className="col">
                 <span>
                   <i className="fas fa-th-large"></i>
-                  <span> 3</span>
+                  <span> {localProduct.numOfBedrooms}</span>
                 </span>
                 <span className="ms-1">Bedrooms</span>
               </div>
               <div className="col">
                 <span>
                   <i className="fas fa-shower"></i>
-                  <span> 2</span>
+                  <span> {localProduct.numOfBathrooms}</span>
                 </span>
                 <span className="ms-1">Bathrooms</span>
               </div>
@@ -81,15 +99,15 @@ const ListingCard = () => {
                 </span>
                 <span>
                   <span>
-                    1800<span>Sq Ft</span>
+                    {localProduct.propertySize} <span>Sq Ft</span>
                   </span>
                 </span>
               </div>
             </div>
             <div className="row mt-5">
               <div className="col-6 mt-2">
-                <span>For Sale</span>
-                <span className="ms-1 fw-bold">$410,000</span>
+                <span className="fs-5 fw-bold">For {localProduct.type} : </span>
+                <span className="ms-1 fs-4 fw-bold">${localProduct.price}</span>
               </div>
               <div className="offset-2 col-4">
                 <span
