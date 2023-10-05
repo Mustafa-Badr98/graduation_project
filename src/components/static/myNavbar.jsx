@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { LoginAction } from "../../store/actions/loginAction";
 import { LogoutAction } from "../../store/actions/logoutAction";
+import { GetProductsListAction } from "../../store/actions/GetProductsList";
 
 const MyNavbar = () => {
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
@@ -12,7 +13,7 @@ const MyNavbar = () => {
   // const cartNumbers = useSelector((state) => state.CartList.cartList.length);
 
   const dispatch = useDispatch();
-
+  dispatch(GetProductsListAction());
   function logoutHandler() {
     const userConfirmed = window.confirm(
       "Are you sure you want to Logout ? we will miss you ):  "
@@ -152,11 +153,8 @@ const MyNavbar = () => {
                         {`${user["email"][0].toUpperCase()}`}
                       </button>
                       <ul className="dropdown-menu">
-                      <li>
-                          <Link
-                            to="/userAds"
-                            className="dropdown-item"
-                          >
+                        <li>
+                          <Link to="/userAds" className="dropdown-item">
                             My Ads
                           </Link>
                         </li>

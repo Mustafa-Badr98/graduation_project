@@ -13,7 +13,6 @@ import { AddToProductListAction } from "../../store/actions/AddToProductList";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
-
   const products = useSelector((state) => state.Products.productList);
   const isResultFound = useSelector((state) => state.Products.found);
   // console.log(isResultFound);
