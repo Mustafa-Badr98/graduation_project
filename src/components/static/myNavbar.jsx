@@ -80,6 +80,11 @@ const MyNavbar = () => {
 
             <div className="float-start">
               <ul className="navbar-nav">
+                <li className="mt-2 me-3">
+                  <Link to="/userAds" className="dropdown-item">
+                    My Ads
+                  </Link>
+                </li>
                 <li className="nav-item ">
                   <Link
                     to="/sellProduct"

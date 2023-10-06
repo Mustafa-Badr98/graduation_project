@@ -89,7 +89,7 @@ const ProductCard = (props) => {
           <div className="row">
             <div className="offset-1 col-lg-6 col">
               <img
-                src={localProduct.Photos}
+                src={localProduct.photo}
                 className="img-fluid rounded-start"
                 alt="..."
               />
@@ -98,21 +98,21 @@ const ProductCard = (props) => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-8">
-                    <h5 className="card-title">{localProduct.Title}</h5>
+                    <h5 className="card-title">{localProduct.title}</h5>
                   </div>
                   <div className="col-4">
-                    <h5 className="card-title">{localProduct.Price} €</h5>
+                    <h5 className="card-title">{localProduct.price} €</h5>
                   </div>
                 </div>
 
-                <p className="card-text pt-3">{localProduct.Description}</p>
+                <p className="card-text pt-3">{localProduct.description}</p>
                 <h5 className="card-text pt-3">
-                  Size : <strong>{localProduct["Property size:"]} M </strong>
+                  Size : <strong>{localProduct.propertySize} M </strong>
                 </h5>
 
                 <p className="card-text">
                   <small className="text-muted">
-                    Last updated {localProduct.Timestamp}
+                    Last updated {localProduct.timeStamp}
                   </small>
                 </p>
 
