@@ -75,7 +75,6 @@ const UserCard = (props) => {
                     onClick={RemoveButtonHandler}
                     className="card-link text-light btn "
                     style={{ backgroundColor: "chocolate" }}
-                    
                   >
                     Remove
                   </a>

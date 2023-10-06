@@ -5,12 +5,43 @@ import { useDispatch } from "react-redux";
 import { LoginAction } from "../../store/actions/loginAction";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 const SignupPage = () => {
+  const egyptGovernorates = [
+    "Alexandria",
+    "Aswan",
+    "Asyut",
+    "Beheira",
+    "Beni Suef",
+    "Cairo",
+    "Dakahlia",
+    "Damietta",
+    "Faiyum",
+    "Gharbia",
+    "Giza",
+    "Ismailia",
+    "Kafr El Sheikh",
+    "Luxor",
+    "Matrouh",
+    "Minya",
+    "Monufia",
+    "New Valley",
+    "North Sinai",
+    "Port Said",
+    "Qalyubia",
+    "Qena",
+    "Red Sea",
+    "Sharqia",
+    "Sohag",
+    "South Sinai",
+  ];
+
   const dispatch = useDispatch();
   const history = useHistory();
   const [hasErrors, setHasError] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
+    phone: "",
+    address: "",
     password: "",
     rePassword: "",
   });
@@ -18,6 +49,8 @@ const SignupPage = () => {
   const [errors, setErrors] = useState({
     usernameError: "*",
     emailError: "*",
+    phoneError: "*",
+    addressError: "*",
     passwordError: "*",
     rePasswordError: "*",
   });
@@ -107,7 +140,7 @@ const SignupPage = () => {
               <div className="card text-black" style={{ borderRadius: "25px" }}>
                 <div className="card-body p-md-5">
                   <div className="row justify-content-center">
-                    <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                    <div className="col-md-10 col-lg-6 col-xl-5 order-1 order-lg-1">
                       <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
                         Sign up
                       </p>
@@ -216,28 +249,70 @@ const SignupPage = () => {
                             </label>
                           </div>
                         </div>
-
-                        <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                          <button
-                            onClick={handelSubmitButton}
-                            disabled={hasErrors}
-                            // data-bs-toggle="modal"
-                            // data-bs-target="#submitModal"
-                            type="button"
-                            className="btn btn-primary btn-lg"
-                          >
-                            Register
-                          </button>
-                        </div>
                       </form>
                     </div>
-                    <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                      <img
-                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                        className="img-fluid"
-                        alt="Sample image"
-                      />
+                    <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-2">
+                      <div style={{ height: "9rem" }} className=""></div>
+                      <div className="mb-5">
+                        <i class="fa-solid fa-globe fa-lg me-3 fa-fw"></i>
+                        <label className="fs-4" htmlFor="state">
+                          Governorate
+                        </label>
+
+                        <select
+                          style={{ height: "2rem", width: "15.6rem" }}
+                          className="ms-2 ms-4"
+                          id="state"
+                          name="state"
+                        >
+                          {egyptGovernorates.map((governorate, index) => {
+                            return (
+                              <option key={index} value={governorate}>
+                                {" "}
+                                {governorate}{" "}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                      <div className="d-flex flex-row align-items-center">
+                        <i class="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
+                        <div className="form-outline flex-fill mb-0">
+                          <span
+                            className="ms-2"
+                            style={{ color: "red", fontSize: "12px" }}
+                          >
+                            {errors.phoneError}
+                          </span>
+                          <input
+                            value={formData.phone}
+                            onChange={handleInputChange}
+                            type="text"
+                            id="form3Example3c"
+                            className="form-control"
+                            name="phone"
+                          />
+                          <label
+                            className="form-label"
+                            htmlFor="form3Example3c"
+                          >
+                            Your Phone
+                          </label>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                  <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button
+                      onClick={handelSubmitButton}
+                      disabled={hasErrors}
+                      // data-bs-toggle="modal"
+                      // data-bs-target="#submitModal"
+                      type="button"
+                      className="btn btn-primary btn-lg"
+                    >
+                      Register
+                    </button>
                   </div>
                 </div>
               </div>

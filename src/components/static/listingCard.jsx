@@ -96,7 +96,7 @@ const ListingCard = (props) => {
                 <span className="row">
                   <div className="col-12">
                     <i className="fas fa-vector-square"></i>
-                    <span>Area</span>
+                    <span className="ms-1">Area</span>
                   </div>
                 </span>
                 <span>
