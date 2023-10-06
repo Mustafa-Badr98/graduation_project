@@ -38,7 +38,7 @@ const ListingCard = (props) => {
   }, []);
   return (
     <>
-      <div className="col-xl-3 col-lg-5 col-md-6 col-sm-8 offset-1 mt-5">
+      <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5">
         <div className="card">
           <img src={localProduct.photo} alt="" className="card-img-top" />
           {is_fav ? (
