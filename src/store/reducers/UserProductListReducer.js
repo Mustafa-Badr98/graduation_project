@@ -23,6 +23,16 @@ export default function AddToUserProductListReducer(
         userListOfProducts: updatedList,
       };
 
+    case "DELETE_FROM_USER_LIST":
+      const filteredList = state.userListOfProducts.filter(
+        (item) => item.id !== action.payload.id
+      );
+
+      return {
+        ...state,
+        userListOfProducts: filteredList,
+      };
+
     default:
       return state;
   }

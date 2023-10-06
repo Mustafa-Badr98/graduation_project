@@ -65,6 +65,16 @@ export default function GetProductsListReducer(state = INITIAL_VALUE, action) {
         ...state,
         productList: updatedList,
       };
+
+    case "DELETE_FROM_PRODUCTS_LIST":
+      const filteredList = state.productList.filter(
+        (item) => item.id !== action.payload.id
+      );
+
+      return {
+        ...state,
+        productList: filteredList,
+      };
     default:
       return state;
   }

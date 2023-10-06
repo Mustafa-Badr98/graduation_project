@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import EditUserProductModal from "./EditUserProductModal";
+import { DeleteUserProductAction } from "../../store/actions/DeleteUserProduct";
+import { DeleteFromProductListAction } from "../../store/actions/DeleteFromProductList";
 
 const UserCard = (props) => {
   const dispatch = useDispatch();
@@ -9,6 +11,19 @@ const UserCard = (props) => {
   //   console.log(localProduct);
 
   useEffect(() => {}, []);
+
+  const RemoveButtonHandler = () => {
+    const userConfirmed = window.confirm(
+      "Are you sure you want to Delete your Ad? you will not be able to retrieve it afterword"
+    );
+    if (userConfirmed) {
+      dispatch(DeleteUserProductAction(localProduct));
+      dispatch(DeleteFromProductListAction(localProduct));
+    } else {
+      return -1;
+    }
+    return -1;
+  };
 
   return (
     <>
@@ -53,7 +68,7 @@ const UserCard = (props) => {
                     Edit
                   </span>
                   <a
-                    onClick={() => {}}
+                    onClick={RemoveButtonHandler}
                     className="card-link text-light btn "
                     style={{ backgroundColor: "chocolate" }}
                     data-bs-toggle="modal"
