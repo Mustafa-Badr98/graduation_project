@@ -55,6 +55,16 @@ export default function GetProductsListReducer(state = INITIAL_VALUE, action) {
         ...state,
         productList: [action.payload, ...state.productList],
       };
+
+    case "EDIT_PRODUCT_LIST":
+      const updatedList = state.productList.map((item) =>
+        item.id === action.payload.id ? action.payload : item
+      );
+
+      return {
+        ...state,
+        productList: updatedList,
+      };
     default:
       return state;
   }

@@ -4,6 +4,7 @@ import EditUserProductModal from "./EditUserProductModal";
 
 const UserCard = (props) => {
   const dispatch = useDispatch();
+
   const localProduct = props.productObject;
   //   console.log(localProduct);
 
@@ -66,7 +67,7 @@ const UserCard = (props) => {
           </div>
         </div>
       </div>
-      <EditUserProductModal />
+      <EditUserProductModal productObject={localProduct} />
     </>
   );
 };

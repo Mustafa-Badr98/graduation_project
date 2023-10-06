@@ -13,6 +13,16 @@ export default function AddToUserProductListReducer(
         userListOfProducts: [action.payload, ...state.userListOfProducts],
       };
 
+    case "EDIT_USER_LIST":
+      const updatedList = state.userListOfProducts.map((item) =>
+        item.id === action.payload.id ? action.payload : item
+      );
+
+      return {
+        ...state,
+        userListOfProducts: updatedList,
+      };
+
     default:
       return state;
   }

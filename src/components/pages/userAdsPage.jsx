@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MyFooter from "../static/footer";
 import NothingFoundAlert from "../static/nothingFoundAlert";
 import { useSelector } from "react-redux";
-import ListingCard from "../static/listingCard";
-import ProductCard from "../static/productCard";
+
 import UserCard from "../static/UserCard";
 const UserAdsPage = () => {
   const localUserProductsList = useSelector(
@@ -25,12 +24,15 @@ const UserAdsPage = () => {
     type: "rent",
   };
 
+  useEffect(()=>{
+
+  },[localUserProductsList.length])
   return (
     <>
       <div style={{minHeight:"100vh"}} className="container-fluid mt-5 fw-normal">
         <div className="fs-6 fw-lighter">Profile</div>
         <span className="fs-4 fw-bold">Manage and view your Ads</span>
-        <UserCard productObject={testObject} />
+        {/* <UserCard productObject={testObject} /> */}
 
         {localUserProductsList.length === 0 ? (
           <>
@@ -40,7 +42,7 @@ const UserAdsPage = () => {
           <>
             <div className="row">
               {localUserProductsList.map((ad, index) => {
-                return <ListingCard productObject={ad} />;
+                return <UserCard productObject={ad} />;
               })}
             </div>
           </>
