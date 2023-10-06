@@ -24,12 +24,13 @@ const UserAdsPage = () => {
     type: "rent",
   };
 
-  useEffect(()=>{
-
-  },[localUserProductsList.length])
+  useEffect(() => {}, [localUserProductsList]);
   return (
     <>
-      <div style={{minHeight:"100vh"}} className="container-fluid mt-5 fw-normal">
+      <div
+        style={{ minHeight: "100vh" }}
+        className="container-fluid mt-5 fw-normal"
+      >
         <div className="fs-6 fw-lighter">Profile</div>
         <span className="fs-4 fw-bold">Manage and view your Ads</span>
         {/* <UserCard productObject={testObject} /> */}
@@ -42,7 +43,7 @@ const UserAdsPage = () => {
           <>
             <div className="row">
               {localUserProductsList.map((ad, index) => {
-                return <UserCard productObject={ad} />;
+                return <UserCard key={index} productObject={ad} />;
               })}
             </div>
           </>

@@ -13,16 +13,20 @@ const UserCard = (props) => {
   useEffect(() => {}, []);
 
   const RemoveButtonHandler = () => {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to Delete your Ad? you will not be able to retrieve it afterword"
-    );
-    if (userConfirmed) {
-      dispatch(DeleteUserProductAction(localProduct));
-      dispatch(DeleteFromProductListAction(localProduct));
-    } else {
-      return -1;
+    try {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to delete your Ad? You will not be able to retrieve it afterward."
+      );
+
+      if (userConfirmed) {
+        dispatch(DeleteUserProductAction(localProduct));
+        dispatch(DeleteFromProductListAction(localProduct));
+      } else {
+        console.log("Deletion canceled");
+      }
+    } catch (error) {
+      console.log(error);
     }
-    return -1;
   };
 
   return (
@@ -71,8 +75,7 @@ const UserCard = (props) => {
                     onClick={RemoveButtonHandler}
                     className="card-link text-light btn "
                     style={{ backgroundColor: "chocolate" }}
-                    data-bs-toggle="modal"
-                    data-bs-target="#addToCartModal"
+                    
                   >
                     Remove
                   </a>
