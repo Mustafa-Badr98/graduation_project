@@ -253,7 +253,7 @@ const SignupPage = () => {
                     </div>
                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-2">
                       <div style={{ height: "9rem" }} className=""></div>
-                      <div className="mb-5">
+                      <div className="mb-5 pb-2">
                         <i class="fa-solid fa-globe fa-lg me-3 fa-fw"></i>
                         <label className="fs-4" htmlFor="state">
                           Governorate
@@ -275,7 +275,27 @@ const SignupPage = () => {
                           })}
                         </select>
                       </div>
-                      <div className="d-flex flex-row align-items-center">
+                      <div className="d-flex flex-row align-items-center mb-4">
+                        <i class="fa-solid fa-city fa-lg me-3 fa-fw"></i>
+                        <div className="form-outline flex-fill mb-0">
+                          <span
+                            className="ms-2"
+                            style={{ color: "red", fontSize: "12px" }}
+                          >
+                            {errors.phoneError}
+                          </span>
+                          <input
+                            type="text"
+                            id="city"
+                            name="city"
+                            className="form-control"
+                          />
+                          <label className="form-label" htmlFor="city">
+                            Your City
+                          </label>
+                        </div>
+                      </div>
+                      <div className="d-flex flex-row align-items-center mb-4">
                         <i class="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
                           <span
