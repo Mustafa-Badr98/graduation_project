@@ -22,7 +22,6 @@ function SellPage() {
     phone: "",
     email: "",
     photos: [],
-
     otherInfo: "",
   });
 

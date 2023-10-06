@@ -41,7 +41,8 @@ const SignupPage = () => {
     username: "",
     email: "",
     phone: "",
-    address: "",
+    governorate: "",
+    city: "",
     password: "",
     rePassword: "",
   });
@@ -50,7 +51,7 @@ const SignupPage = () => {
     usernameError: "*",
     emailError: "*",
     phoneError: "*",
-    addressError: "*",
+    cityError: "*",
     passwordError: "*",
     rePasswordError: "*",
   });
@@ -114,6 +115,37 @@ const SignupPage = () => {
             ? "does not match"
             : "",
       });
+    } else if (e.target.name === "governorate") {
+      setFormData({
+        ...formData,
+        governorate: e.target.value,
+      });
+      console.log(formData);
+    } else if (e.target.name === "city") {
+      setFormData({
+        ...formData,
+        city: e.target.value,
+      });
+      setErrors({
+        ...errors,
+        cityError: e.target.value.length === 0 ? "this field is required" : "",
+      });
+      console.log(formData);
+    } else if (e.target.name === "phone") {
+      setFormData({
+        ...formData,
+        phone: e.target.value,
+      });
+      setErrors({
+        ...errors,
+        phoneError:
+          e.target.value.length === 0
+            ? "this field is required"
+            : !/^(010|011|012|015)\d{8}$/.test(e.target.value)
+            ? "must be 11 number"
+            : "",
+      });
+      console.log(formData);
     }
   };
 
@@ -260,10 +292,11 @@ const SignupPage = () => {
                         </label>
 
                         <select
+                          onChange={handleInputChange}
                           style={{ height: "2rem", width: "15.6rem" }}
                           className="ms-2 ms-4"
-                          id="state"
-                          name="state"
+                          id="governorate"
+                          name="governorate"
                         >
                           {egyptGovernorates.map((governorate, index) => {
                             return (
@@ -282,13 +315,15 @@ const SignupPage = () => {
                             className="ms-2"
                             style={{ color: "red", fontSize: "12px" }}
                           >
-                            {errors.phoneError}
+                            {errors.cityError}
                           </span>
                           <input
+                            onChange={handleInputChange}
                             type="text"
                             id="city"
                             name="city"
                             className="form-control"
+                            value={formData.city}
                           />
                           <label className="form-label" htmlFor="city">
                             Your City
