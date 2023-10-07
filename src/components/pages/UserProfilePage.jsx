@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 
 const ProfilePage = () => {
+  const dispatch = useDispatch();
+  const userInSession = useSelector((state) => state.currentUSER.currentUser);
   const egyptGovernorates = [
     "Alexandria",
     "Aswan",
@@ -47,8 +51,22 @@ const ProfilePage = () => {
   };
 
   const handleSaveChanges = () => {
-    // Handle the logic to save changes (e.g., make an API call)
+    const modUser = {
+      username: formData.username,
+      email: formData.emailAddress,
+      phone: formData.phone,
+      governorate: formData.governorate,
+      city: formData.city,
+      password: formData.password,
+      rePassword: formData.password,
+    };
+
+    const stringedUser = JSON.stringify(modUser);
+    localStorage.setItem(modUser.email, stringedUser);
+    dispatch(GetCurrentUserAction(modUser));
+
     console.log("Saving changes:", formData);
+    alert("changes has been saved");
   };
 
   return (
@@ -64,7 +82,7 @@ const ProfilePage = () => {
             <div className="card-body text-center">
               {/* Profile picture image */}
               <img
-              style={{height:"18.2rem"}}
+                style={{ height: "18.2rem" }}
                 className="img-account-profile rounded-circle mb-2"
                 src="http://bootdey.com/img/Content/avatar/avatar1.png"
                 alt=""
@@ -86,7 +104,6 @@ const ProfilePage = () => {
             <div className="card-header">Account Details</div>
             <div className="card-body">
               <form>
-               
                 <div className="mb-3">
                   <label className="small mb-1" htmlFor="inputUsername">
                     Username (how your name will appear to other users on the
@@ -96,7 +113,7 @@ const ProfilePage = () => {
                     className="form-control"
                     id="username"
                     type="text"
-                    placeholder="Enter your username"
+                    placeholder={userInSession.username}
                     value={formData.username}
                     onChange={handleChange}
                   />
@@ -108,6 +125,7 @@ const ProfilePage = () => {
                   </label>
 
                   <select
+                    defaultValue={userInSession.governorate}
                     onChange={handleChange}
                     style={{ height: "2rem", width: "15.6rem" }}
                     className="ms-2 ms-4"
@@ -132,7 +150,7 @@ const ProfilePage = () => {
                     className="form-control"
                     id="city"
                     type="text"
-                    placeholder="Enter your city"
+                    placeholder={userInSession.city}
                     value={formData.city}
                     onChange={handleChange}
                   />
@@ -147,7 +165,7 @@ const ProfilePage = () => {
                     className="form-control"
                     id="emailAddress"
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder={userInSession.email}
                     value={formData.emailAddress}
                     onChange={handleChange}
                   />
@@ -163,7 +181,7 @@ const ProfilePage = () => {
                       className="form-control"
                       id="phone"
                       type="tel"
-                      placeholder="Enter your phone number"
+                      placeholder={userInSession.phone}
                       value={formData.phone}
                       onChange={handleChange}
                     />
