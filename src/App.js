@@ -12,9 +12,9 @@ import { useDispatch } from "react-redux";
 import { GetProductsListAction } from "./store/actions/GetProductsList";
 import SellPage from "./components/pages/sellPage";
 import UserAdsPage from "./components/pages/userAdsPage";
+import ProfilePage from "./components/pages/UserProfilePage";
 
 function App() {
-  
   return (
     <>
       <BrowserRouter>
@@ -23,6 +23,7 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/userAds" component={UserAdsPage} />
+          <Route exact path="/userProfile" component={ProfilePage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/:id" component={viewSingleProductPage} />

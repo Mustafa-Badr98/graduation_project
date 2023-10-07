@@ -70,7 +70,7 @@ const LoginModal = () => {
       const parsedData = JSON.parse(foundValue);
       if (key === email && parsedData.password === password) {
         // console.log("Horaaaaai");
-        return true;
+        return parsedData;
       }
     }
     return false;
@@ -82,8 +82,12 @@ const LoginModal = () => {
     );
     if (!hasErrors) {
       if (isFoundInLocal_ValidatePassword(formData.email, formData.password)) {
+        let userData = isFoundInLocal_ValidatePassword(
+          formData.email,
+          formData.password
+        );
         dispatch(LoginAction());
-        dispatch(GetCurrentUserAction(formData));
+        dispatch(GetCurrentUserAction(userData));
         alert("login complete");
         // history.push('/')
       } else {

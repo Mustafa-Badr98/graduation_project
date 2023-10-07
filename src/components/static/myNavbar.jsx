@@ -158,6 +158,11 @@ const MyNavbar = () => {
                         {`${user["email"][0].toUpperCase()}`}
                       </button>
                       <ul className="dropdown-menu">
+                      <li>
+                          <Link to="/userProfile" className="dropdown-item">
+                            My Profile
+                          </Link>
+                        </li>
                         <li>
                           <Link to="/userAds" className="dropdown-item">
                             My Ads
