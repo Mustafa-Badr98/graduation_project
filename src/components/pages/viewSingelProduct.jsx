@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import cx from "classnames";
@@ -10,6 +10,8 @@ import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
 import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 import { AddToCartAction } from "../../store/actions/AddToCart";
 import AddToCartModal from "../static/AddToCartModal";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 const ViewSingleProductPage = () => {
   const dispatch = useDispatch();
@@ -40,19 +42,43 @@ const ViewSingleProductPage = () => {
   };
   const param = useParams();
   const [product, setProduct] = useState({});
+  const mapRef = useRef(null);
 
-  useEffect(() => {
-    axios
+  const getProductData = async () => {
+    await axios
       .get(`https://api-generator.retool.com/lgHeOw/realtor_site/${param.id}`)
       .then((res) => {
         setProduct(res.data);
         checkIsFav(product);
-        console.log(res);
-        console.log(product);
+        // console.log(res);
+        // console.log(product);
       })
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  useEffect(() => {
+    getProductData();
+
+    if (!mapRef.current) {
+      const productLocation = { lat: 37.7749, lng: -122.4194 };
+      const map = L.map("map").setView(productLocation, 15);
+
+      L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {}
+      ).addTo(map);
+
+      L.marker(productLocation)
+        .addTo(map)
+        .bindPopup("Live Location")
+        .openPopup();
+
+      // Assign the map to the ref
+      mapRef.current = map;
+      console.log("1");
+    }
   }, [product]);
   return (
     <>
@@ -68,7 +94,7 @@ const ViewSingleProductPage = () => {
                   )}
                 >
                   <div
-                    className={cx(viewSinglePageStyles["tab-pane"], "active","btn","btn-danger")}
+                    className={cx(viewSinglePageStyles["tab-pane"], "active")}
                     id="pic-1"
                   >
                     <img src={product.Photos} />
@@ -111,12 +137,20 @@ const ViewSingleProductPage = () => {
                     <span
                       className={cx("fa fa-star", viewSinglePageStyles.checked)}
                     ></span>
-                    <span className={cx("fa fa-star", viewSinglePageStyles.checked)}></span>
-                    <span className={cx("fa fa-star", viewSinglePageStyles.checked)}></span>
-                    <span className={cx("fa fa-star", viewSinglePageStyles.checked)}></span>
+                    <span
+                      className={cx("fa fa-star", viewSinglePageStyles.checked)}
+                    ></span>
+                    <span
+                      className={cx("fa fa-star", viewSinglePageStyles.checked)}
+                    ></span>
+                    <span
+                      className={cx("fa fa-star", viewSinglePageStyles.checked)}
+                    ></span>
                     <span className={cx("fa fa-star")}></span>
                   </div>
-                  <span className={viewSinglePageStyles['review-no']}>41 reviews</span>
+                  <span className={viewSinglePageStyles["review-no"]}>
+                    41 reviews
+                  </span>
                 </div>
                 <p className={`product-description`}>{product.Description}</p>
                 <h4 className={`price`}>
@@ -167,6 +201,17 @@ const ViewSingleProductPage = () => {
                       </a>
                     </>
                   )}
+                </div>
+                <div className="row mt-5" style={{}}>
+                  <div className="offset-6 col-4">
+                    <div
+                      className=""
+                      style={{
+                        height: "180px",width:"13rem",borderRadius:"50%"
+                      }}
+                      id="map"
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>

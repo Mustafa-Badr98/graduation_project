@@ -3,8 +3,33 @@ import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { AddToUserProductListAction } from "../../store/actions/AddToUserProductList";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
+import axios from "axios";
 
 function SellPage() {
+  let locationLat = 0;
+  let locationLon = 0;
+
+  const getLatLan = async (city) => {
+    await axios
+      .get(
+        `http://api.weatherapi.com/v1/current.json?key=0d0e1a1c9254447c8ac54728232909&q=${city}&aqi=no`
+      )
+      .then((res) => {
+        // current_Lat = data["location"]["lat"]
+        // current_Lon = data["location"]["lon"]
+        // locAxis = res.data.results[0].geometry;
+        console.log(res.data.location);
+        locationLat = res.data.location.lat;
+        locationLon = res.data.location.lon;
+        console.log(locationLon);
+        console.log(locationLat);
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const LocalProductList = useSelector((state) => state.Products.productList);
   const dispatch = useDispatch();
 
@@ -115,11 +140,15 @@ function SellPage() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
+      getLatLan(formData.city);
+
       const newSell = {
         id: LocalProductList.length + 1,
         title: formData.adName,
         description: formData.otherInfo,
         location: formData.governorate + formData.city + formData.region,
+        lat: locationLat,
+        lon: locationLon,
         numOfBedrooms: formData.rooms,
         numOfBathrooms: "2",
         propertySize: formData.area,
