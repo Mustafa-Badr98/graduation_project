@@ -7,16 +7,16 @@ const ViewSinglePageProductModal = (props) => {
   return (
     <>
       <div
-        class="modal fade"
+        className="modal fade"
         id="viewProductsModal"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog pb-5 modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            <div class="">
+        <div className="modal-dialog pb-5 modal-dialog-centered modal-lg">
+          <div className="modal-content">
+            <div className="">
               {" "}
               <div
                 style={{ maxWidth: "800px" }}

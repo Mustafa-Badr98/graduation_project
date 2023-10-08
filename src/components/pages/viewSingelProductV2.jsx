@@ -17,7 +17,8 @@ const ViewSingleProductPageV2 = () => {
   const dispatch = useDispatch();
   const [is_fav, setFav] = useState(false);
   const [product, setProduct] = useState({});
-  const productList =useSelector((state)=>state.Products.productList)
+  const productList = useSelector((state) => state.Products.productList);
+  const [filteredObject, setFilteredObject] = useState([]);
 
   const addToFavHandler = () => {
     if (is_fav) {
@@ -35,10 +36,15 @@ const ViewSingleProductPageV2 = () => {
     }
   };
 
-  const getProductData = async () => {
-    console.log(param)
+  const getProductData = () => {
+    let productId = parseInt(param.id);
+    let filteredObj = productList.find((obj) => obj.id === productId);
+    setFilteredObject(filteredObj);
   };
 
+  function showFilteredObject() {
+    console.log(filteredObject.sellerUser.username);
+  }
   const getMap = () => {
     if (!mapRef.current) {
       const productLocation = { lat: 37.7749, lng: -122.4194 };
@@ -54,7 +60,6 @@ const ViewSingleProductPageV2 = () => {
         .bindPopup("Live Location")
         .openPopup();
 
-      // Assign the map to the ref
       mapRef.current = map;
       console.log("1");
     }
@@ -68,18 +73,18 @@ const ViewSingleProductPageV2 = () => {
       <div className="container mt-5">
         <div className="row">
           <div className="offset-2 col-7 ms-4 px-1">
-            <img style={{ height: "480px" }} src={product.photo} />
+            <img style={{ height: "480px" }} src={filteredObject.photo} />
           </div>
           <div
             data-bs-toggle="modal"
             data-bs-target="#viewProductsModal"
             className="col-3"
           >
-            <img style={{ height: "14.5rem" }} src={product.photo} />{" "}
+            <img style={{ height: "14.5rem" }} src={filteredObject.photo} />{" "}
             <img
               style={{ height: "14.5rem" }}
               className="mt-3"
-              src={product.photo}
+              src={filteredObject.photo}
             />
           </div>
         </div>
@@ -88,15 +93,15 @@ const ViewSingleProductPageV2 = () => {
             <div className="row">
               <p style={{ color: "silver" }} className="fs-5 fw-bold">
                 {" "}
-                {product.title}
+                {filteredObject.title}
               </p>
             </div>
 
             <div className="row py-0">
               <span className="fs-5">
                 {" "}
-                Available Area for {product.type} at {product.location}{" "}
-                {product.propertySize}M.
+                Available Area for {filteredObject.type} at{" "}
+                {filteredObject.location} {filteredObject.propertySize}M.
               </span>
             </div>
             <div className="row py-0 mt-3 ">
@@ -110,20 +115,20 @@ const ViewSingleProductPageV2 = () => {
                 <div className="mt-2">
                   <i className="fa-solid fa-bath me-2"></i>
                   <span>Bathrooms : </span>
-                  <span>{product.numOfBathrooms} </span>
+                  <span>{filteredObject.numOfBathrooms} </span>
                 </div>
               </div>
               <div className="col-6">
                 <div>
-                  <i class="fa-solid fa-expand me-2"></i>
+                  <i className="fa-solid fa-expand me-2"></i>
                   <span>Property Size : </span>
-                  <span>{product.propertySize} M</span>
+                  <span>{filteredObject.propertySize} M</span>
                 </div>
 
                 <div className="mt-2">
                   <i className="fa-regular fa-calendar me-2"></i>
                   <span>Available From : </span>
-                  <span>{product.timeStamp} </span>
+                  <span>{filteredObject.timeStamp} </span>
                 </div>
               </div>
             </div>
@@ -170,7 +175,18 @@ const ViewSingleProductPageV2 = () => {
 
                   <div className="col-6 mt-4 ">
                     {" "}
-                    {/* <div className="row">{product.sellerUser.username}</div> */}
+                    <button onClick={showFilteredObject}>
+                      Show in console
+                    </button>
+                    {filteredObject ? (
+                      <>
+                        <div className="row">
+                          {filteredObject.sellerUser["username"]}
+                        </div>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </div>
               </div>

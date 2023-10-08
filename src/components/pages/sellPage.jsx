@@ -8,6 +8,7 @@ import axios from "axios";
 function SellPage() {
   let locationLat = 0;
   let locationLon = 0;
+  const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const currentUser = useSelector((state) => state.currentUSER.currentUser);
 
   const getLatLan = async (city) => {
@@ -139,7 +140,7 @@ function SellPage() {
 
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0) {
+    if (Object.keys(validationErrors).length === 0 && isLoggedIn) {
       getLatLan(formData.city);
 
       const newSell = {
@@ -162,7 +163,9 @@ function SellPage() {
       dispatch(AddToUserProductListAction(newSell));
       dispatch(AddToProductListAction(newSell));
       // console.log("Form data:", formData);
-      console.log( newSell );
+      console.log(newSell);
+    } else {
+      alert("please log in to Sell");
     }
   };
 
@@ -344,59 +347,6 @@ function SellPage() {
               />
               {errors.price && (
                 <div className="invalid-feedback">{errors.price}</div>
-              )}
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">
-                Your Name:
-              </label>
-              <input
-                type="text"
-                className={`form-control ${errors.name && "is-invalid"}`}
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-              {errors.name && (
-                <div className="invalid-feedback">{errors.name}</div>
-              )}
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="phone" className="form-label">
-                Your Phone Number:
-              </label>
-              <input
-                type="tel"
-                className={`form-control ${errors.phone && "is-invalid"}`}
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-              />
-              {errors.phone && (
-                <div className="invalid-feedback">{errors.phone}</div>
-              )}
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                Your Email Address:
-              </label>
-              <input
-                type="email"
-                className={`form-control ${errors.email && "is-invalid"}`}
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              {errors.email && (
-                <div className="invalid-feedback">{errors.email}</div>
               )}
             </div>
 
