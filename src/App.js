@@ -13,6 +13,7 @@ import { GetProductsListAction } from "./store/actions/GetProductsList";
 import SellPage from "./components/pages/sellPage";
 import UserAdsPage from "./components/pages/userAdsPage";
 import ProfilePage from "./components/pages/UserProfilePage";
+import ViewSingleProductPageV2 from "./components/pages/viewSingelProductV2";
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
           <Route exact path="/userProfile" component={ProfilePage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
-          <Route exact path="/:id" component={viewSingleProductPage} />
+          <Route exact path="/:id" component={ViewSingleProductPageV2} />
           <Route exact path="/*" component={NotFoundPage} />
         </Switch>
       </BrowserRouter>
