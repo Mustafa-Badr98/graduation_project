@@ -3,26 +3,21 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import cx from "classnames";
 
-import viewSinglePageStyles from "./viewSingleProduct.module.css";
 import MyFooter from "../static/footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
 import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
-import { AddToCartAction } from "../../store/actions/AddToCart";
-import AddToCartModal from "../static/AddToCartModal";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "@popperjs/core";
 
 const ViewSingleProductPageV2 = () => {
   const param = useParams();
-  const [product, setProduct] = useState({});
   const mapRef = useRef(null);
   const dispatch = useDispatch();
   const [is_fav, setFav] = useState(false);
+  const [product, setProduct] = useState({});
+  const productList =useSelector((state)=>state.Products.productList)
 
   const addToFavHandler = () => {
     if (is_fav) {
@@ -41,40 +36,32 @@ const ViewSingleProductPageV2 = () => {
   };
 
   const getProductData = async () => {
-    await axios
-
-      .get(`https://api-generator.retool.com/NlCDT1/realtor/${param.id}`)
-      .then((res) => {
-        setProduct(res.data);
-        // checkIsFav(product);
-        console.log(res.data);
-        // console.log(product);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(param)
   };
 
+  const getMap = () => {
+    if (!mapRef.current) {
+      const productLocation = { lat: 37.7749, lng: -122.4194 };
+      const map = L.map("map").setView(productLocation, 15);
+
+      L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {}
+      ).addTo(map);
+
+      L.marker(productLocation)
+        .addTo(map)
+        .bindPopup("Live Location")
+        .openPopup();
+
+      // Assign the map to the ref
+      mapRef.current = map;
+      console.log("1");
+    }
+  };
   useEffect(() => {
     getProductData();
-
-    // if (!mapRef.current) {
-    //   const productLocation = { lat: 37.7749, lng: -122.4194 };
-    //   const map = L.map("map").setView(productLocation, 15);
-
-    //   L.tileLayer(
-    //     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    //     {}
-    //   ).addTo(map);
-
-    //   L.marker(productLocation)
-    //     .addTo(map)
-    //     .bindPopup("Live Location")
-    //     .openPopup();
-
-    //   mapRef.current = map;
-    //   console.log("1");
-    // }
+    getMap();
   }, []);
   return (
     <>
@@ -94,6 +81,150 @@ const ViewSingleProductPageV2 = () => {
               className="mt-3"
               src={product.photo}
             />
+          </div>
+        </div>
+        <div className="row mt-4">
+          <div className="offset-2 col-7 ms-4 px-1">
+            <div className="row">
+              <p style={{ color: "silver" }} className="fs-5 fw-bold">
+                {" "}
+                {product.title}
+              </p>
+            </div>
+
+            <div className="row py-0">
+              <span className="fs-5">
+                {" "}
+                Available Area for {product.type} at {product.location}{" "}
+                {product.propertySize}M.
+              </span>
+            </div>
+            <div className="row py-0 mt-3 ">
+              <div className="col-6">
+                <div>
+                  <i className="fa-solid fa-building me-2"></i>
+                  <span>Property Type : </span>
+                  <span>Open Space </span>
+                </div>
+
+                <div className="mt-2">
+                  <i className="fa-solid fa-bath me-2"></i>
+                  <span>Bathrooms : </span>
+                  <span>{product.numOfBathrooms} </span>
+                </div>
+              </div>
+              <div className="col-6">
+                <div>
+                  <i class="fa-solid fa-expand me-2"></i>
+                  <span>Property Size : </span>
+                  <span>{product.propertySize} M</span>
+                </div>
+
+                <div className="mt-2">
+                  <i className="fa-regular fa-calendar me-2"></i>
+                  <span>Available From : </span>
+                  <span>{product.timeStamp} </span>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-4 ">
+              <div className="container">
+                <hr />
+              </div>
+            </div>
+            <div className="row py-0 mt-3 ">
+              <div className="col-6">
+                <div className="pb-4 fs-5 fw-bold">Location: </div>
+                <div className="row">
+                  <span
+                    className=""
+                    style={{
+                      height: "150px",
+                      width: "150px",
+                      borderRadius: "50%",
+                    }}
+                    id="map"
+                  ></span>
+
+                  <div className="col-6 mt-4 ms-4">
+                    <span>{product.location}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="offset-1 col-5">
+                <div className="pb-4 fs-5 fw-bold">Agent: </div>
+                <div className="row">
+                  <div className="col-6">
+                    <span className="">
+                      <img
+                        style={{
+                          height: "150px",
+                          width: "150px",
+                          borderRadius: "50%",
+                        }}
+                        src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                        alt=""
+                      />
+                    </span>
+                  </div>
+
+                  <div className="col-6 mt-4 ">
+                    {" "}
+                    {/* <div className="row">{product.sellerUser.username}</div> */}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-4 ">
+              <div className="container">
+                <hr />
+              </div>
+            </div>
+          </div>
+
+          <div
+            style={{ height: "11.8rem", width: "19.6rem" }}
+            className="col-3 border border-2 ms-2"
+          >
+            <div className="fs-1 text-dark">
+              <div className="row px-5">
+                <div className=" fs-5 ">{product.price} EGP / Month</div>
+              </div>
+            </div>
+            <div className="row mt-4 ">
+              <div className="col-4">
+                <button className="btn btn-danger">
+                  <i className="fs-6 fa-solid fa-phone me-3 ms-3"></i>
+                  Call
+                </button>
+              </div>{" "}
+              <div className="col-4">
+                <button className="btn btn-info">
+                  <i className="fs-6 fa-solid fa-envelope me-1"></i>
+                  Email
+                </button>
+              </div>{" "}
+              <div className="col-4">
+                <button className="btn btn-success">
+                  <i className="fa-brands fa-whatsapp"></i>WhatsUp
+                </button>
+              </div>
+            </div>
+            <div className="row">
+              <div className="container">
+                <hr className="mt-3 " />
+              </div>
+            </div>
+            <div className="row">
+              <div className="container">
+                <div className="offset-2 col-8 border border-1 rounded">
+                  <span className="px-4">
+                    <i className="fa-regular fa-heart me-1"></i> Save to Fav
+                    List
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

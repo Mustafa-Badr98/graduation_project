@@ -8,6 +8,7 @@ import axios from "axios";
 function SellPage() {
   let locationLat = 0;
   let locationLon = 0;
+  const currentUser = useSelector((state) => state.currentUSER.currentUser);
 
   const getLatLan = async (city) => {
     await axios
@@ -23,7 +24,6 @@ function SellPage() {
         locationLon = res.data.location.lon;
         console.log(locationLon);
         console.log(locationLat);
-
       })
       .catch((error) => {
         console.log(error);
@@ -157,10 +157,12 @@ function SellPage() {
         photo:
           "https://en.bailypearl.com/wp-content/uploads/2021/05/villa-la-croix-valmer-vue-aerienne-2-2560x1633.jpg",
         timeStamp: Date.now(),
+        sellerUser: currentUser,
       };
       dispatch(AddToUserProductListAction(newSell));
       dispatch(AddToProductListAction(newSell));
-      console.log("Form data:", formData);
+      // console.log("Form data:", formData);
+      console.log( newSell );
     }
   };
 

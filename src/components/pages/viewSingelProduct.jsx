@@ -58,27 +58,23 @@ const ViewSingleProductPage = () => {
       });
   };
 
+  const getMap = () => {
+    const productLocation = { lat: 37.7749, lng: -122.4194 };
+    const map = L.map("map").setView(productLocation, 15);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {}).addTo(
+      map
+    );
+
+    L.marker(productLocation).addTo(map).bindPopup("Live Location").openPopup();
+
+    // Assign the map to the ref
+    mapRef.current = map;
+    console.log("1");
+  };
   useEffect(() => {
     getProductData();
-
-    if (!mapRef.current) {
-      const productLocation = { lat: 37.7749, lng: -122.4194 };
-      const map = L.map("map").setView(productLocation, 15);
-
-      L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {}
-      ).addTo(map);
-
-      L.marker(productLocation)
-        .addTo(map)
-        .bindPopup("Live Location")
-        .openPopup();
-
-      // Assign the map to the ref
-      mapRef.current = map;
-      console.log("1");
-    }
+    getMap();
   }, [product]);
   return (
     <>
@@ -207,7 +203,9 @@ const ViewSingleProductPage = () => {
                     <div
                       className=""
                       style={{
-                        height: "180px",width:"13rem",borderRadius:"50%"
+                        height: "180px",
+                        width: "13rem",
+                        borderRadius: "50%",
                       }}
                       id="map"
                     ></div>
