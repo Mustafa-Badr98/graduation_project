@@ -3,6 +3,7 @@ import ProductCard from "../static/productCard";
 import { useSelector } from "react-redux";
 import MyFooter from "../static/footer";
 import FavPageCard from "../static/FavPageCard";
+import ListingCard from "../static/listingCard";
 
 const FavPage = () => {
   const favChanger = useSelector((state) => state.FavCOUNT.favCount);
@@ -21,17 +22,21 @@ const FavPage = () => {
   let sessionStorageData = GetDataFromSession();
   // console.log(sessionStorageData);
 
-
   useEffect(() => {
     sessionStorageData = GetDataFromSession();
   }, [favChanger]);
   // console.log(sessionStorageData);
   return (
     <>
-      <div style={{minHeight:"75vh"}}>
-        {sessionStorageData.map((product, index) => {
-          return <FavPageCard key={index} productObject={product} />;
-        })}
+    <h3 className="p-4">Your Favorites :</h3>
+      <div style={{ minHeight: "75vh" }}>
+        <div className="container">
+          <div className="row">
+            {sessionStorageData.map((product, index) => {
+              return <ListingCard key={index} productObject={product} />;
+            })}
+          </div>
+        </div>
       </div>
 
       <MyFooter />
