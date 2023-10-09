@@ -4,6 +4,7 @@ import NothingFoundAlert from "../static/nothingFoundAlert";
 import { useSelector } from "react-redux";
 
 import UserCard from "../static/UserCard";
+import EmptyUserAdsListAlert from "../static/EmptyUserAdsListAlert";
 const UserAdsPage = () => {
   const localUserProductsList = useSelector(
     (state) => state.UserProducts.userListOfProducts
@@ -37,7 +38,7 @@ const UserAdsPage = () => {
 
         {localUserProductsList.length === 0 ? (
           <>
-            <NothingFoundAlert />
+           <EmptyUserAdsListAlert/>
           </>
         ) : (
           <>

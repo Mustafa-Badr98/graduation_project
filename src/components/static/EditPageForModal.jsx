@@ -5,6 +5,7 @@ import { AddToUserProductListAction } from "../../store/actions/AddToUserProduct
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import { EditUserListAction } from "../../store/actions/EditUserList";
 import { EditProductListAction } from "../../store/actions/EditProductList";
+import axios from "axios";
 
 function EditPageForModal(props) {
   const localProductToEdit = props.productObject;
@@ -14,6 +15,7 @@ function EditPageForModal(props) {
   let locationLon = 0;
 
   const getLatLan = async (city) => {
+    
     await axios
       .get(
         `http://api.weatherapi.com/v1/current.json?key=0d0e1a1c9254447c8ac54728232909&q=${city}&aqi=no`
