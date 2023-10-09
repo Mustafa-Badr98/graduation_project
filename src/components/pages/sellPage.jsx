@@ -7,7 +7,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function SellPage() {
-  const history=useHistory()
+  const history = useHistory();
   let locationLat = 0;
   let locationLon = 0;
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
@@ -46,9 +46,6 @@ function SellPage() {
     area: "",
     rooms: "",
     price: "",
-    name: "",
-    phone: "",
-    email: "",
     photos: [],
     otherInfo: "",
   });
@@ -133,7 +130,7 @@ function SellPage() {
         id: LocalProductList.length + 1,
         title: formData.adName,
         description: formData.otherInfo,
-        location: formData.governorate + formData.city + formData.region,
+        location: formData.governorate +" / "+ formData.city + " / " +formData.region,
         lat: locationLat,
         lon: locationLon,
         numOfBedrooms: formData.rooms,
@@ -150,8 +147,8 @@ function SellPage() {
       dispatch(AddToProductListAction(newSell));
       // console.log("Form data:", formData);
       console.log(newSell);
-      alert("your product has been added")
-      history.push("/")
+      alert("your product has been added");
+      history.push("/");
     } else {
       alert("please log in or check all req fields");
     }

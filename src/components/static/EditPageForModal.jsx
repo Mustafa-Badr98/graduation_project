@@ -8,10 +8,30 @@ import { EditProductListAction } from "../../store/actions/EditProductList";
 
 function EditPageForModal(props) {
   const localProductToEdit = props.productObject;
-//   console.log(localProductToEdit);
-//   console.log("hi")
-  const LocalProductList = useSelector((state) => state.Products.productList);
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.currentUSER.currentUser);
+  let locationLat = 0;
+  let locationLon = 0;
+
+  const getLatLan = async (city) => {
+    await axios
+      .get(
+        `http://api.weatherapi.com/v1/current.json?key=0d0e1a1c9254447c8ac54728232909&q=${city}&aqi=no`
+      )
+      .then((res) => {
+        // current_Lat = data["location"]["lat"]
+        // current_Lon = data["location"]["lon"]
+        // locAxis = res.data.results[0].geometry;
+        console.log(res.data.location);
+        locationLat = res.data.location.lat;
+        locationLon = res.data.location.lon;
+        console.log(locationLon);
+        console.log(locationLat);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const [formData, setFormData] = useState({
     title: "",
@@ -101,11 +121,19 @@ function EditPageForModal(props) {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
+      getLatLan(formData.city);
       const editedAd = {
         id: localProductToEdit.id,
         title: formData.title,
         description: formData.otherInfo,
-        location: formData.governorate + formData.city + formData.region,
+        location:
+          formData.governorate +
+          " / " +
+          formData.city +
+          " / " +
+          formData.region,
+        lat: locationLat,
+        lon: locationLon,
         numOfBedrooms: formData.rooms,
         numOfBathrooms: "2",
         propertySize: formData.area,
@@ -114,6 +142,7 @@ function EditPageForModal(props) {
         photo:
           "https://en.bailypearl.com/wp-content/uploads/2021/05/villa-la-croix-valmer-vue-aerienne-2-2560x1633.jpg",
         timeStamp: localProductToEdit.timeStamp,
+        sellerUser: currentUser,
       };
       dispatch(EditUserListAction(editedAd));
       dispatch(EditProductListAction(editedAd));
