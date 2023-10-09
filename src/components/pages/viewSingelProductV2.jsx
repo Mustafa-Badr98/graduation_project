@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import axios from "axios";
-import cx from "classnames";
-
 import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
@@ -18,15 +15,15 @@ const ViewSingleProductPageV2 = () => {
   const [is_fav, setFav] = useState(false);
   const [product, setProduct] = useState({});
   const productList = useSelector((state) => state.Products.productList);
-  const [filteredObject, setFilteredObject] = useState([]);
+  const [filteredObject, setFilteredObject] = useState({});
   const [seller, setSeller] = useState({});
 
   const addToFavHandler = () => {
     if (is_fav) {
-      dispatch(UpdateFavCountRemove(product));
+      dispatch(UpdateFavCountRemove(filteredObject));
       setFav(false);
     } else {
-      dispatch(UpdateFavCountAdd(product));
+      dispatch(UpdateFavCountAdd(filteredObject));
       setFav(true);
     }
   };
@@ -42,11 +39,13 @@ const ViewSingleProductPageV2 = () => {
     let filteredObj = productList.find((obj) => obj.id === productId);
     setFilteredObject(filteredObj);
     setSeller(filteredObj.sellerUser);
+    checkIsFav(filteredObj)
+
   };
 
-  function showFilteredObject() {
-    console.log(filteredObject.sellerUser.username);
-  }
+  // function showFilteredObject() {
+  //   console.log(filteredObject.sellerUser.username);
+  // }
   const getMap = () => {
     if (!mapRef.current) {
       const productLocation = { lat: 37.7749, lng: -122.4194 };
@@ -74,13 +73,13 @@ const ViewSingleProductPageV2 = () => {
     <>
       <div className="container mt-5">
         <div className="row">
-          <div className="offset-2 col-7 ms-4 px-1">
+          <div className="col-xl-7 ms-4 px-1">
             <img style={{ height: "480px" }} src={filteredObject.photo} />
           </div>
           <div
             data-bs-toggle="modal"
             data-bs-target="#viewProductsModal"
-            className="col-3"
+            className="col-xl-4 "
           >
             <img style={{ height: "14.5rem" }} src={filteredObject.photo} />{" "}
             <img
@@ -176,10 +175,11 @@ const ViewSingleProductPageV2 = () => {
                   </div>
 
                   <div className="col-6 mt-4 ">
-                    
                     {seller ? (
                       <>
-                        <div className="row ms-2 fs-5 fw-bold">{seller.username}</div>
+                        <div className="row ms-2 fs-5 fw-bold">
+                          {seller.username}
+                        </div>
                       </>
                     ) : (
                       <></>
@@ -195,9 +195,7 @@ const ViewSingleProductPageV2 = () => {
             </div>
             <div className="row mt-4 ">
               <span className="fs-5 fw-bold">Description :</span>
-              <div className="container mt-5">
-                {filteredObject.description}
-              </div>
+              <div className="container mt-5">{filteredObject.description}</div>
             </div>
           </div>
 
@@ -237,10 +235,26 @@ const ViewSingleProductPageV2 = () => {
             <div className="row">
               <div className="container">
                 <div className="offset-2 col-8 border border-1 rounded">
-                  <span className="px-4">
-                    <i className="fa-regular fa-heart me-1"></i> Save to Fav
-                    List
-                  </span>
+                  {is_fav ? (
+                    <>
+                      <span className="px-4" onClick={addToFavHandler}>
+                        <i className="fa-solid fa-heart me-1"></i>{" "}
+                        <span style={{ maxWidth: "8rem", maxHeight: ".5rem" }}>
+                          Remove From Fav
+                        </span>
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      {" "}
+                      <span className="px-4" onClick={addToFavHandler}>
+                        <i className="fa-regular fa-heart me-1"></i>{" "}
+                        <span style={{ maxWidth: "8rem", maxHeight: ".5rem" }}>
+                          Save To Fav
+                        </span>
+                      </span>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
