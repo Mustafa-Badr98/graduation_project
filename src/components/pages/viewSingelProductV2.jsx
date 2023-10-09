@@ -19,6 +19,7 @@ const ViewSingleProductPageV2 = () => {
   const [product, setProduct] = useState({});
   const productList = useSelector((state) => state.Products.productList);
   const [filteredObject, setFilteredObject] = useState([]);
+  const [seller, setSeller] = useState({});
 
   const addToFavHandler = () => {
     if (is_fav) {
@@ -40,6 +41,7 @@ const ViewSingleProductPageV2 = () => {
     let productId = parseInt(param.id);
     let filteredObj = productList.find((obj) => obj.id === productId);
     setFilteredObject(filteredObj);
+    setSeller(filteredObj.sellerUser);
   };
 
   function showFilteredObject() {
@@ -174,15 +176,10 @@ const ViewSingleProductPageV2 = () => {
                   </div>
 
                   <div className="col-6 mt-4 ">
-                    {" "}
-                    <button onClick={showFilteredObject}>
-                      Show in console
-                    </button>
-                    {filteredObject ? (
+                    
+                    {seller ? (
                       <>
-                        <div className="row">
-                          {filteredObject.sellerUser["username"]}
-                        </div>
+                        <div className="row ms-2 fs-5 fw-bold">{seller.username}</div>
                       </>
                     ) : (
                       <></>
@@ -196,10 +193,16 @@ const ViewSingleProductPageV2 = () => {
                 <hr />
               </div>
             </div>
+            <div className="row mt-4 ">
+              <span className="fs-5 fw-bold">Description :</span>
+              <div className="container mt-5">
+                {filteredObject.description}
+              </div>
+            </div>
           </div>
 
           <div
-            style={{ height: "11.8rem", width: "19.6rem" }}
+            style={{ height: "11.8rem", width: "23rem" }}
             className="col-3 border border-2 ms-2"
           >
             <div className="fs-1 text-dark">
@@ -216,7 +219,7 @@ const ViewSingleProductPageV2 = () => {
               </div>{" "}
               <div className="col-4">
                 <button className="btn btn-info">
-                  <i className="fs-6 fa-solid fa-envelope me-1"></i>
+                  <i className="fs-6 fa-solid fa-envelope ms-4 me-4"></i>
                   Email
                 </button>
               </div>{" "}
@@ -245,7 +248,7 @@ const ViewSingleProductPageV2 = () => {
         </div>
       </div>
 
-      <ViewSinglePageProductModal productPhotos={product.photo} />
+      <ViewSinglePageProductModal productPhotos={filteredObject.photo} />
       <MyFooter />
     </>
   );

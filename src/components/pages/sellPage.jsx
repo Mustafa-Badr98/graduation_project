@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddToUserProductListAction } from "../../store/actions/AddToUserProductList";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 function SellPage() {
+  const history=useHistory()
   let locationLat = 0;
   let locationLon = 0;
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
@@ -122,22 +124,6 @@ function SellPage() {
       validationErrors.price = "Price must be a number.";
     }
 
-    if (!formData.name.trim()) {
-      validationErrors.name = "Your name is required.";
-    }
-
-    if (!formData.phone.trim()) {
-      validationErrors.phone = "Phone number is required.";
-    } else if (!/^\d{11}$/.test(formData.phone)) {
-      validationErrors.phone = "Phone number must be 11 digits.";
-    }
-
-    if (!formData.email.trim()) {
-      validationErrors.email = "Email address is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      validationErrors.email = "Invalid email address.";
-    }
-
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0 && isLoggedIn) {
@@ -164,8 +150,10 @@ function SellPage() {
       dispatch(AddToProductListAction(newSell));
       // console.log("Form data:", formData);
       console.log(newSell);
+      alert("your product has been added")
+      history.push("/")
     } else {
-      alert("please log in to Sell");
+      alert("please log in or check all req fields");
     }
   };
 

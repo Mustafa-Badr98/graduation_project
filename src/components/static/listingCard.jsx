@@ -38,7 +38,7 @@ const ListingCard = (props) => {
   }, []);
   return (
     <>
-      <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5">
+      <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5 ">
         <div className="card">
           <img src={localProduct.photo} alt="" className="card-img-top" />
           {is_fav ? (
@@ -76,23 +76,33 @@ const ListingCard = (props) => {
 
           <div className="card-body">
             <h5 className="card-title">{localProduct.title}</h5>
-            <p className="card-text">{localProduct.description}</p>
+            <p
+              style={{
+                height: "45px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+              className="card-text"
+            >
+              {localProduct.description}
+            </p>
             <div className="row align-items-center">
-              <div className="col">
+              <div className="col-4">
                 <span>
                   <i className="fas fa-th-large"></i>
                   <span> {localProduct.numOfBedrooms}</span>
                 </span>
                 <span className="ms-1">Bedrooms</span>
               </div>
-              <div className="col">
+              <div className="col-5">
                 <span>
                   <i className="fas fa-shower"></i>
                   <span> {localProduct.numOfBathrooms}</span>
                 </span>
                 <span className="ms-1">Bathrooms</span>
               </div>
-              <div className="col">
+              <div className="col-3">
                 <span className="row">
                   <div className="col-12">
                     <i className="fas fa-vector-square"></i>
