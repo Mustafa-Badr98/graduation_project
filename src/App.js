@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import HomePage from "./components/pages/homePage";
 import NotFoundPage from "./components/pages/notFoundPage";
-import SignupPage from "./components/static/signupPage";
+import SignupPage from "./components/pages/signupPage";
 import LoginModal from "./components/static/loginModal";
 import MyNavbar from "./components/static/myNavbar";
 import FavPage from "./components/pages/FavPage";

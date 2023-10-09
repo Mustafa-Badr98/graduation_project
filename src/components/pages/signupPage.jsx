@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import MyAlert from "./alert";
+import MyAlert from "../static/alert";
 import { useDispatch } from "react-redux";
 import { LoginAction } from "../../store/actions/loginAction";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
