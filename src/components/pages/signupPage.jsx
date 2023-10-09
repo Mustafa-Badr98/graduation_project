@@ -286,27 +286,33 @@ const SignupPage = () => {
                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-2">
                       <div style={{ height: "9rem" }} className=""></div>
                       <div className="mb-5 pb-2">
-                        <i class="fa-solid fa-globe fa-lg me-3 fa-fw"></i>
-                        <label className="fs-4" htmlFor="state">
-                          Governorate
-                        </label>
-
-                        <select
-                          onChange={handleInputChange}
-                          style={{ height: "2rem", width: "15.6rem" }}
-                          className="ms-2 ms-4"
-                          id="governorate"
-                          name="governorate"
-                        >
-                          {egyptGovernorates.map((governorate, index) => {
-                            return (
-                              <option key={index} value={governorate}>
-                                {" "}
-                                {governorate}{" "}
-                              </option>
-                            );
-                          })}
-                        </select>
+                        <div className="row">
+                          <div className="col-4">
+                            <label className="fs-6 pt-1" htmlFor="state">
+                              <i class="fa-solid fa-globe fa-lg fs-5 me-3 pb-4 fa-fw"></i>
+                              Governorate
+                            </label>
+                          </div>
+                          <div className="col-8">
+                            {" "}
+                            <select
+                              onChange={handleInputChange}
+                              style={{ height: "2rem", width: "15rem" }}
+                              className="pt-1"
+                              id="governorate"
+                              name="governorate"
+                            >
+                              {egyptGovernorates.map((governorate, index) => {
+                                return (
+                                  <option key={index} value={governorate}>
+                                    {" "}
+                                    {governorate}{" "}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        </div>
                       </div>
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i class="fa-solid fa-city fa-lg me-3 fa-fw"></i>
