@@ -154,7 +154,7 @@ const ViewSingleProductPageV2 = () => {
                   ></span>
 
                   <div className="col-6 mt-4 ms-4">
-                    <span>{product.location}</span>
+                    <span>{filteredObject.location}</span>
                   </div>
                 </div>
               </div>
