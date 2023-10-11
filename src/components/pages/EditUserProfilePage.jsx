@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import MyFooter from "../static/footer";
 
-const ProfilePage = () => {
+const EditProfilePage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
@@ -327,4 +327,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default EditProfilePage;

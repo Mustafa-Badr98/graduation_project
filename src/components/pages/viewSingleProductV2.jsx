@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
@@ -157,10 +157,10 @@ const ViewSingleProductPageV2 = () => {
                   </div>
                 </div>
               </div>
-              <div className="offset-1 col-5">
+              <Link to={`/viewUser/${seller.email}`} className="offset-1 col-5">
                 <div className="pb-4 fs-5 fw-bold">Agent: </div>
                 <div className="row">
-                  <div className="col-6">
+                  <div className="col-5">
                     <span className="">
                       <img
                         style={{
@@ -174,7 +174,7 @@ const ViewSingleProductPageV2 = () => {
                     </span>
                   </div>
 
-                  <div className="col-6 mt-4 ">
+                  <div className="offset-2 col-5 mt-5 ">
                     {seller ? (
                       <>
                         <div className="row ms-2 fs-5 fw-bold">
@@ -186,7 +186,7 @@ const ViewSingleProductPageV2 = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
             <div className="row mt-4 ">
               <div className="container">
