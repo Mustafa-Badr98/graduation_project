@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import cx from "classnames";
+import Rate from "rsuite/Rate";
+import "rsuite/dist/rsuite.min.css";
 import viewUsersPageStyles from "./viewUsersPage.module.css";
+
+const texts = {
+  1: "Useless",
+  2: "Poor",
+  3: "Ok",
+  4: "Good",
+  5: "Excellent",
+};
+
 const ViewUsersPage = () => {
+    
+  const [hoverValue, setHoverValue] = useState(5);
   return (
     <>
       <div className="container">
@@ -107,8 +120,21 @@ const ViewUsersPage = () => {
                         "clearfix"
                       )}
                     >
-
-                        
+                      <div
+                        style={{
+                          display: "block",
+                          width: 200,
+                          paddingLeft: 0,
+                        }}
+                      >
+                        <Rate
+                          style={{ width: 120 }}
+                          readOnly
+                          defaultValue={1}
+                          allowHalf
+                        />
+                        <span className="fs-6 ms-2">{texts[hoverValue]}</span>
+                      </div>
                     </div>
                     <hr />
                     <h5>

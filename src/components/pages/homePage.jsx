@@ -6,6 +6,7 @@ import NothingFoundAlert from "../static/nothingFoundAlert";
 import LoadingSpinner from "../static/loadingSpinner";
 import ListingCard from "../static/listingCard";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
+import RateComp from "../static/RateComp";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
@@ -17,6 +18,7 @@ const HomePage = () => {
   console.log(products);
   return (
     <>
+   
       <HeroSection />
       <div className="container mt-5">
         <div className="row">
