@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
 import Rate from "rsuite/Rate";
 import "rsuite/dist/rsuite.min.css";
-import viewUsersPageStyles from "./viewUsersPage.module.css";
 import RatePopUpComponent from "../static/RatepopUpcomp";
+import viewUsersPageStyles from "./viewUsersPage.module.css";
+
 
 const texts = {
   0: "No rate yet",

@@ -39,8 +39,7 @@ const ViewSingleProductPageV2 = () => {
     let filteredObj = productList.find((obj) => obj.id === productId);
     setFilteredObject(filteredObj);
     setSeller(filteredObj.sellerUser);
-    checkIsFav(filteredObj)
-
+    checkIsFav(filteredObj);
   };
 
   // function showFilteredObject() {
@@ -157,36 +156,76 @@ const ViewSingleProductPageV2 = () => {
                   </div>
                 </div>
               </div>
-              <Link to={`/viewUser/${seller.email}`} className="offset-1 col-5">
-                <div className="pb-4 fs-5 fw-bold">Agent: </div>
-                <div className="row">
-                  <div className="col-5">
-                    <span className="">
-                      <img
-                        style={{
-                          height: "150px",
-                          width: "150px",
-                          borderRadius: "50%",
-                        }}
-                        src="http://bootdey.com/img/Content/avatar/avatar1.png"
-                        alt=""
-                      />
-                    </span>
-                  </div>
+              {seller ? (
+                <>
+                  <Link
+                    to={`/viewUser/${seller.email}`}
+                    className="offset-1 col-5"
+                  >
+                    <div className="pb-4 fs-5 fw-bold">Agent: </div>
+                    <div className="row">
+                      <div className="col-5">
+                        <span className="">
+                          <img
+                            style={{
+                              height: "150px",
+                              width: "150px",
+                              borderRadius: "50%",
+                            }}
+                            src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                            alt=""
+                          />
+                        </span>
+                      </div>
 
-                  <div className="offset-2 col-5 mt-5 ">
-                    {seller ? (
-                      <>
-                        <div className="row ms-2 fs-5 fw-bold">
-                          {seller.username}
-                        </div>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
-                </div>
-              </Link>
+                      <div className="offset-2 col-5 mt-5 ">
+                        {seller ? (
+                          <>
+                            <div className="row ms-2 fs-5 fw-bold">
+                              {seller.username}
+                            </div>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link to="/" className="offset-1 col-5">
+                    <div className="pb-4 fs-5 fw-bold">Agent: </div>
+                    <div className="row">
+                      <div className="col-5">
+                        <span className="">
+                          <img
+                            style={{
+                              height: "150px",
+                              width: "150px",
+                              borderRadius: "50%",
+                            }}
+                            src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                            alt=""
+                          />
+                        </span>
+                      </div>
+
+                      <div className="offset-2 col-5 mt-5 ">
+                        {seller ? (
+                          <>
+                            <div className="row ms-2 fs-5 fw-bold">
+                              {seller.username}
+                            </div>
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </div>
+                    </div>
+                  </Link>
+                </>
+              )}
             </div>
             <div className="row mt-4 ">
               <div className="container">
