@@ -1,20 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cx from "classnames";
 import Rate from "rsuite/Rate";
 import "rsuite/dist/rsuite.min.css";
 import viewUsersPageStyles from "./viewUsersPage.module.css";
+import RatePopUpComponent from "../static/RatepopUpcomp";
 
 const texts = {
+  0: "No rate yet",
   1: "Useless",
   2: "Poor",
   3: "Ok",
   4: "Good",
   5: "Excellent",
 };
-
 const ViewUsersPage = () => {
-    
-  const [hoverValue, setHoverValue] = useState(5);
+  const [hoverValue, setHoverValue] = useState(2);
   return (
     <>
       <div className="container">
@@ -67,29 +67,7 @@ const ViewUsersPage = () => {
                             Contact
                           </span>
                         </a>
-                        <a
-                          className={cx(
-                            "btn",
-                            "btn-danger",
-                            "btn-block",
-                            "btn-gradient",
-                            "waves-effect",
-                            "waves-light",
-                            "ms-2",
-                            "px-4"
-                          )}
-                          href="#"
-                        >
-                          <span className="gradient">
-                            <i
-                              className={cx(
-                                viewUsersPageStyles["batch-icon"],
-                                viewUsersPageStyles["batch-icon-user-alt-add-2"]
-                              )}
-                            ></i>
-                            Rate
-                          </span>
-                        </a>
+                        <RatePopUpComponent />
                       </div>
                       <div className="col-sm-6">
                         <span className="my-0 fw-bold">Ads :</span>
@@ -130,8 +108,7 @@ const ViewUsersPage = () => {
                         <Rate
                           style={{ width: 120 }}
                           readOnly
-                          defaultValue={1}
-                          allowHalf
+                          defaultValue={hoverValue}
                         />
                         <span className="fs-6 ms-2">{texts[hoverValue]}</span>
                       </div>
