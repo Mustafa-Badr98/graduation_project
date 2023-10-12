@@ -51,7 +51,7 @@ const RatePopUpComponent = () => {
     <div>
       {/* Using React Bootstrap's Popover component */}
       <OverlayTrigger trigger="click" placement="left" overlay={popover}>
-        <Button style={{width:"5.3em",height:"2.5rem"}} className="ms-2 mt-2" variant="danger">
+        <Button style={{width:"5.3em",height:"2.5rem",backgroundColor:"chocolate",border:"0"}} className="ms-2 mt-2" >
           Rate
         </Button>
       </OverlayTrigger>

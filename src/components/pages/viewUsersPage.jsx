@@ -4,6 +4,7 @@ import Rate from "rsuite/Rate";
 import "rsuite/dist/rsuite.min.css";
 import RatePopUpComponent from "../static/RatepopUpcomp";
 import viewUsersPageStyles from "./viewUsersPage.module.css";
+import { useSelector } from "react-redux";
 
 const texts = {
   0: "No rate yet",
@@ -13,7 +14,117 @@ const texts = {
   4: "Good",
   5: "Excellent",
 };
+let idCount = 0;
+
 const ViewUsersPage = () => {
+  const userInSession = useSelector((state) => state.currentUSER.currentUser);
+  const [reviews, setReviews] = useState([
+    {
+      RID: 100,
+      username: "User1",
+      email: "user1@example.com",
+      photoPath: "https://bootdey.com/img/Content/avatar/avatar1.png",
+      comment: "Great seller! Highly recommended.",
+      numOfLikes: 20,
+      timestamp: "2023-10-12T12:30:00Z",
+    },
+    {
+      RID: 101,
+      username: "User2",
+      email: "user2@example.com",
+      photoPath: "https://bootdey.com/img/Content/avatar/avatar2.png",
+      comment: "Excellent service and fast shipping.",
+      numOfLikes: 44,
+      timestamp: "2023-10-12T13:45:00Z",
+    },
+    {
+      RID: 102,
+      username: "User3",
+      email: "user3@example.com",
+      photoPath: "https://bootdey.com/img/Content/avatar/avatar3.png",
+      comment: "Product quality is outstanding!",
+      numOfLikes: 12,
+      timestamp: "2023-10-12T14:15:00Z",
+    },
+    {
+      RID: 103,
+      username: "User4",
+      email: "user4@example.com",
+      photoPath: "https://bootdey.com/img/Content/avatar/avatar4.png",
+      comment: "Will buy again. A+++",
+      numOfLikes: 99,
+      timestamp: "2023-10-12T15:00:00Z",
+    },
+    {
+      RID: 104,
+      username: "User5",
+      email: "user5@example.com",
+      photoPath: "https://bootdey.com/img/Content/avatar/avatar5.png",
+      comment: "Responsive and helpful seller.",
+      numOfLikes: 24,
+      timestamp: "2023-10-12T15:45:00Z",
+    },
+    {
+      RID: 105,
+      username: "User6",
+      email: "user6@example.com",
+      photoPath: "https://bootdey.com/img/Content/avatar/avatar6.png",
+      comment: "Fast delivery and well-packaged.",
+      numOfLikes: 66,
+      timestamp: "2023-10-12T16:30:00Z",
+    },
+    {
+      RID: 106,
+      username: "User7",
+      email: "user7@example.com",
+      photoPath: "https://bootdey.com/img/Content/avatar/avatar7.png",
+      comment: "Highly satisfied with the purchase.",
+      numOfLikes: 98,
+      timestamp: "2023-10-12T17:15:00Z",
+    },
+  ]);
+  const [reviewComment, setReviewComment] = useState("");
+  const commentSectionChangeHandler = (e) => {
+    setReviewComment(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const addCommentHandler = (e) => {
+    if (reviewComment.length !== 0) {
+      if (userInSession) {
+        idCount += 1;
+        let now = new Date();
+        let formattedTimestamp = now.toLocaleDateString("en-US");
+        let newReview = {
+          RID: idCount,
+          username: userInSession.username,
+          email: userInSession.email,
+          photoPath: "https://bootdey.com/img/Content/avatar/avatar1.png",
+          comment: reviewComment,
+          numOfLikes: 0,
+          timestamp: formattedTimestamp,
+        };
+
+        setReviews([newReview, ...reviews]);
+      } else {
+        alert("please log in first to leave a review");
+      }
+
+      console.log("not empty");
+    } else {
+      console.log("empty");
+    }
+  };
+
+  const deleteReviewHandler = (rID) => {
+    console.log(rID);
+    const con = window.confirm("do you want to delete this review ?");
+    if (con) {
+      let holderArray = reviews.filter((review) => review.RID !== rID);
+      setReviews(holderArray);
+    }
+  };
+
   const [hoverValue, setHoverValue] = useState(2);
   return (
     <>
@@ -126,6 +237,7 @@ const ViewUsersPage = () => {
                     <h1
                       className={viewUsersPageStyles["card-user-profile-name"]}
                     >
+                      {/* here is the seller name  */}
                       John Doe
                     </h1>
                     <div className={viewUsersPageStyles["comment-block"]}>
@@ -135,6 +247,9 @@ const ViewUsersPage = () => {
                           id="comment-textarea"
                           rows="2"
                           placeholder="Enter your comment here..."
+                          name="comment-section"
+                          value={reviewComment}
+                          onChange={commentSectionChangeHandler}
                         ></textarea>
                         <div
                           className={cx(
@@ -142,7 +257,9 @@ const ViewUsersPage = () => {
                             "clearfix"
                           )}
                         >
+                          {/* here should do the logic for adding a review */}
                           <button
+                            onClick={addCommentHandler}
                             type="button"
                             className={cx(
                               "btn",
@@ -156,24 +273,82 @@ const ViewUsersPage = () => {
                           >
                             Post
                           </button>
-                          <a
-                            href="#"
-                            data-toggle="tooltip"
-                            title=""
-                            data-original-title="Add Picture"
-                          >
-                            <i
-                              className={cx(
-                                viewUsersPageStyles["batch-icon"],
-                                "batch-icon-image"
-                              )}
-                            ></i>
-                          </a>
                         </div>
                       </div>
                     </div>
                     <hr />
                     <ul className="list-unstyled mt-5">
+                      {reviews.map((review, index) => {
+                        return (
+                          <>
+                            <li
+                              key={index}
+                              className={viewUsersPageStyles.media}
+                            >
+                              <div
+                                className={cx(
+                                  viewUsersPageStyles["profile-picture"],
+                                  "bg-gradient",
+                                  "bg-primary",
+                                  "mb-4"
+                                )}
+                              >
+                                <img
+                                  src={review.photoPath}
+                                  width="44"
+                                  height="44"
+                                />
+                              </div>
+                              <div
+                                className={viewUsersPageStyles["media-body"]}
+                              >
+                                <div
+                                  className={cx(
+                                    viewUsersPageStyles["media-title"],
+                                    "mt-0",
+                                    "mb-1"
+                                  )}
+                                >
+                                  <a href="#">{review.username} </a>{" "}
+                                  <small> {review.timestamp}</small>
+                                  {/* here is the review content */}
+                                </div>
+                                {review.comment}
+                                <div
+                                  className={
+                                    viewUsersPageStyles["media-feed-control"]
+                                  }
+                                >
+                                  <a href="#">
+                                    <i
+                                      className={cx(
+                                        viewUsersPageStyles["batch-icon"],
+                                        "batch-icon-heart-full"
+                                      )}
+                                    ></i>{" "}
+                                    Like ({review.numOfLikes})
+                                  </a>
+
+                                  <a href="#">
+                                    <i className="batch-icon batch-icon-flag"></i>{" "}
+                                    Report
+                                  </a>
+                                  <a
+                                    href="#"
+                                    onClick={() => {
+                                      deleteReviewHandler(review.RID);
+                                    }}
+                                  >
+                                    <i className="batch-icon batch-icon-flag"></i>{" "}
+                                    Delete
+                                  </a>
+                                </div>
+                              </div>
+                            </li>
+                          </>
+                        );
+                      })}
+
                       <li className={viewUsersPageStyles.media}>
                         <div
                           className={cx(
@@ -184,7 +359,7 @@ const ViewUsersPage = () => {
                           )}
                         >
                           <img
-                            src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                            src="https://bootdey.com/img/Content/avatar/avatar3.png"
                             width="44"
                             height="44"
                           />
@@ -197,10 +372,11 @@ const ViewUsersPage = () => {
                               "mb-1"
                             )}
                           >
-                            <a href="#">John Doe</a> <small> 1 hour ago</small>
+                            <a href="#">Mona </a> <small> 1 hour ago</small>
+                            {/* here is the review content */}
                           </div>
-                          Cras sit amet nibh libero, in gravida nulla. Nulla vel
-                          metus scelerisque ante sollicitudin. Cras purus odio.
+                          this is the greatest web site ever thanks to the
+                          seller.
                           <div
                             className={
                               viewUsersPageStyles["media-feed-control"]
@@ -229,7 +405,7 @@ const ViewUsersPage = () => {
                               Report
                             </a>
                           </div>
-                          <div className="media-body-reply-block">
+                          {/* <div className="media-body-reply-block">
                             <ul className="list-unstyled">
                               <li className="media mt-4">
                                 <div
@@ -387,7 +563,7 @@ const ViewUsersPage = () => {
                                 </div>
                               </li>
                             </ul>
-                          </div>
+                          </div> */}
                         </div>
                       </li>
                       <li className={viewUsersPageStyles.media}>
@@ -400,7 +576,7 @@ const ViewUsersPage = () => {
                           )}
                         >
                           <img
-                            src="https://bootdey.com/img/Content/avatar/avatar4.png"
+                            src="https://bootdey.com/img/Content/avatar/avatar8.png"
                             width="44"
                             height="44"
                           />
@@ -413,11 +589,11 @@ const ViewUsersPage = () => {
                               " mb-1"
                             )}
                           >
-                            <a href="#">John Doe</a> <small> 1 hour ago</small>
+                            <a href="#">Lila </a> <small> 1 hour ago</small>
                           </div>
                           <a href="#">
                             <img
-                              src="https://bootdey.com/img/Content/avatar/avatar3.png"
+                              src="https://bootdey.com/img/Content/avatar/avatar1.png"
                               className="img-fluid img-thumbnail"
                             />
                           </a>
