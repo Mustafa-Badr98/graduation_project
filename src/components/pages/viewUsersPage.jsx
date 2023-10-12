@@ -5,7 +5,6 @@ import "rsuite/dist/rsuite.min.css";
 import RatePopUpComponent from "../static/RatepopUpcomp";
 import viewUsersPageStyles from "./viewUsersPage.module.css";
 
-
 const texts = {
   0: "No rate yet",
   1: "Useless",
@@ -46,41 +45,33 @@ const ViewUsersPage = () => {
                             height="144"
                           />
                         </div>
-                        <a
-                          className={cx(
-                            "btn",
-                            "btn-secondary",
-                            "btn-block",
-                            "btn-gradient",
-                            "waves-effect",
-                            "waves-light",
-                            "ms-2"
-                          )}
-                          href="#"
-                        >
-                          <span className="gradient">
-                            <i
-                              className={cx(
-                                viewUsersPageStyles["batch-icon"],
-                                viewUsersPageStyles["batch-icon-user-alt-add-2"]
-                              )}
-                            ></i>
+                        <div className="d-flex justify-content-around ">
+                          <div
+                            style={{ height: "2.5em" }}
+                            className={cx(
+                              "btn",
+                              "btn-secondary",
+                              "btn-gradient",
+                              "waves-effect",
+                              "waves-light",
+                              "mt-2"
+                            )}
+                            href="#"
+                          >
                             Contact
-                          </span>
-                        </a>
-                        <RatePopUpComponent />
+                          </div>
+                          <RatePopUpComponent />
+                        </div>
                       </div>
                       <div className="col-sm-6">
-                        <span className="my-0 fw-bold">Ads :</span>
-                        <span className="my-0">
-                          <span className="fs-5">12</span>
-                        </span>
+                        <span className="fs-5 fw-bold">Ads :</span>
+
+                        <span className="ms-2 fs-5">12</span>
                       </div>
                       <div className="col-sm-6">
-                        <span className="my-0 fw-bold">Sold :</span>
-                        <span className="my-0">
-                          <span className="fs-5">3</span>
-                        </span>
+                        <span className="fs-5 fw-bold">Sold :</span>
+
+                        <span className="ms-2 fs-5">3</span>
                       </div>
                     </div>
                     <hr />
@@ -122,16 +113,13 @@ const ViewUsersPage = () => {
                           "batch-icon-image"
                         )}
                       ></i>
-                      Album
+                      latest Ad
                     </h5>
                     <a href="#">
                       <img
-                        src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                        className="img-fluid img-thumbnail"
+                        src="https://en.bailypearl.com/wp-content/uploads/2021/05/villa-la-croix-valmer-vue-aerienne-2-2560x1633.jpg"
+                        className="img-fluid img-thumbnail mt-2"
                       />
-                    </a>
-                    <a className="float-right mt-2" href="#">
-                      More
                     </a>
                   </div>
                   <div className={viewUsersPageStyles["profile-page-center"]}>
