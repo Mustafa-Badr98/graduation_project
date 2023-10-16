@@ -10,6 +10,7 @@ function SellPage() {
   const history = useHistory();
   let locationLat = 0;
   let locationLon = 0;
+
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const currentUser = useSelector((state) => state.currentUSER.currentUser);
 
@@ -83,7 +84,7 @@ function SellPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = {};
@@ -123,26 +124,65 @@ function SellPage() {
 
     setErrors(validationErrors);
 
-    if (Object.keys(validationErrors).length === 0 && isLoggedIn) {
+    if (Object.keys(validationErrors).length === 0) {
       getLatLan(formData.city);
 
+      const data = new FormData();
+
+      // Append other form data fields
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("area_size", formData.area_size);
+      data.append("location", formData.location);
+      data.append("number_of_bathrooms", formData.number_of_bathrooms);
+      data.append("number_of_bedrooms", formData.number_of_bedrooms);
+      data.append("price", formData.price);
+      data.append("lat", locationLat);
+      data.append("lon", locationLon);
+      
+      if (formData.photos && formData.photos.length) {
+        for (let i = 0; i < formData.photos.length; i++) {
+          data.append("images", formData.photos[i], formData.photos[i].name);
+        }
+      }
+      
+      try {
+        const response = await axios.post(
+          "http://127.0.0.1:8000/api/properties",
+          data,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log("Response:", response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+      
+
       const newSell = {
-        id: LocalProductList.length + 1,
         title: formData.adName,
         description: formData.otherInfo,
-        location: formData.governorate +" / "+ formData.city + " / " +formData.region,
+        location:
+          formData.governorate +
+          " / " +
+          formData.city +
+          " / " +
+          formData.region,
         lat: locationLat,
         lon: locationLon,
-        numOfBedrooms: formData.rooms,
-        numOfBathrooms: "2",
-        propertySize: formData.area,
+        number_of_bedrooms: formData.rooms,
+        number_of_bathrooms: "2",
+        area_size: formData.area,
         price: formData.price,
-        type: formData.type,
-        photo:
-          "https://en.bailypearl.com/wp-content/uploads/2021/05/villa-la-croix-valmer-vue-aerienne-2-2560x1633.jpg",
-        timeStamp: Date.now(),
-        sellerUser: currentUser,
+        // type: formData.type,
+        image: formData.photos,
+
+        // sellerUser: currentUser,
       };
+
       dispatch(AddToUserProductListAction(newSell));
       dispatch(AddToProductListAction(newSell));
       // console.log("Form data:", formData);

@@ -9,6 +9,7 @@ const ListingCard = (props) => {
   const dispatch = useDispatch();
   const localProduct = props.productObject;
   const [is_fav, setFav] = useState(false);
+ 
 
   const addToFavHandler = () => {
     if (is_fav) {
@@ -40,7 +41,7 @@ const ListingCard = (props) => {
     <>
       <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5 ">
         <div className="card">
-          <img src={localProduct.photo} alt="" className="card-img-top" />
+          <img style={{maxHeight:"350px"}} src={`http://localhost:8000${localProduct.image}`} alt="" className="card-img-top" />
           {is_fav ? (
             <>
               {" "}
@@ -91,14 +92,14 @@ const ListingCard = (props) => {
               <div className="col-4">
                 <span>
                   <i className="fas fa-th-large"></i>
-                  <span> {localProduct.numOfBedrooms}</span>
+                  <span> {localProduct.number_of_bedrooms}</span>
                 </span>
                 <span className="ms-1">Bedrooms</span>
               </div>
               <div className="col-5">
                 <span>
                   <i className="fas fa-shower"></i>
-                  <span> {localProduct.numOfBathrooms}</span>
+                  <span> {localProduct.number_of_bathrooms}</span>
                 </span>
                 <span className="ms-1">Bathrooms</span>
               </div>
@@ -111,7 +112,7 @@ const ListingCard = (props) => {
                 </span>
                 <span>
                   <span>
-                    {localProduct.propertySize} <span>Sq Ft</span>
+                    {localProduct.area_size} <span>Sq Ft</span>
                   </span>
                 </span>
               </div>
