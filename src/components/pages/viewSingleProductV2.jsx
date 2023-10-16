@@ -7,6 +7,7 @@ import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
+import ContactEmailSellerButton from "../static/EmailButtonComp";
 
 const ViewSingleProductPageV2 = () => {
   const param = useParams();
@@ -255,10 +256,7 @@ const ViewSingleProductPageV2 = () => {
                 </button>
               </div>{" "}
               <div className="col-4">
-                <button className="btn btn-info">
-                  <i className="fs-6 fa-solid fa-envelope ms-4 me-4"></i>
-                  Email
-                </button>
+                <ContactEmailSellerButton email="muome1234@gmail.com"/>
               </div>{" "}
               <div className="col-4">
                 <button className="btn btn-success">
