@@ -11,6 +11,7 @@ function SellPage() {
   let locationLat = 0;
   let locationLon = 0;
 
+ 
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const currentUser = useSelector((state) => state.currentUSER.currentUser);
 
@@ -23,11 +24,11 @@ function SellPage() {
         // current_Lat = data["location"]["lat"]
         // current_Lon = data["location"]["lon"]
         // locAxis = res.data.results[0].geometry;
-        console.log(res.data.location);
+        // console.log(res.data.location);
         locationLat = res.data.location.lat;
         locationLon = res.data.location.lon;
-        console.log(locationLon);
-        console.log(locationLat);
+        // console.log(locationLon);
+        // console.log(locationLat);
       })
       .catch((error) => {
         console.log(error);
@@ -125,27 +126,33 @@ function SellPage() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
+      const testFormData = new FormData();
+      testFormData.append("test", "value");
+
       getLatLan(formData.city);
 
-      const data = new FormData();
+      let imagee = formData.photos[0];
+      // console.log(image)
 
+      const data = new FormData();
       // Append other form data fields
-      data.append("title", formData.title);
-      data.append("description", formData.description);
-      data.append("area_size", formData.area_size);
-      data.append("location", formData.location);
-      data.append("number_of_bathrooms", formData.number_of_bathrooms);
-      data.append("number_of_bedrooms", formData.number_of_bedrooms);
-      data.append("price", formData.price);
+
+
+    
+      data.append("title", formData.adName);
+      data.append("description", formData.otherInfo);
+      data.append("area_size", parseFloat(formData.area));
+      data.append("location", formData.city);
+      data.append("number_of_bathrooms", 3);
+      data.append("number_of_bedrooms", 2);
+      data.append("price", parseFloat(formData.price));
       data.append("lat", locationLat);
       data.append("lon", locationLon);
-      
-      if (formData.photos && formData.photos.length) {
-        for (let i = 0; i < formData.photos.length; i++) {
-          data.append("images", formData.photos[i], formData.photos[i].name);
-        }
+      data.append("image", imagee);
+      for (var key of data.entries()) {
+        console.log(key[0] + ", " + key[1]);
       }
-      
+
       try {
         const response = await axios.post(
           "http://127.0.0.1:8000/api/properties",
@@ -160,7 +167,6 @@ function SellPage() {
       } catch (error) {
         console.error("Error:", error);
       }
-      
 
       const newSell = {
         title: formData.adName,
@@ -177,16 +183,16 @@ function SellPage() {
         number_of_bathrooms: "2",
         area_size: formData.area,
         price: formData.price,
-        // type: formData.type,
-        image: formData.photos,
+       
+        image: `/media/accounts/properties/images/${imagee.name}`,
 
-        // sellerUser: currentUser,
+        sellerUser: currentUser,
       };
 
       dispatch(AddToUserProductListAction(newSell));
       dispatch(AddToProductListAction(newSell));
       // console.log("Form data:", formData);
-      console.log(newSell);
+      // console.log(newSell);
       alert("your product has been added");
       history.push("/");
     } else {
@@ -386,7 +392,6 @@ function SellPage() {
                 name="photo"
                 accept="image/*"
                 onChange={handleFileUpload}
-                multiple
               />
               {formData.photos.length > 0 && (
                 <div
