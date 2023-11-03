@@ -2,7 +2,7 @@ import React from "react";
 
 const ContactEmailSellerButton = (props) => {
   const userEmail = props.email;
-  console.log(userEmail)
+  
   const handleContactSeller = () => {
     const subject = "Interested in Your Listing";
     const body = "Hello, I am interested in your listing.";
@@ -11,7 +11,7 @@ const ContactEmailSellerButton = (props) => {
       subject
     )}&body=${encodeURIComponent(body)}`;
 
-    // Open the default email client
+    
     window.location.href = mailtoLink;
   };
 

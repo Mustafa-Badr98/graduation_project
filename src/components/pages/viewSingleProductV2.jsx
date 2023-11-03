@@ -8,14 +8,13 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
 import ContactEmailSellerButton from "../static/EmailButtonComp";
+import axios from "axios";
 
 const ViewSingleProductPageV2 = () => {
   const param = useParams();
   const mapRef = useRef(null);
   const dispatch = useDispatch();
   const [is_fav, setFav] = useState(false);
-  const [product, setProduct] = useState({});
-  const productList = useSelector((state) => state.Products.productList);
   const [filteredObject, setFilteredObject] = useState({});
   const [seller, setSeller] = useState({});
 
@@ -28,19 +27,28 @@ const ViewSingleProductPageV2 = () => {
       setFav(true);
     }
   };
-  const checkIsFav = (product) => {
-    const sessionStorageKeys = Object.keys(sessionStorage);
-    if (sessionStorageKeys.includes(product.id.toString())) {
-      setFav(true);
-    }
-  };
+  // const checkIsFav = (product) => {
+  //   const sessionStorageKeys = Object.keys(sessionStorage);
+  //   if (sessionStorageKeys.includes(product.id.toString())) {
+  //     setFav(true);
+  //   }
+  // };
 
   const getProductData = () => {
-    let productId = parseInt(param.id);
-    let filteredObj = productList.find((obj) => obj.id === productId);
-    setFilteredObject(filteredObj);
-    setSeller(filteredObj.sellerUser);
-    checkIsFav(filteredObj);
+    // let productId = parseInt(param.id);
+    let filteredObj = {};
+    let req = axios
+      .get(`http://127.0.0.1:8000/api/properties/${param.id}`)
+
+      .then((res) => (filteredObj = res.data.data))
+      .then(() => setFilteredObject(filteredObj))
+      .then(() => setSeller(filteredObj.sellerUser))
+      .then(() => console.log(filteredObj))
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // checkIsFav(filteredObj);))
   };
 
   // function showFilteredObject() {
@@ -74,18 +82,27 @@ const ViewSingleProductPageV2 = () => {
       <div className="container mt-5">
         <div className="row">
           <div className="col-xl-7 ms-4 px-1">
-            <img style={{ height: "480px" }} src={filteredObject.photo} />
+            <img
+              style={{ height: "480px" }}
+              src={`http://localhost:8000${filteredObject.image}`}
+              alt="no"
+            />
           </div>
           <div
             data-bs-toggle="modal"
             data-bs-target="#viewProductsModal"
             className="col-xl-4 "
           >
-            <img style={{ height: "14.5rem" }} src={filteredObject.photo} />{" "}
+            <img
+              style={{ height: "14.5rem" }}
+              src={`http://localhost:8000${filteredObject.image}`}
+              alt="no"
+            />{" "}
             <img
               style={{ height: "14.5rem" }}
               className="mt-3"
-              src={filteredObject.photo}
+              src={`http://localhost:8000${filteredObject.image}`}
+              alt="no"
             />
           </div>
         </div>
@@ -102,7 +119,7 @@ const ViewSingleProductPageV2 = () => {
               <span className="fs-5">
                 {" "}
                 Available Area for {filteredObject.type} at{" "}
-                {filteredObject.location} {filteredObject.propertySize}M.
+                {filteredObject.location} {filteredObject.area_size}M.
               </span>
             </div>
             <div className="row py-0 mt-3 ">
@@ -116,20 +133,20 @@ const ViewSingleProductPageV2 = () => {
                 <div className="mt-2">
                   <i className="fa-solid fa-bath me-2"></i>
                   <span>Bathrooms : </span>
-                  <span>{filteredObject.numOfBathrooms} </span>
+                  <span>{filteredObject.number_of_bathrooms} </span>
                 </div>
               </div>
               <div className="col-6">
                 <div>
                   <i className="fa-solid fa-expand me-2"></i>
                   <span>Property Size : </span>
-                  <span>{filteredObject.propertySize} M</span>
+                  <span>{filteredObject.area_size} M</span>
                 </div>
 
                 <div className="mt-2">
                   <i className="fa-regular fa-calendar me-2"></i>
                   <span>Available From : </span>
-                  <span>{filteredObject.timeStamp} </span>
+                  <span>{filteredObject.created_at} </span>
                 </div>
               </div>
             </div>
@@ -245,7 +262,7 @@ const ViewSingleProductPageV2 = () => {
           >
             <div className="fs-1 text-dark">
               <div className="row px-5">
-                <div className=" fs-5 ">{product.price} EGP / Month</div>
+                <div className=" fs-5 ">{filteredObject.price} EGP / Month</div>
               </div>
             </div>
             <div className="row mt-4 ">
@@ -256,7 +273,7 @@ const ViewSingleProductPageV2 = () => {
                 </button>
               </div>{" "}
               <div className="col-4">
-                <ContactEmailSellerButton email="muome1234@gmail.com"/>
+                <ContactEmailSellerButton email="muome1234@gmail.com" />
               </div>{" "}
               <div className="col-4">
                 <button className="btn btn-success">
