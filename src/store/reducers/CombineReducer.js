@@ -7,6 +7,7 @@ import { UpdateFavCountReducer } from "./UpdateFavCountReducer";
 import UpdateWishListReducer from "./UpdateWishReducer";
 import IsLoadingReducer from "./IsLoadingReducer";
 import AddToUserProductListReducer from "./UserProductListReducer";
+import StoreTokenReducer from "./StoreTokenReducer";
 export default combineReducers({
   IsLog: LogReducer,
   Products: GetProductsListReducer,
@@ -16,4 +17,5 @@ export default combineReducers({
   FavCOUNT: UpdateFavCountReducer,
   WishLIST: UpdateWishListReducer,
   IsLOADING: IsLoadingReducer,
+  TokenStore: StoreTokenReducer,
 });

@@ -3,6 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import { LoginAction } from "../../store/actions/loginAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import axios from "axios";
+import { StoreToken } from "../../store/actions/StoreToken";
+
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+axios.defaults.withCredentials = true;
+
+const client = axios.create({
+  baseURL: "http://127.0.0.1:8000",
+});
 
 const LoginModal = () => {
   // const history = useHistory();
@@ -77,27 +87,39 @@ const LoginModal = () => {
   };
   const handleSubmitButton = (e) => {
     e.preventDefault();
-    console.log(
-      isFoundInLocal_ValidatePassword(formData.email, formData.password)
-    );
+    // console.log(
+    //   isFoundInLocal_ValidatePassword(formData.email, formData.password)
+    // );
     if (!hasErrors) {
-      if (isFoundInLocal_ValidatePassword(formData.email, formData.password)) {
-        let userData = isFoundInLocal_ValidatePassword(
-          formData.email,
-          formData.password
-        );
-        dispatch(LoginAction());
-        dispatch(GetCurrentUserAction(userData));
-        alert("login complete");
-        // history.push('/')
-      } else {
-        alert("did you forget your password or email ? ");
-      }
-    } else {
-      alert("please enter email and password correctly");
+      const loginData = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      client
+        .post("/api/user/login", loginData)
+        .then((response) => {
+          if (response.data === "no user") {
+            alert("did you forget your password or email ? ");
+          } else {
+            const authToken = response.data.token;
+            dispatch(StoreToken(authToken));
+            dispatch(LoginAction());
+            dispatch(GetCurrentUserAction(authToken));
+            alert("login complete");
+          }
+        })
+        .catch((error) => {
+          console.error(
+            "Error:",
+            error.response ? error.response.data : error.message
+          );
+        });
+
+      // history.push('/')
     }
 
-    console.log("Login clicked:", formData);
+    // console.log("Login clicked:", formData);
   };
   return (
     <>

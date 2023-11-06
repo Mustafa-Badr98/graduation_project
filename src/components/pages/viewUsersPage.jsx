@@ -18,6 +18,10 @@ let idCount = 0;
 
 const ViewUsersPage = () => {
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
+  const authToken = useSelector((state) => state.TokenStore.token);
+  console.log(authToken)
+  console.log(userInSession)
+  let user = {};
   const [reviews, setReviews] = useState([
     {
       RID: 100,
@@ -83,6 +87,7 @@ const ViewUsersPage = () => {
       timestamp: "2023-10-12T17:15:00Z",
     },
   ]);
+
   const [reviewComment, setReviewComment] = useState("");
   const commentSectionChangeHandler = (e) => {
     setReviewComment(e.target.value);
@@ -125,6 +130,7 @@ const ViewUsersPage = () => {
     }
   };
 
+  
   const [hoverValue, setHoverValue] = useState(2);
   return (
     <>
@@ -238,7 +244,7 @@ const ViewUsersPage = () => {
                       className={viewUsersPageStyles["card-user-profile-name"]}
                     >
                       {/* here is the seller name  */}
-                      John Doe
+                      {userInSession.user_name}
                     </h1>
                     <div className={viewUsersPageStyles["comment-block"]}>
                       <div className="form-group">

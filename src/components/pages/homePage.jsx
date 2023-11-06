@@ -15,7 +15,7 @@ const HomePage = () => {
   // console.log(isResultFound);
 
   useEffect(() => {}, [products]);
-  console.log(products);
+
   return (
     <>
    

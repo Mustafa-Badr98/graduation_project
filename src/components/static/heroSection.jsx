@@ -46,7 +46,7 @@ const HeroSection = () => {
                   <input
                     type="text"
                     className="form-control text-dark "
-                    id="floatingInput"
+                    id="locationInput"
                     placeholder="ex. Monofia"
                   />
                 </div>
@@ -119,7 +119,7 @@ const HeroSection = () => {
                   <input
                     type="text"
                     className="form-control text-dark "
-                    id="floatingInput"
+                    id="priceInput"
                     placeholder="Enter your price"
                   />
                 </div>

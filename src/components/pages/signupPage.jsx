@@ -4,6 +4,7 @@ import MyAlert from "../static/alert";
 import { useDispatch } from "react-redux";
 import { LoginAction } from "../../store/actions/loginAction";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
+import axios from "axios";
 const SignupPage = () => {
   const egyptGovernorates = [
     "Alexandria",
@@ -38,13 +39,10 @@ const SignupPage = () => {
   const history = useHistory();
   const [hasErrors, setHasError] = useState(true);
   const [formData, setFormData] = useState({
-    username: "",
+    user_name: "",
     email: "",
-    phone: "",
-    governorate: "",
-    city: "",
+    mobile: "",
     password: "",
-    rePassword: "",
   });
 
   const [errors, setErrors] = useState({
@@ -60,11 +58,12 @@ const SignupPage = () => {
     const x = Object.values(errors).some((error) => error !== "");
     setHasError(x);
   };
+
   const handleInputChange = (e) => {
     if (e.target.name === "username") {
       setFormData({
         ...formData,
-        username: e.target.value,
+        user_name: e.target.value,
       });
       setErrors({
         ...errors,
@@ -134,7 +133,7 @@ const SignupPage = () => {
     } else if (e.target.name === "phone") {
       setFormData({
         ...formData,
-        phone: e.target.value,
+        mobile: e.target.value,
       });
       setErrors({
         ...errors,
@@ -152,11 +151,26 @@ const SignupPage = () => {
   const handelSubmitButton = () => {
     if (!hasErrors) {
       var jsonUser = JSON.stringify(formData);
-      localStorage.setItem(formData.email, jsonUser);
-      dispatch(LoginAction(formData));
-      dispatch(GetCurrentUserAction(formData));
-      alert("SignUp Complete You will now be redirect to the home page.");
-      history.push("/");
+      let data_send = {
+        "email": formData.email,
+        "user_name": formData.user_name,
+        "mobile": formData.mobile,
+        "password": formData.password,
+      };
+      console.log(formData);
+      console.log(data_send);
+
+      axios
+        .post("http://127.0.0.1:8000/api/user/register", data_send)
+        .then((res) => {
+          console.log(res);
+         
+          alert(
+            "SignUp Complete. You will now be redirected to the home page."
+          );
+          history.push("/");
+        })
+        .catch((e) => console.log(e));
     }
   };
 
@@ -289,7 +303,7 @@ const SignupPage = () => {
                         <div className="row">
                           <div className="col-4">
                             <label className="fs-6 pt-1" htmlFor="state">
-                              <i class="fa-solid fa-globe fa-lg fs-5 me-3 pb-4 fa-fw"></i>
+                              <i className="fa-solid fa-globe fa-lg fs-5 me-3 pb-4 fa-fw"></i>
                               Governorate
                             </label>
                           </div>
@@ -315,7 +329,7 @@ const SignupPage = () => {
                         </div>
                       </div>
                       <div className="d-flex flex-row align-items-center mb-4">
-                        <i class="fa-solid fa-city fa-lg me-3 fa-fw"></i>
+                        <i className="fa-solid fa-city fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
                           <span
                             className="ms-2"
@@ -337,7 +351,7 @@ const SignupPage = () => {
                         </div>
                       </div>
                       <div className="d-flex flex-row align-items-center mb-4">
-                        <i class="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
+                        <i className="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">
                           <span
                             className="ms-2"

@@ -7,7 +7,7 @@ export default function GetProductsListReducer(state = INITIAL_VALUE, action) {
   const filteredProductList = [];
   switch (action.type) {
     case "GET_PRODUCTS":
-      console.log(action.payload.properties);
+    
     return {
       ...state,
       productList: action.payload.properties,

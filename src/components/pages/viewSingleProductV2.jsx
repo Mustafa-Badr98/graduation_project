@@ -212,7 +212,7 @@ const ViewSingleProductPageV2 = () => {
                 </>
               ) : (
                 <>
-                  <Link to="/" className="offset-1 col-5">
+                  <Link to={`/viewUser/${seller}`} className="offset-1 col-5">
                     <div className="pb-4 fs-5 fw-bold">Agent: </div>
                     <div className="row">
                       <div className="col-5">

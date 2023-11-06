@@ -4,11 +4,15 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { LoginAction } from "../../store/actions/loginAction";
 import { LogoutAction } from "../../store/actions/logoutAction";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
+import axios from "axios";
 
 const MyNavbar = () => {
-  const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
   const FavCount = useSelector((state) => state.FavCOUNT.favCount);
+  console.log(user);
+  console.log(isLoggedIn);
+
   // const WishCount = useSelector((state) => state.WishLIST.wishList.length);
   // const cartNumbers = useSelector((state) => state.CartList.cartList.length);
 
@@ -18,6 +22,21 @@ const MyNavbar = () => {
     const userConfirmed = window.confirm(
       "Are you sure you want to Logout ? we will miss you ):  "
     );
+
+    axios
+      .post("http://127.0.0.1:8000/api/user/logout", { withCredentials: true })
+      .then((response) => {
+        console.log(response.data);
+        // Handle successful logout, if needed
+      })
+      .catch((error) => {
+        console.error(
+          "Logout error:",
+          error.response ? error.response.data : error.message
+        );
+        // Handle logout error, if needed
+      });
+
     if (userConfirmed) {
       dispatch(LogoutAction());
     } else {
@@ -26,7 +45,18 @@ const MyNavbar = () => {
   }
   // const dispatch = useDispatch();
   // dispatch(LoginAction(""));
-  useEffect(() => {}, [isLoggedIn]);
+  useEffect(() => {
+    if (Object.keys(user).length === 0) {
+      setIsLoggedIn(false);
+      console.log("we entered the if statment");
+
+    } else {
+      console.log("we entered the else statment");
+
+      setIsLoggedIn(true);
+    }
+    console.log(isLoggedIn);
+  }, [user]);
   // console.log(isLoggedIn);
   return (
     <>
@@ -93,31 +123,7 @@ const MyNavbar = () => {
                     Sell
                   </Link>
                 </li>
-                {/* {isLoggedIn ? (
-                  <>
-                    {" "}
-                    <li className="nav-item ">
-                      <Link
-                        to="/sellProduct"
-                        className="btn btn-danger rounded-5 me-3 "
-                      >
-                        Sell
-                      </Link>
-                    </li>{" "}
-                  </>
-                ) : (
-                  <>
-                    <li className="nav-item ">
-                      <span
-                        data-bs-toggle="modal"
-                        data-bs-target="#loginModal"
-                        className="btn btn-danger rounded-5 me-3 "
-                      >
-                        Sell
-                      </span>
-                    </li>
-                  </>
-                )} */}
+
                 {!isLoggedIn ? (
                   <>
                     <div className="d-flex flex-column flex-lg-row">
@@ -135,6 +141,7 @@ const MyNavbar = () => {
                           LogIn
                         </span>
                       </li>
+
                       <li className="nav-item">
                         <Link
                           className="nav-link text-dark fs-6 me-2"
@@ -155,11 +162,14 @@ const MyNavbar = () => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        {`${user["email"][0].toUpperCase()}`}
+                        {`${user["user_name"]}`}
                       </button>
                       <ul className="dropdown-menu">
-                      <li>
-                          <Link to="/userProfile" className="dropdown-item">
+                        <li>
+                          <Link
+                            to={`/viewUser/${user.email}`}
+                            className="dropdown-item"
+                          >
                             My Profile
                           </Link>
                         </li>
