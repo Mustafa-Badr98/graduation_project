@@ -1,7 +1,101 @@
-import React from "react";
+import React, { useState } from "react";
 import "./heroSectionCSS.css";
 import { useHistory } from "react-router-dom";
 const HeroSection = () => {
+  const [searchData, setSearchData] = useState({
+    purpose: "",
+    location: "",
+    area_max: "",
+    area_min: "",
+    bedrooms: "",
+    bathrooms: "",
+    price_max: "",
+    price_min: "",
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "area_min") {
+      setSearchData({
+        ...searchData,
+        area_min: value,
+      });
+      console.log(searchData);
+    } else if (name === "area_max") {
+      setSearchData({
+        ...searchData,
+        area_max: value,
+      });
+      console.log(searchData);
+    } else if (name === "bathrooms") {
+      setSearchData({
+        ...searchData,
+        bathrooms: value,
+      });
+      console.log(searchData);
+    } else if (name === "bedrooms") {
+      setSearchData({
+        ...searchData,
+        bedrooms: value,
+      });
+      console.log(searchData);
+    } else if (name === "price_min") {
+      setSearchData({
+        ...searchData,
+        price_min: value,
+      });
+      console.log(searchData);
+    } else if (name === "price_max") {
+      setSearchData({
+        ...searchData,
+        price_max: value,
+      });
+      console.log(searchData);
+    } else if (name === "location") {
+      setSearchData({
+        ...searchData,
+        location: value,
+      });
+      console.log(searchData);
+    } else if (name === "purpose") {
+      setSearchData({
+        ...searchData,
+        purpose: value,
+      });
+      console.log(searchData);
+    }
+  };
+
+  const egyptGovernorates = [
+    "Alexandria",
+    "Aswan",
+    "Asyut",
+    "Beheira",
+    "Beni Suef",
+    "Cairo",
+    "Dakahlia",
+    "Damietta",
+    "Faiyum",
+    "Gharbia",
+    "Giza",
+    "Ismailia",
+    "Kafr El Sheikh",
+    "Luxor",
+    "Matrouh",
+    "Minya",
+    "Monufia",
+    "New Valley",
+    "North Sinai",
+    "Port Said",
+    "Qalyubia",
+    "Qena",
+    "Red Sea",
+    "Sharqia",
+    "Sohag",
+    "South Sinai",
+  ];
+
   const history = useHistory();
   const clickHandler = () => {
     history.push("/register");
@@ -29,7 +123,9 @@ const HeroSection = () => {
                   Purpose{" "}
                 </label>
                 <select
-                  defaultValue="Sell"
+                  name="purpose"
+                  value={searchData.purpose}
+                  onChange={handleInputChange}
                   id="purposeSelect"
                   className="form-select "
                   aria-label="Default select example"
@@ -39,9 +135,7 @@ const HeroSection = () => {
                 </select>
               </div>
               <div className="col-6">
-                <label className="text-light" htmlFor="floatingInput">
-                  Location
-                </label>
+                {/* 
                 <div className="form">
                   <input
                     type="text"
@@ -49,7 +143,29 @@ const HeroSection = () => {
                     id="locationInput"
                     placeholder="ex. Monofia"
                   />
-                </div>
+                </div> */}
+                <label className="text-light" htmlFor="floatingInput">
+                  Location
+                </label>
+                <select
+                  name="location"
+                  class="form-select "
+                  aria-label="Default select example"
+                  value={searchData.location}
+                  onChange={handleInputChange}
+                >
+                  <option selected value="">
+                    All Egypt
+                  </option>
+                  {egyptGovernorates.map((governorate, index) => {
+                    return (
+                      <option name="location" key={index} value={governorate}>
+                        {" "}
+                        {governorate}{" "}
+                      </option>
+                    );
+                  })}
+                </select>
               </div>
               <div className="col-2">
                 <label className="text-light" htmlFor="purposeSelect">
@@ -81,47 +197,162 @@ const HeroSection = () => {
                   {" "}
                   Area{" "}
                 </label>
-                <select
-                  defaultValue=""
-                  id="purposeSelect"
-                  className="form-select "
-                  aria-label="Default select example"
-                >
-                  <option value="" disabled hidden>
-                    Select area
-                  </option>
-                  <option value="100">100M</option>
-                  <option value="200">200M</option>
-                </select>
+
+                <div class="dropdown">
+                  <button
+                    style={{ width: "100%" }}
+                    class="text-start btn btn-light dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    min {searchData.area_min}M , max {searchData.area_max}M{" "}
+                  </button>
+                  <div class="dropdown-menu" style={{ width: "100%" }}>
+                    <div className="row">
+                      <div className="offset-2 col-5">Min</div>
+                      <div className=" col-5">Max</div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-5">
+                        <input
+                          value={searchData.area_min}
+                          onChange={handleInputChange}
+                          type="text"
+                          className="form-control border-2 ms-3"
+                          pattern="[0-9]*"
+                          placeholder="0"
+                          name="area_min"
+                        />
+                      </div>
+                      <div className="col-5">
+                        <input
+                          value={searchData.area_max}
+                          onChange={handleInputChange}
+                          type="text"
+                          className="form-control border-2 ms-3"
+                          pattern="[0-9]*"
+                          placeholder="any"
+                          name="area_max"
+                        />
+                      </div>
+                    </div>
+                    {/* <div className="row mt-2">
+                      <div className="offset-1 col-5">
+                        <button
+                          type="button"
+                          className="btn btn-light"
+                          style={{ scale: ".9" }}
+                        >
+                          Reset
+                        </button>
+                      </div>
+                      <div className="col-5">
+                        <button
+                          type="button"
+                          className="btn btn-danger"
+                          style={{ scale: ".9" }}
+                        >
+                          submit
+                        </button>
+                      </div>
+                    </div> */}
+                  </div>
+                </div>
               </div>
               <div className="col-3">
                 <label className="text-light" htmlFor="purposeSelect">
                   {" "}
                   Beds / Bathrooms{" "}
                 </label>
-                <select
-                  defaultValue=""
-                  id="purposeSelect"
-                  className="form-select "
-                  aria-label="Default select example"
-                >
-                  <option value="" disabled hidden></option>
-                  <option value="100">1 Bed 1 Bath</option>
-                  <option value="200">2 Bed 2 Bath</option>
-                </select>
+                <div class="dropdown">
+                  <button
+                    style={{ width: "100%" }}
+                    class="text-start btn btn-light dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    bathrooms ({searchData.bathrooms}) bedrooms: (
+                    {searchData.bedrooms}){" "}
+                  </button>
+                  <div class="dropdown-menu" style={{ width: "100%" }}>
+                    <div className="row">
+                      <div className="offset-1 col-5">Bathrooms</div>
+                      <div className=" col-5">Bedrooms</div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-5">
+                        <input
+                          value={searchData.bathrooms}
+                          onChange={handleInputChange}
+                          type="text"
+                          className="form-control border-2 ms-3"
+                          pattern="[0-9]*"
+                          placeholder="0"
+                          name="bathrooms"
+                        />
+                      </div>
+                      <div className="col-5">
+                        <input
+                          value={searchData.bedrooms}
+                          onChange={handleInputChange}
+                          type="text"
+                          className="form-control border-2 ms-3"
+                          pattern="[0-9]*"
+                          placeholder="0"
+                          name="bedrooms"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="col-3">
                 <label className="text-light" htmlFor="purposeSelect">
                   {" "}
                   Price{" "}
                 </label>
-                <div className="form">
-                  <input
-                    type="text"
-                    className="form-control text-dark "
-                    id="priceInput"
-                    placeholder="Enter your price"
-                  />
+                <div class="dropdown">
+                  <button
+                    style={{ width: "100%" }}
+                    class="text-start btn btn-light dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    min {searchData.price_min}$ , max {searchData.price_max}${" "}
+                  </button>
+                  <div class="dropdown-menu" style={{ width: "100%" }}>
+                    <div className="row">
+                      <div className="offset-2 col-5">Min</div>
+                      <div className=" col-5">Max</div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-5">
+                        <input
+                          value={searchData.price_min}
+                          onChange={handleInputChange}
+                          type="text"
+                          className="form-control border-2 ms-3"
+                          pattern="[0-9]*"
+                          placeholder="0"
+                          name="price_min"
+                        />
+                      </div>
+                      <div className="col-5">
+                        <input
+                          value={searchData.price_max}
+                          onChange={handleInputChange}
+                          type="text"
+                          className="form-control border-2 ms-3"
+                          pattern="[0-9]*"
+                          placeholder="any"
+                          name="price_max"
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="col-2">
