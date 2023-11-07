@@ -6,6 +6,14 @@ import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
+
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+axios.defaults.withCredentials = true;
+
+const client = axios.create({
+  baseURL: "http://127.0.0.1:8000",
+});
 function SellPage() {
   const history = useHistory();
   let locationLat = 0;
@@ -14,26 +22,27 @@ function SellPage() {
  
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const currentUser = useSelector((state) => state.currentUSER.currentUser);
+  const token = useSelector((state) => state.TokenStore.token);
 
-  const getLatLan = async (city) => {
-    await axios
-      .get(
-        `http://api.weatherapi.com/v1/current.json?key=0d0e1a1c9254447c8ac54728232909&q=${city}&aqi=no`
-      )
-      .then((res) => {
-        // current_Lat = data["location"]["lat"]
-        // current_Lon = data["location"]["lon"]
-        // locAxis = res.data.results[0].geometry;
-        // console.log(res.data.location);
-        locationLat = res.data.location.lat;
-        locationLon = res.data.location.lon;
-        // console.log(locationLon);
-        // console.log(locationLat);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const getLatLan = async (city) => {
+  //   await axios
+  //     .get(
+  //       `http://api.weatherapi.com/v1/current.json?key=0d0e1a1c9254447c8ac54728232909&q=${city}&aqi=no`
+  //     )
+  //     .then((res) => {
+  //       // current_Lat = data["location"]["lat"]
+  //       // current_Lon = data["location"]["lon"]
+  //       // locAxis = res.data.results[0].geometry;
+  //       // console.log(res.data.location);
+  //       locationLat = res.data.location.lat;
+  //       locationLon = res.data.location.lon;
+  //       // console.log(locationLon);
+  //       // console.log(locationLat);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const LocalProductList = useSelector((state) => state.Products.productList);
   const dispatch = useDispatch();
@@ -129,7 +138,7 @@ function SellPage() {
       const testFormData = new FormData();
       testFormData.append("test", "value");
 
-      getLatLan(formData.city);
+      // getLatLan(formData.city);
 
       let imagee = formData.photos[0];
       // console.log(image)
@@ -138,7 +147,8 @@ function SellPage() {
       // Append other form data fields
 
 
-    
+      console.log(currentUser)
+      
       data.append("title", formData.adName);
       data.append("description", formData.otherInfo);
       data.append("area_size", parseFloat(formData.area));
@@ -149,17 +159,19 @@ function SellPage() {
       data.append("lat", locationLat);
       data.append("lon", locationLon);
       data.append("image", imagee);
+      console.log()
       for (var key of data.entries()) {
         console.log(key[0] + ", " + key[1]);
       }
 
       try {
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/properties",
+        const response = await client.post(
+          "/api/postAd/",
           data,
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              Authorization: `Token ${token}`,
             },
           }
         );
@@ -188,13 +200,14 @@ function SellPage() {
 
         sellerUser: currentUser,
       };
+      console.log(newSell)
 
       dispatch(AddToUserProductListAction(newSell));
       dispatch(AddToProductListAction(newSell));
       // console.log("Form data:", formData);
       // console.log(newSell);
       alert("your product has been added");
-      history.push("/");
+      // history.push("/");
     } else {
       alert("please log in or check all req fields");
     }

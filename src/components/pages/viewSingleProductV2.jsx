@@ -15,6 +15,7 @@ const ViewSingleProductPageV2 = () => {
   const mapRef = useRef(null);
   const dispatch = useDispatch();
   const [is_fav, setFav] = useState(false);
+
   const [filteredObject, setFilteredObject] = useState({});
   const [seller, setSeller] = useState({});
 
@@ -42,7 +43,7 @@ const ViewSingleProductPageV2 = () => {
 
       .then((res) => (filteredObj = res.data.data))
       .then(() => setFilteredObject(filteredObj))
-      .then(() => setSeller(filteredObj.sellerUser))
+      .then(() => setSeller(filteredObj.seller))
       .then(() => console.log(filteredObj))
       .catch((err) => {
         console.log(err);
@@ -180,7 +181,9 @@ const ViewSingleProductPageV2 = () => {
                     to={`/viewUser/${seller.email}`}
                     className="offset-1 col-5"
                   >
-                    <div className="pb-4 fs-5 fw-bold">Agent: </div>
+                    <div className="pb-4 fs-5 fw-bold">
+                      Agent: {seller.user_name}{" "}
+                    </div>
                     <div className="row">
                       <div className="col-5">
                         <span className="">
@@ -190,7 +193,7 @@ const ViewSingleProductPageV2 = () => {
                               width: "150px",
                               borderRadius: "50%",
                             }}
-                            src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                            src={`http://localhost:8000${seller.profile_pic}`}
                             alt=""
                           />
                         </span>

@@ -167,7 +167,7 @@ const MyNavbar = () => {
                       <ul className="dropdown-menu">
                         <li>
                           <Link
-                            to={`/viewUser/${user.email}`}
+                            to={`/EditUserProfile`}
                             className="dropdown-item"
                           >
                             My Profile

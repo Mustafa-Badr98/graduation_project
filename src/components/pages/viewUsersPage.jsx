@@ -21,7 +21,7 @@ const ViewUsersPage = () => {
   const authToken = useSelector((state) => state.TokenStore.token);
   console.log(authToken)
   console.log(userInSession)
-  let user = {};
+  
   const [reviews, setReviews] = useState([
     {
       RID: 100,
@@ -217,10 +217,13 @@ const ViewUsersPage = () => {
                         <Rate
                           style={{ width: 120 }}
                           readOnly
-                          defaultValue={hoverValue}
+                          defaultValue={userInSession.avg_rating}
                         />
-                        <span className="fs-6 ms-2">{texts[hoverValue]}</span>
+                        <span className="fs-6 ms-2">{texts[Math.round(userInSession.avg_rating)]}</span>
                       </div>
+                    </div>
+                    <div>
+                      number of Rates : ({userInSession.num_ratings})
                     </div>
                     <hr />
                     <h5>

@@ -193,7 +193,7 @@ const EditProfilePage = () => {
                       id="username"
                       name="username"
                       type="text"
-                      placeholder={userInSession.username}
+                      placeholder={userInSession.user_name}
                       value={formData.username}
                       onChange={handleChange}
                     />
@@ -281,7 +281,7 @@ const EditProfilePage = () => {
                         id="phone"
                         name="phone"
                         type="tel"
-                        placeholder={userInSession.phone}
+                        placeholder={userInSession.mobile_phone                        }
                         value={formData.phone}
                         onChange={handleChange}
                       />
