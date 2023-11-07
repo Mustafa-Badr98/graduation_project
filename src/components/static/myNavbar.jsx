@@ -9,7 +9,7 @@ import axios from "axios";
 const MyNavbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
-  const FavCount = useSelector((state) => state.FavCOUNT.favCount);
+  
   console.log(user);
   console.log(isLoggedIn);
 
@@ -18,6 +18,10 @@ const MyNavbar = () => {
 
   const dispatch = useDispatch();
   dispatch(GetProductsListAction());
+
+  
+  // dispatch(GetProductsListAction());
+
   function logoutHandler() {
     const userConfirmed = window.confirm(
       "Are you sure you want to Logout ? we will miss you ):  "
@@ -49,7 +53,6 @@ const MyNavbar = () => {
     if (Object.keys(user).length === 0) {
       setIsLoggedIn(false);
       console.log("we entered the if statment");
-
     } else {
       console.log("we entered the else statment");
 
@@ -70,7 +73,7 @@ const MyNavbar = () => {
             className="navbar-brand text-dark ms-4 mt-2"
             href="#home"
           >
-            <h2>Realtor</h2>
+            <h2>Realtor Project</h2>
           </Link>
 
           <button
@@ -90,40 +93,36 @@ const MyNavbar = () => {
             id="navbarNav"
           >
             <ul className="navbar-nav mt-2 d-none d-lg-flex">
-              <li className="nav-item">
-                <Link to="/Fav" className="nav-link text-dark me-2" href="#fav">
-                  <i className="fa-solid fa-heart fs-5"></i>
-                  <span
-                    style={{
-                      backgroundColor: "chocolate",
-                      borderRadius: "20px",
-                      width: "100px",
-                    }}
-                    className="fs-6 text-light ms-1 pe-2 ps-1"
-                  >
-                    {" "}
-                    {FavCount}
-                  </span>
-                </Link>
-              </li>
+              {isLoggedIn ? (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      to="/Fav"
+                      className="nav-link text-dark me-2"
+                      href="#fav"
+                    >
+                      <i className="fa-solid fa-heart fs-5"></i>
+                      <span
+                        style={{
+                          backgroundColor: "chocolate",
+                          borderRadius: "20px",
+                          width: "100px",
+                        }}
+                        className="fs-6 text-light ms-1 pe-2 ps-1"
+                      >
+                        {" "}
+                        {user.favorites.length}
+                      </span>
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                <></>
+              )}
             </ul>
 
             <div className="float-start">
               <ul className="navbar-nav">
-                <li className="mt-2 me-3">
-                  <Link to="/userAds" className="dropdown-item">
-                    My Ads
-                  </Link>
-                </li>
-                <li className="nav-item ">
-                  <Link
-                    to="/sellProduct"
-                    className="btn btn-danger rounded-5 me-3 "
-                  >
-                    Sell
-                  </Link>
-                </li>
-
                 {!isLoggedIn ? (
                   <>
                     <div className="d-flex flex-column flex-lg-row">
@@ -154,6 +153,19 @@ const MyNavbar = () => {
                   </>
                 ) : (
                   <>
+                    <li className="mt-2 me-3">
+                      <Link to="/userAds" className="dropdown-item">
+                        My Ads
+                      </Link>
+                    </li>
+                    <li className="nav-item ">
+                      <Link
+                        to="/sellProduct"
+                        className="btn btn-danger rounded-5 me-3 "
+                      >
+                        Sell
+                      </Link>
+                    </li>
                     <div className="dropdown me-4">
                       <button
                         style={{ borderRadius: "40px" }}

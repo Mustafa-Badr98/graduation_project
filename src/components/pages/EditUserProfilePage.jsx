@@ -7,6 +7,7 @@ const EditProfilePage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
+
   const egyptGovernorates = [
     "Alexandria",
     "Aswan",
@@ -37,6 +38,7 @@ const EditProfilePage = () => {
   ];
 
   const [hasErrors, setHasError] = useState(true);
+
   const checkHasError = () => {
     const x = Object.values(errors).some((error) => error !== "");
     setHasError(x);
@@ -155,9 +157,9 @@ const EditProfilePage = () => {
               <div className="card-header">Profile Picture</div>
               <div className="card-body text-center">
                 <img
-                  style={{ height: "18.6rem" }}
+                  style={{ height: "18rem", width: "18rem" }}
                   className="img-account-profile rounded-circle mb-2"
-                  src="http://bootdey.com/img/Content/avatar/avatar1.png"
+                  src={`http://localhost:8000${userInSession.profile_pic}`}
                   alt=""
                 />
 
@@ -222,26 +224,6 @@ const EditProfilePage = () => {
                       })}
                     </select>
                   </div>
-                  <div className="col-md-6">
-                    <label className="small mb-1" htmlFor="inputLocation">
-                      City
-                    </label>
-                    <span
-                      className="ms-2"
-                      style={{ color: "red", fontSize: "12px" }}
-                    >
-                      {errors.cityError}
-                    </span>
-                    <input
-                      className="form-control"
-                      id="city"
-                      name="city"
-                      type="text"
-                      placeholder={userInSession.city}
-                      value={formData.city}
-                      onChange={handleChange}
-                    />
-                  </div>
 
                   {/* Form Group (email address) */}
                   <div className="mb-3">
@@ -281,7 +263,7 @@ const EditProfilePage = () => {
                         id="phone"
                         name="phone"
                         type="tel"
-                        placeholder={userInSession.mobile_phone                        }
+                        placeholder={userInSession.mobile_phone}
                         value={formData.phone}
                         onChange={handleChange}
                       />
@@ -309,13 +291,22 @@ const EditProfilePage = () => {
                     </div>
                   </div>
                   {/* Save changes button */}
-                  <button
-                    className="btn btn-primary"
-                    type="button"
-                    onClick={handleSaveChanges}
-                  >
-                    Save changes
-                  </button>
+                  <div className="mt-5">
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={handleSaveChanges}
+                    >
+                      Save changes
+                    </button>
+                    <button
+                      className="btn btn-danger ms-5"
+                      type="button"
+                      onClick={handleSaveChanges}
+                    >
+                      Delete Account
+                    </button>
+                  </div>
                 </form>
               </div>
             </div>

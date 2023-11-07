@@ -104,6 +104,7 @@ const LoginModal = () => {
           } else {
             const authToken = response.data.token;
             dispatch(StoreToken(authToken));
+            console.log(authToken)
             dispatch(LoginAction());
             dispatch(GetCurrentUserAction(authToken));
             alert("login complete");

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
 import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
@@ -7,9 +7,10 @@ import { AddToProductListAction } from "../../store/actions/AddToProductList";
 
 const ListingCard = (props) => {
   const dispatch = useDispatch();
-  const localProduct = props.productObject;
   const [is_fav, setFav] = useState(false);
- 
+  const user = useSelector((state) => state.currentUSER.currentUser);
+  const user_fav = user.favorites;
+  const localProduct = props.productObject;
 
   const addToFavHandler = () => {
     if (is_fav) {
@@ -23,25 +24,33 @@ const ListingCard = (props) => {
   };
 
   const checkIsFavWhenMountAndUnMount = () => {
-    const sessionStorageKeys = Object.keys(sessionStorage);
-    try {
-      if (sessionStorageKeys.includes(localProduct.id.toString())) {
+    if (Object.keys(user).length === 0) {
+    } else {
+      const fav_ids = user_fav.map((fav) => fav.id);
+      if (fav_ids.includes(localProduct.id)) {
+        console.log("found");
         setFav(true);
+      } else {
+        console.log("not found");
+        setFav(false);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
   useEffect(() => {
     setFav(false);
     checkIsFavWhenMountAndUnMount();
-  }, []);
+  }, [user]);
   return (
     <>
       <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5 ">
         <div className="card">
-          <img style={{maxHeight:"350px"}} src={`http://localhost:8000${localProduct.image}`} alt="" className="card-img-top" />
+          <img
+            style={{ maxHeight: "350px" }}
+            src={`http://localhost:8000${localProduct.image}`}
+            alt=""
+            className="card-img-top"
+          />
           {is_fav ? (
             <>
               {" "}
@@ -122,7 +131,7 @@ const ListingCard = (props) => {
                 <span className="fs-6 fw-bold">For {localProduct.type} : </span>
                 <span className="ms-1 fs-5 fw-bold">${localProduct.price}</span>
               </div>
-              <div className="offset-2 col-2">
+              <div className="offset-4 col-2">
                 <Link
                   to={`/${localProduct.id}`}
                   style={{ borderRadius: "20px", fontSize: "10px" }}
@@ -131,14 +140,7 @@ const ListingCard = (props) => {
                   More Details
                 </Link>
               </div>
-              <div className="col-2">
-                <span
-                  style={{ borderRadius: "20px", fontSize: "10px" }}
-                  className="btn btn-secondary"
-                >
-                  Contact Seller
-                </span>
-              </div>
+            
             </div>
           </div>
         </div>

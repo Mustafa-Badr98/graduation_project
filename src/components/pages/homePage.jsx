@@ -7,12 +7,16 @@ import LoadingSpinner from "../static/loadingSpinner";
 import ListingCard from "../static/listingCard";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import RateComp from "../static/RateComp";
+import { GetProductsListAction } from "../../store/actions/GetProductsList";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
   const products = useSelector((state) => state.Products.productList);
   const isResultFound = useSelector((state) => state.Products.found);
   // console.log(isResultFound);
+
+  const dispatch = useDispatch();
+  
 
   useEffect(() => {}, [products]);
 
