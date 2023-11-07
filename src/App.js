@@ -13,6 +13,8 @@ import UserAdsPage from "./components/pages/userAdsPage";
 import ViewSingleProductPageV2 from "./components/pages/viewSingleProductV2";
 import EditProfilePage from "./components/pages/EditUserProfilePage";
 import ViewUsersPage from "./components/pages/viewUsersPage";
+import SearchedPropertiesPage from "./components/pages/searchedPropertiesPage";
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <MyNavbar />
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route exact path="/searchResult" component={SearchedPropertiesPage} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/userAds" component={UserAdsPage} />
           <Route exact path="/EditUserProfile" component={EditProfilePage} />

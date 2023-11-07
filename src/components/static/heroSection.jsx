@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import "./heroSectionCSS.css";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { GetProductsListByFilterAction } from "../../store/actions/GetProductListByFilterAction";
+
 const HeroSection = () => {
+  const dispatch = useDispatch();
+
   const [searchData, setSearchData] = useState({
     purpose: "",
     location: "",
@@ -12,6 +18,29 @@ const HeroSection = () => {
     price_max: "",
     price_min: "",
   });
+
+  const handelSearchButton = async () => {
+    const response = await axios.get(
+      "http://localhost:8000/api/properties/filtered/",
+      {
+        params: {
+          location__icontains: searchData.location,
+          area_size__gte: searchData.area_min,
+          area_size__lte: searchData.area_max,
+          number_of_bathrooms__icontains: searchData.bathrooms,
+          number_of_bedrooms__icontains: searchData.bedrooms,
+          price__gte: searchData.price_min,
+          price__lte: searchData.price_max,
+          type__icontains: searchData.purpose,
+        },
+      }
+    );
+
+    console.log(response.data);
+
+    dispatch(GetProductsListByFilterAction(response.data));
+    history.push("/searchResult");
+  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -135,21 +164,12 @@ const HeroSection = () => {
                 </select>
               </div>
               <div className="col-6">
-                {/* 
-                <div className="form">
-                  <input
-                    type="text"
-                    className="form-control text-dark "
-                    id="locationInput"
-                    placeholder="ex. Monofia"
-                  />
-                </div> */}
                 <label className="text-light" htmlFor="floatingInput">
                   Location
                 </label>
                 <select
                   name="location"
-                  class="form-select "
+                  className="form-select "
                   aria-label="Default select example"
                   value={searchData.location}
                   onChange={handleInputChange}
@@ -198,17 +218,17 @@ const HeroSection = () => {
                   Area{" "}
                 </label>
 
-                <div class="dropdown">
+                <div className="dropdown">
                   <button
                     style={{ width: "100%" }}
-                    class="text-start btn btn-light dropdown-toggle"
+                    className="text-start btn btn-light dropdown-toggle"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     min {searchData.area_min}M , max {searchData.area_max}M{" "}
                   </button>
-                  <div class="dropdown-menu" style={{ width: "100%" }}>
+                  <div className="dropdown-menu" style={{ width: "100%" }}>
                     <div className="row">
                       <div className="offset-2 col-5">Min</div>
                       <div className=" col-5">Max</div>
@@ -265,10 +285,10 @@ const HeroSection = () => {
                   {" "}
                   Beds / Bathrooms{" "}
                 </label>
-                <div class="dropdown">
+                <div className="dropdown">
                   <button
                     style={{ width: "100%" }}
-                    class="text-start btn btn-light dropdown-toggle"
+                    className="text-start btn btn-light dropdown-toggle"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
@@ -276,7 +296,7 @@ const HeroSection = () => {
                     bathrooms ({searchData.bathrooms}) bedrooms: (
                     {searchData.bedrooms}){" "}
                   </button>
-                  <div class="dropdown-menu" style={{ width: "100%" }}>
+                  <div className="dropdown-menu" style={{ width: "100%" }}>
                     <div className="row">
                       <div className="offset-1 col-5">Bathrooms</div>
                       <div className=" col-5">Bedrooms</div>
@@ -313,17 +333,17 @@ const HeroSection = () => {
                   {" "}
                   Price{" "}
                 </label>
-                <div class="dropdown">
+                <div className="dropdown">
                   <button
                     style={{ width: "100%" }}
-                    class="text-start btn btn-light dropdown-toggle"
+                    className="text-start btn btn-light dropdown-toggle"
                     type="button"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     min {searchData.price_min}$ , max {searchData.price_max}${" "}
                   </button>
-                  <div class="dropdown-menu" style={{ width: "100%" }}>
+                  <div className="dropdown-menu" style={{ width: "100%" }}>
                     <div className="row">
                       <div className="offset-2 col-5">Min</div>
                       <div className=" col-5">Max</div>
@@ -356,7 +376,12 @@ const HeroSection = () => {
                 </div>
               </div>
               <div className="col-2">
-                <div className="btn btn-danger w-100 mt-4">Find</div>
+                <button
+                  onClick={handelSearchButton}
+                  className="btn btn-danger w-100 mt-4"
+                >
+                  Find
+                </button>
               </div>
             </div>
           </div>

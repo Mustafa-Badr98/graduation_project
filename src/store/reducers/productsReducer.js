@@ -13,26 +13,7 @@ export default function GetProductsListReducer(state = INITIAL_VALUE, action) {
       productList: action.payload.properties,
     };
 
-    case "GET_PRODUCTS_BY_FILTER":
-      console.log(action.payload);
-      console.log(parseInt(action.payload));
-
-      for (const key in state.productList) {
-        if (
-          parseInt(state.productList[key]["Property size:"]) <
-          parseInt(action.payload)
-        ) {
-          let holder = state.productList[key];
-          filteredProductList.push(holder);
-          console.log(state.productList[key]);
-          console.log("found");
-        }
-      }
-      return {
-        ...state,
-        productList: filteredProductList,
-      };
-
+   
     case "SEARCH":
       let searchWord = action.payload;
       const resultArray = state.productList.filter((product) =>
