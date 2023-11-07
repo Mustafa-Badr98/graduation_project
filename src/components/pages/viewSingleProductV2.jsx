@@ -177,10 +177,7 @@ const ViewSingleProductPageV2 = () => {
               </div>
               {seller ? (
                 <>
-                  <Link
-                    to={`/viewUser/${seller.email}`}
-                    className="offset-1 col-5"
-                  >
+                  <Link to={`/viewUser/${seller.email}`} className="offset-1 col-5 text-dark">
                     <div className="pb-4 fs-5 fw-bold">
                       Agent: {seller.user_name}{" "}
                     </div>
@@ -198,24 +195,12 @@ const ViewSingleProductPageV2 = () => {
                           />
                         </span>
                       </div>
-
-                      <div className="offset-2 col-5 mt-5 ">
-                        {seller ? (
-                          <>
-                            <div className="row ms-2 fs-5 fw-bold">
-                              {seller.username}
-                            </div>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
                     </div>
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link to={`/viewUser/${seller}`} className="offset-1 col-5">
+                  <Link to={`/viewUser/no_user`} className="offset-1 col-5">
                     <div className="pb-4 fs-5 fw-bold">Agent: </div>
                     <div className="row">
                       <div className="col-5">
@@ -231,23 +216,12 @@ const ViewSingleProductPageV2 = () => {
                           />
                         </span>
                       </div>
-
-                      <div className="offset-2 col-5 mt-5 ">
-                        {seller ? (
-                          <>
-                            <div className="row ms-2 fs-5 fw-bold">
-                              {seller.username}
-                            </div>
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </div>
                     </div>
                   </Link>
                 </>
               )}
             </div>
+
             <div className="row mt-4 ">
               <div className="container">
                 <hr />

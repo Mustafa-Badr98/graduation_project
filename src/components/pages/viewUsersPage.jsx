@@ -5,6 +5,8 @@ import "rsuite/dist/rsuite.min.css";
 import RatePopUpComponent from "../static/RatepopUpcomp";
 import viewUsersPageStyles from "./viewUsersPage.module.css";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import axios from "axios";
 
 const texts = {
   0: "No rate yet",
@@ -19,9 +21,27 @@ let idCount = 0;
 const ViewUsersPage = () => {
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
   const authToken = useSelector((state) => state.TokenStore.token);
-  console.log(authToken)
-  console.log(userInSession)
-  
+  const [property_owner, setPropertyOwner] = useState({});
+  console.log(authToken);
+  console.log(userInSession);
+  const param = useParams();
+  console.log(param.user);
+
+  const get_user_data = () => {
+  // let filteredObj = {};
+  // let req = axios
+  //   .get(`http://127.0.0.1:8000/api/user/${param.user}`)
+
+  //   .then((res) => (setPropertyOwner(res.data)))
+  // //   .then(() => setFilteredObject(filteredObj))
+  // //   .then(() => setSeller(filteredObj.seller))
+  //   .then(() => console.log(property_owner))
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  };
+
+
   const [reviews, setReviews] = useState([
     {
       RID: 100,
@@ -130,7 +150,6 @@ const ViewUsersPage = () => {
     }
   };
 
-  
   const [hoverValue, setHoverValue] = useState(2);
   return (
     <>
@@ -219,12 +238,12 @@ const ViewUsersPage = () => {
                           readOnly
                           defaultValue={userInSession.avg_rating}
                         />
-                        <span className="fs-6 ms-2">{texts[Math.round(userInSession.avg_rating)]}</span>
+                        <span className="fs-6 ms-2">
+                          {texts[Math.round(userInSession.avg_rating)]}
+                        </span>
                       </div>
                     </div>
-                    <div>
-                      number of Rates : ({userInSession.num_ratings})
-                    </div>
+                    <div>number of Rates : ({userInSession.num_ratings})</div>
                     <hr />
                     <h5>
                       <i
