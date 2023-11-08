@@ -4,6 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const ViewSinglePageProductModal = (props) => {
   const productImages = props.productPhotos;
+  console.log(productImages);
   return (
     <>
       <div
@@ -25,49 +26,31 @@ const ViewSinglePageProductModal = (props) => {
                 data-bs-ride="carousel"
               >
                 <div className="carousel-indicators">
-                  <button
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide-to="0"
-                    className="active"
-                    aria-current="true"
-                    aria-label="Slide 1"
-                  ></button>
-                  <button
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide-to="1"
-                    aria-label="Slide 2"
-                  ></button>
-                  <button
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide-to="2"
-                    aria-label="Slide 3"
-                  ></button>
-                </div>
-                <div className="carousel-inner">
-                  <div className="carousel-item active">
-                    <img
-                      src={productImages}
-                      className="d-block w-100"
-                      alt="..."
-                    />
-                  </div>
-                  <div className="carousel-item">
-                    <img
-                      src={productImages}
-                      className="d-block w-100"
-                      alt="..."
-                    />
-                  </div>
-                  <div className="carousel-item">
-                    <img
-                      src={productImages}
-                      className="d-block w-100"
-                      alt="..."
-                    />
-                  </div>
+                  {productImages.map((image, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide-to={index}
+                      className={index === 0 ? "active" : ""}
+                      aria-label={`Slide ${index + 1}`}
+                    ></button>
+                  ))}
+                </div>{" "}
+                <div className="carousel-inner" >
+                  {productImages.map((image, index) => (
+                    <div
+                      key={index}
+                      className={`carousel-item ${index === 0 ? "active" : ""}`}
+                    >
+                      <img
+                        src={`http://localhost:8000${image.image}`}
+                        className="d-block w-100"
+                        alt={`Slide ${index + 1}`}
+                        style={{ objectFit: "cover" ,height: "100%"}}
+                      />
+                    </div>
+                  ))}
                 </div>
                 <button
                   className="carousel-control-prev"

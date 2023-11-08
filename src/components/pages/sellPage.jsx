@@ -81,8 +81,8 @@ function SellPage() {
   const handleFileUpload = (e) => {
     const files = Array.from(e.target.files);
 
-    if (formData.photos.length + files.length > 10) {
-      alert("You can upload a maximum of 10 photos.");
+    if (formData.photos.length + files.length > 5) {
+      alert("You can upload a maximum of 5 photos.");
       return;
     }
 

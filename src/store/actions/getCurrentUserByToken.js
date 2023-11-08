@@ -5,7 +5,6 @@ export const GetCurrentUserByTokenAction = (token) => (dispatch) => {
     .get(`http://127.0.0.1:8000/api/user/token/${token}`)
     .then((response) => {
       const userData = response.data.data;
-      console.log(userData)
       dispatch({ type: "USER_TOKEN_SUCCESS", payload: userData });
     })
     .catch((error) => {

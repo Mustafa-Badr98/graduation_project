@@ -11,6 +11,7 @@ const ListingCard = (props) => {
   const user = useSelector((state) => state.currentUSER.currentUser);
   const user_fav = user.favorites;
   const localProduct = props.productObject;
+  console.log(localProduct)
 
   const addToFavHandler = () => {
     if (is_fav) {

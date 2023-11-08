@@ -17,6 +17,7 @@ const ViewSingleProductPageV2 = () => {
   const [is_fav, setFav] = useState(false);
 
   const [filteredObject, setFilteredObject] = useState({});
+  const [filteredObjectImages, setFilteredObjectImages] = useState([]);
   const [seller, setSeller] = useState({});
 
   const addToFavHandler = () => {
@@ -43,12 +44,12 @@ const ViewSingleProductPageV2 = () => {
 
       .then((res) => (filteredObj = res.data.data))
       .then(() => setFilteredObject(filteredObj))
+      .then(() => setFilteredObjectImages(filteredObj.images))
       .then(() => setSeller(filteredObj.seller))
-      .then(() => console.log(filteredObj))
       .catch((err) => {
         console.log(err);
       });
-
+    console.log(filteredObjectImages);
     // checkIsFav(filteredObj);))
   };
 
@@ -81,32 +82,39 @@ const ViewSingleProductPageV2 = () => {
   return (
     <>
       <div className="container mt-5">
-        <div className="row">
-          <div className="col-xl-7 ms-4 px-1">
-            <img
-              style={{ height: "480px" }}
-              src={`http://localhost:8000${filteredObject.image}`}
-              alt="no"
-            />
-          </div>
-          <div
-            data-bs-toggle="modal"
-            data-bs-target="#viewProductsModal"
-            className="col-xl-4 "
-          >
-            <img
-              style={{ height: "14.5rem" }}
-              src={`http://localhost:8000${filteredObject.image}`}
-              alt="no"
-            />{" "}
-            <img
-              style={{ height: "14.5rem" }}
-              className="mt-3"
-              src={`http://localhost:8000${filteredObject.image}`}
-              alt="no"
-            />
-          </div>
-        </div>
+        {filteredObjectImages.length >= 1 ? (
+          <>
+            <div className="row">
+              <div className="col-xl-7 ms-4 px-1">
+                <img
+                  style={{ height: "480px" }}
+                  src={`http://localhost:8000${filteredObjectImages[0].image}`}
+                  alt="no"
+                />
+              </div>
+              <div
+                data-bs-toggle="modal"
+                data-bs-target="#viewProductsModal"
+                className="col-xl-4 "
+              >
+                <img
+                  style={{ height: "14.5rem" }}
+                  src={`http://localhost:8000${filteredObjectImages[1].image}`}
+                  alt="no"
+                />{" "}
+                <img
+                  style={{ height: "14.5rem" }}
+                  className="mt-3"
+                  src={`http://localhost:8000${filteredObjectImages[2].image}`}
+                  alt="no"
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
+
         <div className="row mt-4">
           <div className="offset-2 col-7 ms-4 px-1">
             <div className="row">
@@ -177,7 +185,10 @@ const ViewSingleProductPageV2 = () => {
               </div>
               {seller ? (
                 <>
-                  <Link to={`/viewUser/${seller.email}`} className="offset-1 col-5 text-dark">
+                  <Link
+                    to={`/viewUser/${seller.email}`}
+                    className="offset-1 col-5 text-dark"
+                  >
                     <div className="pb-4 fs-5 fw-bold">
                       Agent: {seller.user_name}{" "}
                     </div>
@@ -293,7 +304,7 @@ const ViewSingleProductPageV2 = () => {
         </div>
       </div>
 
-      <ViewSinglePageProductModal productPhotos={filteredObject.photo} />
+      <ViewSinglePageProductModal productPhotos={filteredObjectImages} />
       <MyFooter />
     </>
   );

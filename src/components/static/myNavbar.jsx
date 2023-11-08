@@ -11,8 +11,8 @@ const MyNavbar = () => {
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [userFavCount, setUserFavCount] = useState(0);
   const storedAuthToken = localStorage.getItem("authToken");
-  console.log(user);
-  console.log(isLoggedIn);
+  // console.log(user);
+  // console.log(isLoggedIn);
 
   // const WishCount = useSelector((state) => state.WishLIST.wishList.length);
   // const cartNumbers = useSelector((state) => state.CartList.cartList.length);
@@ -37,7 +37,7 @@ const MyNavbar = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           // Handle successful logout, if needed
         })
         .catch((error) => {
@@ -59,14 +59,14 @@ const MyNavbar = () => {
     if (Object.keys(user).length === 0) {
       setIsLoggedIn(false);
       setUserFavCount(0);
-      console.log("we entered the if statment");
+      // console.log("we entered the if statment");
     } else {
-      console.log("we entered the else statment");
+      // console.log("we entered the else statment");
 
       setIsLoggedIn(true);
       setUserFavCount(user.favorites.length);
     }
-    console.log(isLoggedIn);
+    // console.log(isLoggedIn);
   }, [user]);
   // console.log(isLoggedIn);
   return (

@@ -5,7 +5,6 @@ import { LoginAction } from "../../store/actions/loginAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { StoreToken } from "../../store/actions/StoreToken";
-
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
@@ -15,8 +14,9 @@ const client = axios.create({
 });
 
 const LoginModal = () => {
-  // const history = useHistory();
   const dispatch = useDispatch();
+  const history = useHistory();
+
   // const isLogged = useSelector((state) => state.IsLog.isLogedIn);
 
   const [hasErrors, setHasError] = useState(true);
@@ -71,25 +71,9 @@ const LoginModal = () => {
     console.log(formData);
   };
 
-  const isFoundInLocal_ValidatePassword = (email, password) => {
-    let foundValue = {};
-    const allKeys = Object.keys(localStorage);
-    console.log(allKeys);
-    for (const key of allKeys) {
-      foundValue = localStorage.getItem(email);
-      const parsedData = JSON.parse(foundValue);
-      if (key === email && parsedData.password === password) {
-        // console.log("Horaaaaai");
-        return parsedData;
-      }
-    }
-    return false;
-  };
   const handleSubmitButton = (e) => {
     e.preventDefault();
-    // console.log(
-    //   isFoundInLocal_ValidatePassword(formData.email, formData.password)
-    // );
+
     if (!hasErrors) {
       const loginData = {
         email: formData.email,
@@ -99,28 +83,28 @@ const LoginModal = () => {
       client
         .post("/api/user/login", loginData)
         .then((response) => {
-          if (response.data === "no user") {
-            alert("did you forget your password or email ? ");
-          } else {
-            const authToken = response.data.token;
-            localStorage.setItem('authToken', authToken);
-            dispatch(StoreToken(authToken));
-            console.log(authToken)
-            dispatch(LoginAction());
-            dispatch(GetCurrentUserAction(authToken));
-            alert("login complete");
+          const authToken = response.data.token;
+          localStorage.setItem("authToken", authToken);
+          dispatch(StoreToken(authToken));
+          console.log(authToken);
+          dispatch(LoginAction());
+          dispatch(GetCurrentUserAction(authToken));
+          alert("login complete");
+          const closeButton = document.getElementById("closeButton");
+          if (closeButton) {
+            closeButton.click();
           }
         })
         .catch((error) => {
-          console.error(
-            "Error:",
-            error.response ? error.response.data : error.message
-          );
+          // console.error(
+          //   "Error:",
+          //   error.response ? error.response.data.detail : error.message
+          // );
+          alert("did you forget your password or email ? ");
         });
-
-      // history.push('/')
+    } else {
+      alert("did you forget your email ?");
     }
-
     // console.log("Login clicked:", formData);
   };
   return (
@@ -139,6 +123,7 @@ const LoginModal = () => {
                 Login
               </h1>
               <button
+                id="closeButton"
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
@@ -202,15 +187,7 @@ const LoginModal = () => {
                 </button>
               </form>
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
+            <div className="modal-footer"></div>
           </div>
         </div>
       </div>
