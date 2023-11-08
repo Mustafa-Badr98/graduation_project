@@ -9,7 +9,8 @@ import axios from "axios";
 const MyNavbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
-  
+  const [userFavCount, setUserFavCount] = useState(0);
+  const storedAuthToken = localStorage.getItem("authToken");
   console.log(user);
   console.log(isLoggedIn);
 
@@ -19,7 +20,6 @@ const MyNavbar = () => {
   const dispatch = useDispatch();
   dispatch(GetProductsListAction());
 
-  
   // dispatch(GetProductsListAction());
 
   function logoutHandler() {
@@ -27,21 +27,27 @@ const MyNavbar = () => {
       "Are you sure you want to Logout ? we will miss you ):  "
     );
 
-    axios
-      .post("http://127.0.0.1:8000/api/user/logout", { withCredentials: true })
-      .then((response) => {
-        console.log(response.data);
-        // Handle successful logout, if needed
-      })
-      .catch((error) => {
-        console.error(
-          "Logout error:",
-          error.response ? error.response.data : error.message
-        );
-        // Handle logout error, if needed
-      });
-
     if (userConfirmed) {
+      axios
+        .post("http://127.0.0.1:8000/api/user/logout",null,{
+          withCredentials: true,
+
+          headers: {
+            Authorization: `Token ${storedAuthToken}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          // Handle successful logout, if needed
+        })
+        .catch((error) => {
+          console.error(
+            "Logout error:",
+            error.response ? error.response.data : error.message
+          );
+          // Handle logout error, if needed
+        });
+
       dispatch(LogoutAction());
     } else {
       return -1;
@@ -52,11 +58,13 @@ const MyNavbar = () => {
   useEffect(() => {
     if (Object.keys(user).length === 0) {
       setIsLoggedIn(false);
+      setUserFavCount(0);
       console.log("we entered the if statment");
     } else {
       console.log("we entered the else statment");
 
       setIsLoggedIn(true);
+      setUserFavCount(user.favorites.length);
     }
     console.log(isLoggedIn);
   }, [user]);
@@ -111,7 +119,7 @@ const MyNavbar = () => {
                         className="fs-6 text-light ms-1 pe-2 ps-1"
                       >
                         {" "}
-                        {user.favorites.length}
+                        {userFavCount}
                       </span>
                     </Link>
                   </li>
@@ -191,12 +199,13 @@ const MyNavbar = () => {
                           </Link>
                         </li>
                         <li>
-                          <span
+                          <Link
+                            to=""
                             onClick={logoutHandler}
                             className="dropdown-item"
                           >
                             Logout
-                          </span>
+                          </Link>
                         </li>
                       </ul>
                     </div>

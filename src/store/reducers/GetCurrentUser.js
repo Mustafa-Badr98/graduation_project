@@ -15,12 +15,22 @@ export default function GetCurrentUserReducer(state = INITIAL_VALUE, action) {
       console.error("Error retrieving user data:", action.payload);
       return state;
 
+    case "USER_TOKEN_SUCCESS":
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+
+    case "USER_TOKEN_FAILURE":
+      console.error("Error retrieving user data by token:", action.payload);
+      return state;
+
     case "LOGOUT":
-      console.log("we are here")
+      localStorage.removeItem('authToken');
       return {
         ...state,
         currentUser: {},
-      }; 
+      };
 
     default:
       return state;

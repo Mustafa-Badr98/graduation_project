@@ -14,16 +14,33 @@ import ViewSingleProductPageV2 from "./components/pages/viewSingleProductV2";
 import EditProfilePage from "./components/pages/EditUserProfilePage";
 import ViewUsersPage from "./components/pages/viewUsersPage";
 import SearchedPropertiesPage from "./components/pages/searchedPropertiesPage";
-
+import { useDispatch } from "react-redux";
+import { GetCurrentUserByTokenAction } from "./store/actions/getCurrentUserByToken";
+import { LoginAction } from "./store/actions/loginAction";
 
 function App() {
+  const dispatch = useDispatch();
+
+  const storedAuthToken = localStorage.getItem("authToken");
+  if (storedAuthToken) {
+    console.log("Retrieved authToken:", storedAuthToken);
+    dispatch(GetCurrentUserByTokenAction(storedAuthToken));
+    dispatch(LoginAction())
+  } else {
+    console.log("No authToken found in localStorage");
+  }
+
   return (
     <>
       <BrowserRouter>
         <MyNavbar />
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route exact path="/searchResult" component={SearchedPropertiesPage} />
+          <Route
+            exact
+            path="/searchResult"
+            component={SearchedPropertiesPage}
+          />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/userAds" component={UserAdsPage} />
           <Route exact path="/EditUserProfile" component={EditProfilePage} />

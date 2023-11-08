@@ -103,6 +103,7 @@ const LoginModal = () => {
             alert("did you forget your password or email ? ");
           } else {
             const authToken = response.data.token;
+            localStorage.setItem('authToken', authToken);
             dispatch(StoreToken(authToken));
             console.log(authToken)
             dispatch(LoginAction());
