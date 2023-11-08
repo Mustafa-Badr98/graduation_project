@@ -48,7 +48,7 @@ const ListingCard = (props) => {
         <div className="card">
           <img
             style={{ maxHeight: "350px" }}
-            src={`http://localhost:8000${localProduct.image}`}
+            src={`http://localhost:8000${localProduct.images[0].image}`}
             alt=""
             className="card-img-top"
           />

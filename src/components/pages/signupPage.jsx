@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { LoginAction } from "../../store/actions/loginAction";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import axios from "axios";
+import { StoreToken } from "../../store/actions/StoreToken";
 const SignupPage = () => {
   const egyptGovernorates = [
     "Alexandria",
@@ -43,13 +44,13 @@ const SignupPage = () => {
     email: "",
     mobile: "",
     password: "",
+    location: "Egypt",
   });
 
   const [errors, setErrors] = useState({
     usernameError: "*",
     emailError: "*",
     phoneError: "*",
-    cityError: "*",
     passwordError: "*",
     rePasswordError: "*",
   });
@@ -117,17 +118,7 @@ const SignupPage = () => {
     } else if (e.target.name === "governorate") {
       setFormData({
         ...formData,
-        governorate: e.target.value,
-      });
-      console.log(formData);
-    } else if (e.target.name === "city") {
-      setFormData({
-        ...formData,
-        city: e.target.value,
-      });
-      setErrors({
-        ...errors,
-        cityError: e.target.value.length === 0 ? "this field is required" : "",
+        location: e.target.value,
       });
       console.log(formData);
     } else if (e.target.name === "phone") {
@@ -152,10 +143,11 @@ const SignupPage = () => {
     if (!hasErrors) {
       var jsonUser = JSON.stringify(formData);
       let data_send = {
-        "email": formData.email,
-        "user_name": formData.user_name,
-        "mobile": formData.mobile,
-        "password": formData.password,
+        email: formData.email,
+        user_name: formData.user_name,
+        mobile_phone: formData.mobile,
+        password: formData.password,
+        location: formData.location,
       };
       console.log(formData);
       console.log(data_send);
@@ -163,14 +155,32 @@ const SignupPage = () => {
       axios
         .post("http://127.0.0.1:8000/api/user/register", data_send)
         .then((res) => {
-          console.log(res);
-         
+          console.log(res.data.user);
+          const loginData = {
+            email: formData.email,
+            password: formData.password,
+          };
+          axios
+            .post("http://127.0.0.1:8000/api/user/login", loginData)
+            .then((response) => {
+              const authToken = response.data.token;
+              localStorage.setItem("authToken", authToken);
+              dispatch(StoreToken(authToken));
+              console.log(authToken);
+              dispatch(LoginAction());
+              dispatch(GetCurrentUserAction(authToken));
+              alert("login complete");
+            });
+
           alert(
             "SignUp Complete. You will now be redirected to the home page."
           );
           history.push("/");
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          alert("your email is already registered");
+          console.log(e.response.data);
+        });
     }
   };
 
@@ -299,57 +309,44 @@ const SignupPage = () => {
                     </div>
                     <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-2">
                       <div style={{ height: "9rem" }} className=""></div>
-                      <div className="mb-5 pb-2">
+                      <div className="mb-4 pb-2 ">
                         <div className="row">
                           <div className="col-4">
-                            <label className="fs-6 pt-1" htmlFor="state">
-                              <i className="fa-solid fa-globe fa-lg fs-5 me-3 pb-4 fa-fw"></i>
+                            <div className="row">
+                              <div className="col-3 mt-1">
+                                <i className="fa-solid fa-globe fa-lg fs-5 me-3 fa-fw"></i>
+                              </div>
+                              <div className="col-9">
+                                <select
+                                  onChange={handleInputChange}
+                                  style={{ height: "2rem", width: "15rem" }}
+                                  className="pt-1"
+                                  id="governorate"
+                                  name="governorate"
+                                >
+                                  {egyptGovernorates.map(
+                                    (governorate, index) => {
+                                      return (
+                                        <option key={index} value={governorate}>
+                                          {" "}
+                                          {governorate}{" "}
+                                        </option>
+                                      );
+                                    }
+                                  )}
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="col-9 ms-2">
+                            {" "}
+                            <label className="ms-4" htmlFor="state">
                               Governorate
                             </label>
                           </div>
-                          <div className="col-8">
-                            {" "}
-                            <select
-                              onChange={handleInputChange}
-                              style={{ height: "2rem", width: "15rem" }}
-                              className="pt-1"
-                              id="governorate"
-                              name="governorate"
-                            >
-                              {egyptGovernorates.map((governorate, index) => {
-                                return (
-                                  <option key={index} value={governorate}>
-                                    {" "}
-                                    {governorate}{" "}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
                         </div>
                       </div>
-                      <div className="d-flex flex-row align-items-center mb-4">
-                        <i className="fa-solid fa-city fa-lg me-3 fa-fw"></i>
-                        <div className="form-outline flex-fill mb-0">
-                          <span
-                            className="ms-2"
-                            style={{ color: "red", fontSize: "12px" }}
-                          >
-                            {errors.cityError}
-                          </span>
-                          <input
-                            onChange={handleInputChange}
-                            type="text"
-                            id="city"
-                            name="city"
-                            className="form-control"
-                            value={formData.city}
-                          />
-                          <label className="form-label" htmlFor="city">
-                            Your City
-                          </label>
-                        </div>
-                      </div>
+
                       <div className="d-flex flex-row align-items-center mb-4">
                         <i className="fa-solid fa-phone fa-lg me-3 fa-fw"></i>
                         <div className="form-outline flex-fill mb-0">

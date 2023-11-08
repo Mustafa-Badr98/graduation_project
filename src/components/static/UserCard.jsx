@@ -8,7 +8,7 @@ const UserCard = (props) => {
   const dispatch = useDispatch();
 
   const localProduct = props.productObject;
-  //   console.log(localProduct);
+    console.log(localProduct);
 
   useEffect(() => {}, []);
 
@@ -31,17 +31,17 @@ const UserCard = (props) => {
 
   return (
     <>
-      <div className="container mb-5 mt-5">
+      <div className="container mb-5 mt-5 border border-2">
         <div className="card mb-3" style={{ border: "none" }}>
           <div className="row">
-            <div className="offset-1 col-lg-6 col">
+            <div className="offset-1 col-lg-5 col">
               <img
-                src={localProduct.photo}
-                className="img-fluid rounded-start"
+                src={`http://localhost:8000${localProduct.image}`}
+                className="img-fluid rounded-start w-75 h-100"
                 alt="..."
               />
             </div>
-            <div className="offset-1 col-lg-4 ">
+            <div className=" col-lg-4 ">
               <div className="card-body">
                 <div className="row">
                   <div className="col-8">

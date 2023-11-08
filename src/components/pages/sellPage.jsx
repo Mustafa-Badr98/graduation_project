@@ -141,10 +141,10 @@ function SellPage() {
       let imagee = formData.photos[0];
       // console.log(image)
 
-      const data = new FormData();
       // Append other form data fields
 
-      console.log(currentUser);
+      // console.log(currentUser);
+      const data = new FormData();
 
       data.append("title", formData.adName);
       data.append("description", formData.otherInfo);
@@ -155,9 +155,13 @@ function SellPage() {
       data.append("price", parseFloat(formData.price));
       data.append("lat", locationLat);
       data.append("lon", locationLon);
-      data.append("image", imagee);
       data.append("type", formData.type);
-      console.log();
+
+      // Append each image individually
+      for (let i = 0; i < formData.photos.length; i++) {
+        data.append(`images`, formData.photos[i]);
+      }
+
       for (var key of data.entries()) {
         console.log(key[0] + ", " + key[1]);
       }
@@ -174,11 +178,10 @@ function SellPage() {
         console.error("Error:", error);
       }
 
-    
       console.log();
 
       dispatch(GetProductsListAction());
-      
+
       alert("your product has been added");
       // history.push("/");
     } else {

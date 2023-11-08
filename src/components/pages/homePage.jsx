@@ -8,6 +8,7 @@ import ListingCard from "../static/listingCard";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import RateComp from "../static/RateComp";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
+import { IsLoadingAction } from "../../store/actions/ISLoadingAction";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
@@ -18,7 +19,10 @@ const HomePage = () => {
   const dispatch = useDispatch();
   
 
-  useEffect(() => {}, [products]);
+  useEffect(() => {
+    dispatch(IsLoadingAction(false))
+
+  }, [products]);
 
   return (
     <>

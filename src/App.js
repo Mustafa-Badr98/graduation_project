@@ -17,13 +17,17 @@ import SearchedPropertiesPage from "./components/pages/searchedPropertiesPage";
 import { useDispatch } from "react-redux";
 import { GetCurrentUserByTokenAction } from "./store/actions/getCurrentUserByToken";
 import { LoginAction } from "./store/actions/loginAction";
+import { IsLoadingAction } from "./store/actions/ISLoadingAction";
+import { StoreToken } from "./store/actions/StoreToken";
 
 function App() {
   const dispatch = useDispatch();
 
   const storedAuthToken = localStorage.getItem("authToken");
   if (storedAuthToken) {
+    dispatch(IsLoadingAction(true))
     console.log("Retrieved authToken:", storedAuthToken);
+    dispatch(StoreToken(storedAuthToken))
     dispatch(GetCurrentUserByTokenAction(storedAuthToken));
     dispatch(LoginAction())
   } else {
