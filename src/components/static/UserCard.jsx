@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import EditUserProductModal from "./EditUserProductModal";
 import { DeleteUserProductAction } from "../../store/actions/DeleteUserProduct";
 import { DeleteFromProductListAction } from "../../store/actions/DeleteFromProductList";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const UserCard = (props) => {
   const dispatch = useDispatch();
 
   const localProduct = props.productObject;
-    console.log(localProduct);
+  console.log(localProduct);
 
   useEffect(() => {}, []);
 
@@ -64,13 +65,12 @@ const UserCard = (props) => {
                 </p>
 
                 <div className="card-body d-flex justify-content-end">
-                  <span
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop"
+                  <Link
+                    to={`EditPropertyAd/${localProduct.id}`}
                     className="card-link text-light btn btn-secondary"
                   >
                     Edit
-                  </span>
+                  </Link>
                   <a
                     onClick={RemoveButtonHandler}
                     className="card-link text-light btn "
@@ -84,7 +84,6 @@ const UserCard = (props) => {
           </div>
         </div>
       </div>
-      <EditUserProductModal productObject={localProduct} />
     </>
   );
 };

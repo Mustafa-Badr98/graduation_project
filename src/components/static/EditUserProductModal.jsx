@@ -3,6 +3,7 @@ import EditPageForModal from "./EditPageForModal";
 
 const EditUserProductModal = (props) => {
   const localProductToEdit = props.productObject;
+
   return (
     <>
       <div
@@ -39,7 +40,7 @@ const EditUserProductModal = (props) => {
                 Close
               </button>
               <button type="button" className="btn btn-primary">
-                Understood
+                Submit Edit
               </button>
             </div>
           </div>

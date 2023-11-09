@@ -3,50 +3,71 @@ import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { AddToUserProductListAction } from "../../store/actions/AddToUserProductList";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
-import { EditUserListAction } from "../../store/actions/EditUserList";
-import { EditProductListAction } from "../../store/actions/EditProductList";
 import axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { GetProductsListAction } from "../../store/actions/GetProductsList";
 
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFToken";
+axios.defaults.withCredentials = true;
+
+const client = axios.create({
+  baseURL: "http://127.0.0.1:8000",
+});
 function EditPageForModal(props) {
-  const localProductToEdit = props.productObject;
-  const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUSER.currentUser);
+  const [productToEdit, setProductToEdit] = useState(props.productObject);
+  console.log(productToEdit);
+
+  const egyptGovernorates = [
+    "Alexandria",
+    "Aswan",
+    "Asyut",
+    "Beheira",
+    "Beni Suef",
+    "Cairo",
+    "Dakahlia",
+    "Damietta",
+    "Faiyum",
+    "Gharbia",
+    "Giza",
+    "Ismailia",
+    "Kafr El Sheikh",
+    "Luxor",
+    "Matrouh",
+    "Minya",
+    "Monufia",
+    "New Valley",
+    "North Sinai",
+    "Port Said",
+    "Qalyubia",
+    "Qena",
+    "Red Sea",
+    "Sharqia",
+    "Sohag",
+    "South Sinai",
+  ];
+
+  const history = useHistory();
   let locationLat = 0;
   let locationLon = 0;
 
-  const getLatLan = async (city) => {
-    
-    await axios
-      .get(
-        `http://api.weatherapi.com/v1/current.json?key=0d0e1a1c9254447c8ac54728232909&q=${city}&aqi=no`
-      )
-      .then((res) => {
-        // current_Lat = data["location"]["lat"]
-        // current_Lon = data["location"]["lon"]
-        // locAxis = res.data.results[0].geometry;
-        console.log(res.data.location);
-        locationLat = res.data.location.lat;
-        locationLon = res.data.location.lon;
-        console.log(locationLon);
-        console.log(locationLat);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
+  const currentUser = useSelector((state) => state.currentUSER.currentUser);
+  const token = useSelector((state) => state.TokenStore.token);
+
+  const LocalProductList = useSelector((state) => state.Products.productList);
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    title: "",
-    governorate: "",
-    city: "",
-    region: "",
-    type: "",
-    furnished: "no",
-    area: "",
-    rooms: "",
-    price: "",
+    adName: productToEdit.title,
+    governorate: productToEdit.location,
+    type: productToEdit.type,
+    area: productToEdit.area_size,
+    bedrooms: productToEdit.number_of_bedrooms,
+    bathrooms: productToEdit.number_of_bathrooms,
+    price: productToEdit.price,
     photos: [],
-    otherInfo: "",
+    otherInfo: productToEdit.description,
   });
 
   const [errors, setErrors] = useState({});
@@ -57,13 +78,14 @@ function EditPageForModal(props) {
       ...formData,
       [name]: value,
     });
+    console.log(formData);
   };
 
   const handleFileUpload = (e) => {
     const files = Array.from(e.target.files);
 
-    if (formData.photos.length + files.length > 10) {
-      alert("You can upload a maximum of 10 photos.");
+    if (formData.photos.length + files.length > 5) {
+      alert("You can upload a maximum of 5 photos.");
       return;
     }
 
@@ -82,74 +104,82 @@ function EditPageForModal(props) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const validationErrors = {};
-    if (!formData.title.trim()) {
-      validationErrors.title = "Advertisement name is required.";
-    }
+    // if (!formData.adName.trim()) {
+    //   validationErrors.adName = "Advertisement name is required.";
+    // }
 
-    if (!formData.governorate.trim()) {
-      validationErrors.governorate = "Governorate is required.";
-    }
+    // if (!formData.governorate.trim()) {
+    //   validationErrors.governorate = "Governorate is required.";
+    // }
 
-    if (!formData.city.trim()) {
-      validationErrors.city = "City is required.";
-    }
+    // if (!formData.bedrooms.trim()) {
+    //   validationErrors.bedrooms = "Number of rooms is required.";
+    // } else if (isNaN(Number(formData.bedrooms))) {
+    //   validationErrors.bedrooms = "Number of rooms must be a number.";
+    // }
+    // if (!formData.bathrooms.trim()) {
+    //   validationErrors.bathrooms = "Number of rooms is required.";
+    // } else if (isNaN(Number(formData.bathrooms))) {
+    //   validationErrors.bathrooms = "Number of rooms must be a number.";
+    // }
 
-    if (!formData.region.trim()) {
-      validationErrors.region = "Region is required.";
-    }
-
-    if (!formData.area.trim()) {
-      validationErrors.area = "Area is required.";
-    } else if (isNaN(Number(formData.area))) {
-      validationErrors.area = "Area must be a number.";
-    }
-
-    if (!formData.rooms.trim()) {
-      validationErrors.rooms = "Number of rooms is required.";
-    } else if (isNaN(Number(formData.rooms))) {
-      validationErrors.rooms = "Number of rooms must be a number.";
-    }
-
-    if (!formData.price.trim()) {
-      validationErrors.price = "Price is required.";
-    } else if (isNaN(Number(formData.price))) {
-      validationErrors.price = "Price must be a number.";
-    }
+    // if (!formData.price.trim()) {
+    //   validationErrors.price = "Price is required.";
+    // } else if (isNaN(Number(formData.price))) {
+    //   validationErrors.price = "Price must be a number.";
+    // }
 
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      getLatLan(formData.city);
-      const editedAd = {
-        id: localProductToEdit.id,
-        title: formData.title,
-        description: formData.otherInfo,
-        location:
-          formData.governorate +
-          " / " +
-          formData.city +
-          " / " +
-          formData.region,
-        lat: locationLat,
-        lon: locationLon,
-        numOfBedrooms: formData.rooms,
-        numOfBathrooms: "2",
-        propertySize: formData.area,
-        price: formData.price,
-        type: formData.type,
-        photo:
-          "https://en.bailypearl.com/wp-content/uploads/2021/05/villa-la-croix-valmer-vue-aerienne-2-2560x1633.jpg",
-        timeStamp: localProductToEdit.timeStamp,
-        sellerUser: currentUser,
-      };
-      dispatch(EditUserListAction(editedAd));
-      dispatch(EditProductListAction(editedAd));
+      // getLatLan(formData.city);
 
-      // console.log("Form data:", formData);
+      const data = new FormData();
+
+      data.append("title", formData.adName);
+      data.append("description", formData.otherInfo);
+      data.append("area_size", parseFloat(formData.area));
+      data.append("location", formData.governorate);
+      data.append("number_of_bathrooms", formData.bathrooms);
+      data.append("number_of_bedrooms", formData.bedrooms);
+      data.append("price", parseFloat(formData.price));
+      data.append("lat", locationLat);
+      data.append("lon", locationLon);
+      data.append("type", formData.type);
+
+      // Append each image individually
+      for (let i = 0; i < formData.photos.length; i++) {
+        data.append(`images`, formData.photos[i]);
+      }
+
+      for (var key of data.entries()) {
+        console.log(key[0] + ", " + key[1]);
+      }
+
+      try {
+        const response = await client.put(`/api/properties/${productToEdit.id}/`, data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Token ${token}`,
+          },
+        });
+        console.log("Response:", response.data.properties);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+
+      console.log();
+
+      dispatch(GetProductsListAction());
+
+      alert("your product has been added");
+      // history.push("/");
+    } else {
+      alert("please log in or check all req fields");
     }
   };
 
@@ -157,22 +187,23 @@ function EditPageForModal(props) {
     <>
       <div className="container mt-5">
         <div className="col-lg-10 ">
+          <h1 className="text-secondary text-center mb-4">Edit Your AD</h1>
           <form onSubmit={handleSubmit} noValidate>
             <div className="mb-3">
-              <label htmlFor="title" className="form-label">
+              <label htmlFor="adName" className="form-label">
                 AD Title:
               </label>
               <input
                 type="text"
-                className={`form-control ${errors.title && "is-invalid"}`}
-                id="title"
-                name="title"
-                value={formData.title}
+                className={`form-control ${errors.adName && "is-invalid"}`}
+                id="adName"
+                name="adName"
+                value={formData.adName}
                 onChange={handleChange}
                 required
               />
               {errors.governorate && (
-                <div className="invalid-feedback">{errors.title}</div>
+                <div className="invalid-feedback">{errors.adName}</div>
               )}
             </div>
 
@@ -180,53 +211,27 @@ function EditPageForModal(props) {
               <label htmlFor="governorate" className="form-label">
                 Governorate:
               </label>
-              <input
-                type="text"
-                className={`form-control ${errors.governorate && "is-invalid"}`}
-                id="governorate"
+              <select
                 name="governorate"
+                className="form-select "
+                aria-label="Default select example"
                 value={formData.governorate}
                 onChange={handleChange}
-                required
-              />
+              >
+                <option selected value="">
+                  All Egypt
+                </option>
+                {egyptGovernorates.map((governorate, index) => {
+                  return (
+                    <option name="location" key={index} value={governorate}>
+                      {" "}
+                      {governorate}{" "}
+                    </option>
+                  );
+                })}
+              </select>
               {errors.governorate && (
                 <div className="invalid-feedback">{errors.governorate}</div>
-              )}
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="city" className="form-label">
-                City:
-              </label>
-              <input
-                type="text"
-                className={`form-control ${errors.city && "is-invalid"}`}
-                id="city"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              />
-              {errors.city && (
-                <div className="invalid-feedback">{errors.city}</div>
-              )}
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="region" className="form-label">
-                Region:
-              </label>
-              <input
-                type="text"
-                className={`form-control ${errors.region && "is-invalid"}`}
-                id="region"
-                name="region"
-                value={formData.region}
-                onChange={handleChange}
-                required
-              />
-              {errors.region && (
-                <div className="invalid-feedback">{errors.region}</div>
               )}
             </div>
 
@@ -249,35 +254,6 @@ function EditPageForModal(props) {
                 <div className="invalid-feedback">{errors.type}</div>
               )}
             </div>
-            {/* furnished input */}
-            <div className="mb-3">
-              <label className="form-label">Furnished:</label>
-              <div>
-                <label className="form-check-label mr-2">
-                  <input
-                    type="radio"
-                    className="form-check-input"
-                    name="furnished"
-                    value="yes"
-                    checked={formData.furnished === "yes"}
-                    onChange={handleChange}
-                  />
-                  Yes
-                </label>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <label className="form-check-label">
-                  <input
-                    type="radio"
-                    className="form-check-input"
-                    name="furnished"
-                    value="no"
-                    checked={formData.furnished === "no"}
-                    onChange={handleChange}
-                  />
-                  No
-                </label>
-              </div>
-            </div>
 
             <div className="mb-3">
               <label htmlFor="area" className="form-label">
@@ -299,14 +275,31 @@ function EditPageForModal(props) {
 
             <div className="mb-3">
               <label htmlFor="rooms" className="form-label">
-                Number of Rooms:
+                Number of bedrooms:
               </label>
               <input
                 type="text"
                 className={`form-control ${errors.rooms && "is-invalid"}`}
-                id="rooms"
-                name="rooms"
-                value={formData.rooms}
+                id="bedrooms"
+                name="bedrooms"
+                value={formData.bedrooms}
+                onChange={handleChange}
+                required
+              />
+              {errors.rooms && (
+                <div className="invalid-feedback">{errors.rooms}</div>
+              )}
+            </div>
+            <div className="mb-3">
+              <label htmlFor="rooms" className="form-label">
+                Number of bathrooms:
+              </label>
+              <input
+                type="text"
+                className={`form-control ${errors.rooms && "is-invalid"}`}
+                id="bathrooms"
+                name="bathrooms"
+                value={formData.bathrooms}
                 onChange={handleChange}
                 required
               />
@@ -335,7 +328,7 @@ function EditPageForModal(props) {
 
             <div className="mb-3">
               <label htmlFor="photo" className="form-label">
-                Upload Photos (up to 10):
+                Upload Photos (up to 5):
               </label>
               <input
                 type="file"
@@ -344,7 +337,6 @@ function EditPageForModal(props) {
                 name="photo"
                 accept="image/*"
                 onChange={handleFileUpload}
-                multiple
               />
               {formData.photos.length > 0 && (
                 <div

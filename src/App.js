@@ -20,6 +20,7 @@ import { LoginAction } from "./store/actions/loginAction";
 import { IsLoadingAction } from "./store/actions/ISLoadingAction";
 import { StoreToken } from "./store/actions/StoreToken";
 import DoneDealPage from "./components/pages/doneDealPage";
+import EditPropertyPage from "./components/pages/EditPropertyPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function App() {
           <Route exact path="/MyDeals" component={DoneDealPage} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/userAds" component={UserAdsPage} />
+          <Route exact path="/EditPropertyAd/:id" component={EditPropertyPage} />
           <Route exact path="/EditUserProfile" component={EditProfilePage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />

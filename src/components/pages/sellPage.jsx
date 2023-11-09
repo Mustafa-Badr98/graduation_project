@@ -221,7 +221,7 @@ function SellPage() {
                 name="governorate"
                 className="form-select "
                 aria-label="Default select example"
-                value={formData.location}
+                value={formData.governorate}
                 onChange={handleChange}
               >
                 <option selected value="">
