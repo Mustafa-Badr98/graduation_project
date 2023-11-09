@@ -19,17 +19,18 @@ import { GetCurrentUserByTokenAction } from "./store/actions/getCurrentUserByTok
 import { LoginAction } from "./store/actions/loginAction";
 import { IsLoadingAction } from "./store/actions/ISLoadingAction";
 import { StoreToken } from "./store/actions/StoreToken";
+import DoneDealPage from "./components/pages/doneDealPage";
 
 function App() {
   const dispatch = useDispatch();
 
   const storedAuthToken = localStorage.getItem("authToken");
   if (storedAuthToken) {
-    dispatch(IsLoadingAction(true))
+    dispatch(IsLoadingAction(true));
     console.log("Retrieved authToken:", storedAuthToken);
-    dispatch(StoreToken(storedAuthToken))
+    dispatch(StoreToken(storedAuthToken));
     dispatch(GetCurrentUserByTokenAction(storedAuthToken));
-    dispatch(LoginAction())
+    dispatch(LoginAction());
   } else {
     console.log("No authToken found in localStorage");
   }
@@ -45,6 +46,8 @@ function App() {
             path="/searchResult"
             component={SearchedPropertiesPage}
           />
+          
+          <Route exact path="/MyDeals" component={DoneDealPage} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/userAds" component={UserAdsPage} />
           <Route exact path="/EditUserProfile" component={EditProfilePage} />

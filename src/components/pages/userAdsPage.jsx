@@ -7,27 +7,18 @@ import UserCard from "../static/UserCard";
 import EmptyUserAdsListAlert from "../static/EmptyUserAdsListAlert";
 const UserAdsPage = () => {
   const user = useSelector((state) => state.currentUSER.currentUser);
-  const [userProperties, setUserProperties] = useState(user.properties_owned);
-  const [isLoading, setIsLoading] = useState(true);
+  const [userProperties, setUserProperties] = useState([]);
+
   console.log(user);
   console.log(userProperties);
-  console.log(isLoading);
-
-
 
   useEffect(() => {
- 
-    if (Object.keys(user).length > 1) {
-      console.log("hi");
-      setIsLoading(false)
-    } else {
-      console.log("by");
-    }
+    setUserProperties(user.properties_owned);
     
-  }, []);
+  }, [user]);
   return (
     <>
-      {isLoading ? (
+      {!user ? (
         <>
           <h1>Loading</h1>
         </>
@@ -41,16 +32,17 @@ const UserAdsPage = () => {
             <span className="fs-4 fw-bold">Manage and view your Ads</span>
             {/* <UserCard productObject={testObject} /> */}
 
-            {userProperties.length === 0 ? (
+            {userProperties && userProperties.length === 0 ? (
               <>
                 <EmptyUserAdsListAlert />
               </>
             ) : (
               <>
                 <div className="row">
-                  {userProperties.map((ad, index) => {
-                    return <UserCard key={index} productObject={ad} />;
-                  })}
+                  {userProperties &&
+                    userProperties.map((ad, index) => {
+                      return <UserCard key={index} productObject={ad} />;
+                    })}
                 </div>
               </>
             )}

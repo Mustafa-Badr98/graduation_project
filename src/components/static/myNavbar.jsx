@@ -14,13 +14,8 @@ const MyNavbar = () => {
   // console.log(user);
   // console.log(isLoggedIn);
 
-  // const WishCount = useSelector((state) => state.WishLIST.wishList.length);
-  // const cartNumbers = useSelector((state) => state.CartList.cartList.length);
-
   const dispatch = useDispatch();
   dispatch(GetProductsListAction());
-
-  // dispatch(GetProductsListAction());
 
   function logoutHandler() {
     const userConfirmed = window.confirm(
@@ -29,7 +24,7 @@ const MyNavbar = () => {
 
     if (userConfirmed) {
       axios
-        .post("http://127.0.0.1:8000/api/user/logout",null,{
+        .post("http://127.0.0.1:8000/api/user/logout", null, {
           withCredentials: true,
 
           headers: {
@@ -53,8 +48,7 @@ const MyNavbar = () => {
       return -1;
     }
   }
-  // const dispatch = useDispatch();
-  // dispatch(LoginAction(""));
+
   useEffect(() => {
     if (Object.keys(user).length === 0) {
       setIsLoggedIn(false);
@@ -66,9 +60,8 @@ const MyNavbar = () => {
       setIsLoggedIn(true);
       setUserFavCount(user.favorites.length);
     }
-    // console.log(isLoggedIn);
   }, [user]);
-  // console.log(isLoggedIn);
+
   return (
     <>
       <div className="container ">
@@ -161,6 +154,12 @@ const MyNavbar = () => {
                   </>
                 ) : (
                   <>
+                    {" "}
+                    <li className="mt-2 me-3">
+                      <Link to="/MyDeals" className="dropdown-item">
+                        My Deals
+                      </Link>
+                    </li>
                     <li className="mt-2 me-3">
                       <Link to="/userAds" className="dropdown-item">
                         My Ads

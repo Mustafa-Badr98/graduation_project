@@ -32,11 +32,11 @@ const UserCard = (props) => {
   return (
     <>
       <div className="container mb-5 mt-5 border border-2">
-        <div className="card mb-3" style={{ border: "none" }}>
+        <div className="card mb-3 mt-3" style={{ border: "none" }}>
           <div className="row">
             <div className="offset-1 col-lg-5 col">
               <img
-                src={`http://localhost:8000${localProduct.image}`}
+                src={`http://localhost:8000${localProduct.images[0].image}`}
                 className="img-fluid rounded-start w-75 h-100"
                 alt="..."
               />
