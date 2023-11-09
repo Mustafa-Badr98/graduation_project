@@ -146,7 +146,7 @@ const DoneDealPage = () => {
                 <div className="col-4">
                   <div className="offset-4 mt-5" style={{ width: "150px" }}>
                     <img
-                      src="https://nafezly-production.fra1.cdn.digitaloceanspaces.com/uploads/avatars/82815_1697978810_653519ba86755.webp"
+                      src={`http://localhost:8000${user.profile_pic}`}
                       alt=""
                       srcSet=""
                       style={{
@@ -157,6 +157,13 @@ const DoneDealPage = () => {
                       }}
                     />
                   </div>
+
+                  <h5
+                    class="text-center pt-2 mb-0 mb-md-5 pb-0 mt-2"
+                    style={{ fontSize: "20px", color: "var(--bg-font-4)" }}
+                  >
+                    {user.user_name}
+                  </h5>
                 </div>
               </div>
             </div>
