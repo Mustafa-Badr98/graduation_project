@@ -32,6 +32,14 @@ export default function GetCurrentUserReducer(state = INITIAL_VALUE, action) {
         currentUser: {},
       };
 
+    case "SET_USER":
+      console.log("we are here")
+      console.log(action.payload)
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+
     default:
       return state;
   }

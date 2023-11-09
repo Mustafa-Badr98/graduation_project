@@ -5,20 +5,60 @@ import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
 
+import axios from "axios";
+import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
+
 const ListingCard = (props) => {
   const dispatch = useDispatch();
   const [is_fav, setFav] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
+  const token = useSelector((state) => state.TokenStore.token);
   const user_fav = user.favorites;
   const localProduct = props.productObject;
-  console.log(localProduct)
+  console.log(localProduct);
 
   const addToFavHandler = () => {
     if (is_fav) {
-      dispatch(UpdateFavCountRemove(localProduct));
+      axios
+        .post(
+          `http://127.0.0.1:8000/api/property/RemFav/${localProduct.id}`,
+          null,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          const userData = response.data.user;
+          console.log(userData);
+          dispatch(RefreshUserDataAction(userData));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       setFav(false);
     } else {
-      dispatch(UpdateFavCountAdd(localProduct));
+      axios
+        .post(
+          `http://127.0.0.1:8000/api/property/AddFav/${localProduct.id}`,
+          null,
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          const userData = response.data.user;
+          console.log(userData);
+          dispatch(RefreshUserDataAction(userData));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       setFav(true);
     }
     // checkIsFav();
@@ -141,7 +181,6 @@ const ListingCard = (props) => {
                   More Details
                 </Link>
               </div>
-            
             </div>
           </div>
         </div>
