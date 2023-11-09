@@ -4,9 +4,12 @@ import EditUserProductModal from "./EditUserProductModal";
 import { DeleteUserProductAction } from "../../store/actions/DeleteUserProduct";
 import { DeleteFromProductListAction } from "../../store/actions/DeleteFromProductList";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import axios from "axios";
+import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 
 const UserCard = (props) => {
   const dispatch = useDispatch();
+  const storedAuthToken = localStorage.getItem("authToken");
 
   const localProduct = props.productObject;
   console.log(localProduct);
@@ -20,8 +23,10 @@ const UserCard = (props) => {
       );
 
       if (userConfirmed) {
-        dispatch(DeleteUserProductAction(localProduct));
-        dispatch(DeleteFromProductListAction(localProduct));
+        axios
+          .delete(`http://127.0.0.1:8000/api/properties/${localProduct.id}`)
+          .then((res) => console.log(res))
+          .then(() => dispatch(GetCurrentUserAction(storedAuthToken)));
       } else {
         console.log("Deletion canceled");
       }

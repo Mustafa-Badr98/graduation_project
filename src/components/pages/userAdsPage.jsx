@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import MyFooter from "../static/footer";
 import NothingFoundAlert from "../static/nothingFoundAlert";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import UserCard from "../static/UserCard";
 import EmptyUserAdsListAlert from "../static/EmptyUserAdsListAlert";
+import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
+
 const UserAdsPage = () => {
+
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [userProperties, setUserProperties] = useState([]);
 
@@ -18,7 +21,7 @@ const UserAdsPage = () => {
   }, [user]);
   return (
     <>
-      {!user ? (
+      {!userProperties ? (
         <>
           <h1>Loading</h1>
         </>

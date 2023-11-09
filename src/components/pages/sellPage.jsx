@@ -6,6 +6,7 @@ import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
+import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -15,6 +16,8 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000",
 });
 function SellPage() {
+  const storedAuthToken = localStorage.getItem("authToken");
+
   const egyptGovernorates = [
     "Alexandria",
     "Aswan",
@@ -180,7 +183,7 @@ function SellPage() {
 
       console.log();
 
-      dispatch(GetProductsListAction());
+      dispatch(GetCurrentUserAction(storedAuthToken));
 
       alert("your product has been added");
       // history.push("/");
