@@ -75,7 +75,7 @@ const MyNavbar = () => {
               style={{ width: "300px", height: "70px" }}
               src={brandPic}
               alt=""
-              srcset=""
+              srcSet=""
             />
           </Link>
 

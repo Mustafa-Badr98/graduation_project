@@ -4,8 +4,11 @@ import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import MyFooter from "../static/footer";
 import axios from "axios";
 import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
+import { LogoutAction } from "../../store/actions/logoutAction";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const EditProfilePage = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
@@ -84,7 +87,7 @@ const EditProfilePage = () => {
     console.log(formData.photo);
     const fileInput = document.getElementById("photo");
     if (fileInput) {
-      fileInput.value = ""; 
+      fileInput.value = "";
     }
   };
   const handleChange = (e) => {
@@ -186,6 +189,32 @@ const EditProfilePage = () => {
     }
   };
 
+  const handleDeleteAccount = () => {
+    try {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to delete your Account? You will not be able to retrieve it afterward."
+      );
+      if (userConfirmed) {
+        console.log(storedAuthToken);
+        const response = axios
+          .delete("http://127.0.0.1:8000/api/user/delete", {
+            headers: {
+              Authorization: `Token ${storedAuthToken}`,
+            },
+          })
+          .then((res) => console.log(res))
+          .then(() => alert("your account has been deleted. logout complete"))
+          .then(() => dispatch(LogoutAction()))
+          .then(() => history.push("/"));
+
+        // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
+      } else {
+        console.log("Deletion canceled");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   useEffect(() => {
     checkHasError();
   }, [formData]);
@@ -398,7 +427,7 @@ const EditProfilePage = () => {
                     <button
                       className="btn btn-danger ms-5"
                       type="button"
-                      onClick={handleSaveChanges}
+                      onClick={handleDeleteAccount}
                     >
                       Delete Account
                     </button>
