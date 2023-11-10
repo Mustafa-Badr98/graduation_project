@@ -170,18 +170,17 @@ function SellPage() {
       }
 
       try {
-        const response = await client.post("/api/postAd/", data, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Token ${token}`,
-          },
-        });
-        console.log("Response:", response.data.properties);
+        const response = await client
+          .post("/api/postAd/", data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Token ${token}`,
+            },
+          })
+          .then((res) => console.log(res.data.properties));
       } catch (error) {
         console.error("Error:", error);
       }
-
-      console.log();
 
       dispatch(GetCurrentUserAction(storedAuthToken));
 

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import MyFooter from "../static/footer";
+import axios from "axios";
+import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
 
 const EditProfilePage = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
+  const storedAuthToken = localStorage.getItem("authToken");
 
   const egyptGovernorates = [
     "Alexandria",
@@ -46,9 +49,9 @@ const EditProfilePage = () => {
 
   const [formData, setFormData] = useState({
     username: "",
-    governorate: "",
-    city: "",
+    governorate: "cairo",
     email: "",
+    photo: [],
     phone: "",
     password: "",
     rePassword: "",
@@ -58,11 +61,32 @@ const EditProfilePage = () => {
     usernameError: "*",
     emailError: "*",
     phoneError: "*",
-    cityError: "*",
+    photoErrors: "Must upload a photo.",
     passwordError: "*",
-    rePassword: "*",
+    rePasswordError: "*",
   });
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+
+    setFormData({
+      ...formData,
+      photo: [file],
+    });
+    console.log(formData.photo);
+    setErrors({ photoErrors: "" });
+  };
+
+  const clearSelectedImage = () => {
+    setFormData({ photo: [] });
+    setErrors({ photoErrors: "Must Upload a photo" });
+
+    console.log(formData.photo);
+    const fileInput = document.getElementById("photo");
+    if (fileInput) {
+      fileInput.value = ""; 
+    }
+  };
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
@@ -97,12 +121,16 @@ const EditProfilePage = () => {
             ? "Bad Password must be 8 characters 1 Lower and 1 Upper and 1 digit and a special"
             : "",
       });
-    } else if (e.target.name === "city") {
+    } else if (e.target.name === "rePassword") {
       setErrors({
         ...errors,
-        cityError: e.target.value.length === 0 ? "this field is required" : "",
+        rePasswordError:
+          e.target.value.length === 0
+            ? "this field is required"
+            : !(e.target.value === formData.password)
+            ? "password does not match"
+            : "",
       });
-      console.log(formData);
     } else if (e.target.name === "phone") {
       setErrors({
         ...errors,
@@ -114,32 +142,45 @@ const EditProfilePage = () => {
             : "",
       });
       console.log(formData);
+      console.log(errors);
     }
   };
 
   const handleSaveChanges = () => {
     if (!hasErrors) {
-      if (isLoggedIn) {
-        const modUser = {
-          username: formData.username,
-          email: formData.email,
-          phone: formData.phone,
-          governorate: formData.governorate,
-          city: formData.city,
-          password: formData.password,
-          rePassword: formData.password,
-        };
+      const data = new FormData();
 
-        const stringedUser = JSON.stringify(modUser);
-        localStorage.removeItem(userInSession.email);
-        localStorage.setItem(modUser.email, stringedUser);
-        dispatch(GetCurrentUserAction(modUser));
+      data.append("user_name", formData.username);
+      data.append("email", formData.email);
+      data.append("mobile_phone", formData.phone);
+      data.append("location", formData.governorate);
+      data.append("password", formData.password);
+      data.append("profile_pic", formData.photo[0]);
 
-        console.log("Saving changes:", formData);
-        alert("changes has been saved");
-      } else {
-        alert("please login first ");
+      for (var key of data.entries()) {
+        console.log(key[0] + ", " + key[1]);
       }
+
+      try {
+        const response = axios
+          .put("http://127.0.0.1:8000/api/user/edit", data, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Token ${storedAuthToken}`,
+            },
+          })
+
+          .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
+      } catch (error) {
+        console.error("Error:", error);
+      }
+
+      // dispatch(GetCurrentUserAction(storedAuthToken));
+
+      // dispatch(GetCurrentUserAction(modUser));
+
+      console.log("Saving changes:", formData);
+      alert("changes has been saved");
     } else {
       alert("please check all the fields");
     }
@@ -158,19 +199,43 @@ const EditProfilePage = () => {
             <div className="card mb-4 mb-xl-0">
               <div className="card-header">Profile Picture</div>
               <div className="card-body text-center">
-                <img
-                  style={{ height: "18rem", width: "18rem" }}
-                  className="img-account-profile rounded-circle mb-2"
-                  src={`http://localhost:8000${userInSession.profile_pic}`}
-                  alt=""
-                />
+                {formData.photo.length > 0 ? (
+                  <>
+                    <img
+                      src={URL.createObjectURL(formData.photo[0])}
+                      alt="Selected Image"
+                      style={{ maxWidth: "14rem", maxHeight: "10rem" }}
+                      className="mb-4"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <img
+                      style={{ height: "18rem", width: "18rem" }}
+                      className="img-account-profile rounded-circle mb-2"
+                      src={`http://localhost:8000${userInSession.profile_pic}`}
+                      alt=""
+                    />
+                  </>
+                )}
 
                 <div className="small font-italic text-muted mb-4">
                   JPG or PNG no larger than 5 MB
                 </div>
-
-                <button className="btn btn-primary" type="button">
-                  Upload new image
+                <span className="text-danger">{errors.photoErrors}</span>
+                <input
+                  type="file"
+                  className={`form-control `}
+                  id="photo"
+                  name="photo"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                />
+                <button
+                  onClick={clearSelectedImage}
+                  className="btn btn-danger fs-6 mt-3"
+                >
+                  Clear Image
                 </button>
               </div>
             </div>
@@ -290,7 +355,7 @@ const EditProfilePage = () => {
                         className="form-control w-75"
                         id="password"
                         name="password"
-                        type="text"
+                        type="password"
                         placeholder="Enter your New Password"
                         value={formData.password}
                         onChange={handleChange}
@@ -307,13 +372,13 @@ const EditProfilePage = () => {
                         className="ms-2"
                         style={{ color: "red", fontSize: "12px" }}
                       >
-                        {errors.passwordError}
+                        {errors.rePasswordError}
                       </span>
                       <input
                         className="form-control w-75"
                         id="rePassword"
                         name="rePassword"
-                        type="text"
+                        type="password"
                         placeholder="ReType your New Password"
                         value={formData.rePassword}
                         onChange={handleChange}
@@ -326,6 +391,7 @@ const EditProfilePage = () => {
                       className="btn btn-primary"
                       type="button"
                       onClick={handleSaveChanges}
+                      disabled={hasErrors}
                     >
                       Save changes
                     </button>
