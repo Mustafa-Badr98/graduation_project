@@ -95,34 +95,7 @@ const MyNavbar = () => {
             className="collapse navbar-collapse d-lg-flex justify-content-between"
             id="navbarNav"
           >
-            <ul className="navbar-nav mt-2 d-none d-lg-flex">
-              {isLoggedIn ? (
-                <>
-                  <li className="nav-item">
-                    <Link
-                      to="/Fav"
-                      className="nav-link text-dark me-2"
-                      href="#fav"
-                    >
-                      <i className="fa-solid fa-heart fs-5"></i>
-                      <span
-                        style={{
-                          backgroundColor: "chocolate",
-                          borderRadius: "20px",
-                          width: "100px",
-                        }}
-                        className="fs-6 text-light ms-1 pe-2 ps-1"
-                      >
-                        {" "}
-                        {userFavCount}
-                      </span>
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                <></>
-              )}
-            </ul>
+            <ul className="navbar-nav mt-2 d-none d-lg-flex"></ul>
 
             <div className="float-start">
               <ul className="navbar-nav">
@@ -157,6 +130,26 @@ const MyNavbar = () => {
                 ) : (
                   <>
                     {" "}
+                    <li className="nav-item">
+                      <Link
+                        to="/Fav"
+                        className="nav-link text-dark me-2"
+                        href="#fav"
+                      >
+                        <i className="fa-solid fa-heart fs-5"></i>
+                        <span
+                          style={{
+                            backgroundColor: "rgb(232, 46, 47)",
+                            borderRadius: "20px",
+                            width: "100px",
+                          }}
+                          className="fs-6 text-light ms-1 pe-2 ps-1"
+                        >
+                          {" "}
+                          {userFavCount}
+                        </span>
+                      </Link>
+                    </li>
                     <li className="mt-2 me-3">
                       <Link to="/MyDeals" className="dropdown-item">
                         My Deals

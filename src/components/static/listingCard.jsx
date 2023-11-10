@@ -103,7 +103,7 @@ const ListingCard = (props) => {
                   top: "10px",
                   right: "10px",
                   fontSize: "30px",
-                  color: "chocolate",
+                  color: "rgb(232, 46, 47)",
                   cursor: "pointer",
                 }}
               ></i>{" "}
