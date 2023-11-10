@@ -55,7 +55,7 @@ function App() {
           <Route exact path="/EditUserProfile" component={EditProfilePage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
-          <Route exact path="/viewUser/:user" component={ViewUsersPage} />
+          <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
           <Route exact path="/:id" component={ViewSingleProductPageV2} />
           <Route exact path="/*" component={NotFoundPage} />
         </Switch>

@@ -5,8 +5,9 @@ import "rsuite/dist/rsuite.min.css";
 import RatePopUpComponent from "../static/RatepopUpcomp";
 import viewUsersPageStyles from "./viewUsersPage.module.css";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
+import MyFooter from "../static/footer";
 
 const texts = {
   0: "No rate yet",
@@ -19,28 +20,26 @@ const texts = {
 let idCount = 0;
 
 const ViewUsersPage = () => {
+  const param = useParams();
+
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
   const authToken = useSelector((state) => state.TokenStore.token);
   const [property_owner, setPropertyOwner] = useState({});
-  console.log(authToken);
-  console.log(userInSession);
-  const param = useParams();
-  console.log(param.user);
+  const [user_comments, setUserComments] = useState([]);
 
   const get_user_data = () => {
-  // let filteredObj = {};
-  // let req = axios
-  //   .get(`http://127.0.0.1:8000/api/user/${param.user}`)
+    axios
+      .get(`http://127.0.0.1:8000/api/user/email/${param.user_email}`)
+      .then((res) => {
+        console.log(res.data.data);
+        setPropertyOwner(res.data.data);
+        setUserComments(res.data.data.comments);
+      })
 
-  //   .then((res) => (setPropertyOwner(res.data)))
-  // //   .then(() => setFilteredObject(filteredObj))
-  // //   .then(() => setSeller(filteredObj.seller))
-  //   .then(() => console.log(property_owner))
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
 
   const [reviews, setReviews] = useState([
     {
@@ -132,7 +131,7 @@ const ViewUsersPage = () => {
 
         setReviews([newReview, ...reviews]);
       } else {
-        alert("please log in first to leave a review");
+        alert("please log in first to leave a comment");
       }
 
       console.log("not empty");
@@ -143,17 +142,21 @@ const ViewUsersPage = () => {
 
   const deleteReviewHandler = (rID) => {
     console.log(rID);
-    const con = window.confirm("do you want to delete this review ?");
+    const con = window.confirm("do you want to delete this comment ?");
     if (con) {
-      let holderArray = reviews.filter((review) => review.RID !== rID);
+      let holderArray = reviews.filter((comment) => comment.RID !== rID);
       setReviews(holderArray);
     }
   };
 
+  useEffect(() => {
+    get_user_data();
+  }, []);
+
   const [hoverValue, setHoverValue] = useState(2);
   return (
     <>
-      <div className="container">
+      <div style={{minHeight:"1100px"}} className="container">
         <main
           className={cx(viewUsersPageStyles["main-content"], "p-5")}
           role="main"
@@ -166,6 +169,7 @@ const ViewUsersPage = () => {
                   <div className={viewUsersPageStyles["profile-page-left"]}>
                     <div className={viewUsersPageStyles.row}>
                       <div className="col-lg-12 mb-4">
+                        <div className="ms-5 mb-4 fs-4 fw-bold">{property_owner.user_name}</div>
                         <div
                           className={cx(
                             viewUsersPageStyles["profile-picture"],
@@ -176,7 +180,7 @@ const ViewUsersPage = () => {
                           )}
                         >
                           <img
-                            src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                            src={`http://localhost:8000${property_owner.profile_pic}`}
                             width="144"
                             height="144"
                           />
@@ -199,15 +203,31 @@ const ViewUsersPage = () => {
                           <RatePopUpComponent />
                         </div>
                       </div>
-                      <div className="col-sm-6">
-                        <span className="fs-5 fw-bold">Ads :</span>
+                      <div className="col-sm-8">
+                        <span className="fs-5 fw-bold">Live Ads :</span>
 
-                        <span className="ms-2 fs-5">12</span>
+                        {Object.keys(property_owner).length > 0 ? (
+                          <>
+                            <span className="ms-2 fs-5 fw-bold">
+                              {property_owner.properties_owned.length}{" "}
+                            </span>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                       <div className="col-sm-6">
                         <span className="fs-5 fw-bold">Sold :</span>
 
-                        <span className="ms-2 fs-5">3</span>
+                        {Object.keys(property_owner).length > 0 ? (
+                          <>
+                            <span className="ms-2 fs-5 fw-bold">
+                              {property_owner.deals_sold.length}{" "}
+                            </span>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     </div>
                     <hr />
@@ -226,24 +246,34 @@ const ViewUsersPage = () => {
                         "clearfix"
                       )}
                     >
-                      <div
-                        style={{
-                          display: "block",
-                          width: 200,
-                          paddingLeft: 0,
-                        }}
-                      >
-                        <Rate
-                          style={{ width: 120 }}
-                          readOnly
-                          defaultValue={userInSession.avg_rating}
-                        />
-                        <span className="fs-6 ms-2">
-                          {texts[Math.round(userInSession.avg_rating)]}
-                        </span>
-                      </div>
+                      {Object.keys(property_owner).length > 0 ? (
+                        <>
+                          <div
+                            style={{
+                              display: "block",
+                              width: 200,
+                              paddingLeft: 0,
+                            }}
+                          >
+                            <Rate
+                              style={{ width: 120 }}
+                              readOnly
+                              defaultValue={property_owner.avg_rating}
+                            />
+
+                            <span className="fs-6 ms-2">
+                              {texts[Math.round(property_owner.avg_rating)]}
+                            </span>
+                          </div>
+                          <div>
+                            number of Rates : ({property_owner.num_ratings})
+                          </div>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </div>
-                    <div>number of Rates : ({userInSession.num_ratings})</div>
+
                     <hr />
                     <h5>
                       <i
@@ -254,19 +284,24 @@ const ViewUsersPage = () => {
                       ></i>
                       latest Ad
                     </h5>
-                    <a href="#">
-                      <img
-                        src="https://en.bailypearl.com/wp-content/uploads/2021/05/villa-la-croix-valmer-vue-aerienne-2-2560x1633.jpg"
-                        className="img-fluid img-thumbnail mt-2"
-                      />
-                    </a>
+                    {Object.keys(property_owner).length > 0 ? (
+                      <>
+                        <Link to={`/${property_owner.properties_owned[0].id}`}>
+                          <img
+                            src={`http://localhost:8000${property_owner.properties_owned[0].images[0].image}`}
+                            className="img-fluid img-thumbnail mt-2"
+                          />
+                        </Link>
+                      </>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className={viewUsersPageStyles["profile-page-center"]}>
                     <h1
                       className={viewUsersPageStyles["card-user-profile-name"]}
                     >
-                      {/* here is the seller name  */}
-                      {userInSession.user_name}
+                     
                     </h1>
                     <div className={viewUsersPageStyles["comment-block"]}>
                       <div className="form-group">
@@ -274,7 +309,7 @@ const ViewUsersPage = () => {
                           className="form-control"
                           id="comment-textarea"
                           rows="2"
-                          placeholder="Enter your comment here..."
+                          placeholder="Leave your comment here..."
                           name="comment-section"
                           value={reviewComment}
                           onChange={commentSectionChangeHandler}
@@ -285,7 +320,7 @@ const ViewUsersPage = () => {
                             "clearfix"
                           )}
                         >
-                          {/* here should do the logic for adding a review */}
+                          {/* here should do the logic for adding a comment */}
                           <button
                             onClick={addCommentHandler}
                             type="button"
@@ -306,136 +341,11 @@ const ViewUsersPage = () => {
                     </div>
                     <hr />
                     <ul className="list-unstyled mt-5">
-                      {reviews.map((review, index) => {
-                        return (
-                          <>
-                            <li
-                              key={index}
-                              className={viewUsersPageStyles.media}
-                            >
-                              <div
-                                className={cx(
-                                  viewUsersPageStyles["profile-picture"],
-                                  "bg-gradient",
-                                  "bg-primary",
-                                  "mb-4"
-                                )}
-                              >
-                                <img
-                                  src={review.photoPath}
-                                  width="44"
-                                  height="44"
-                                />
-                              </div>
-                              <div
-                                className={viewUsersPageStyles["media-body"]}
-                              >
-                                <div
-                                  className={cx(
-                                    viewUsersPageStyles["media-title"],
-                                    "mt-0",
-                                    "mb-1"
-                                  )}
-                                >
-                                  <a href="#">{review.username} </a>{" "}
-                                  <small> {review.timestamp}</small>
-                                  {/* here is the review content */}
-                                </div>
-                                {review.comment}
-                                <div
-                                  className={
-                                    viewUsersPageStyles["media-feed-control"]
-                                  }
-                                >
-                                  <a href="#">
-                                    <i
-                                      className={cx(
-                                        viewUsersPageStyles["batch-icon"],
-                                        "batch-icon-heart-full"
-                                      )}
-                                    ></i>{" "}
-                                    Like ({review.numOfLikes})
-                                  </a>
-
-                                  <a href="#">
-                                    <i className="batch-icon batch-icon-flag"></i>{" "}
-                                    Report
-                                  </a>
-                                  <a
-                                    href="#"
-                                    onClick={() => {
-                                      deleteReviewHandler(review.RID);
-                                    }}
-                                  >
-                                    <i className="batch-icon batch-icon-flag"></i>{" "}
-                                    Delete
-                                  </a>
-                                </div>
-                              </div>
-                            </li>
-                          </>
-                        );
-                      })}
-
-                      <li className={viewUsersPageStyles.media}>
-                        <div
-                          className={cx(
-                            viewUsersPageStyles["profile-picture"],
-                            "bg-gradient",
-                            "bg-primary",
-                            "mb-4"
-                          )}
-                        >
-                          <img
-                            src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                            width="44"
-                            height="44"
-                          />
-                        </div>
-                        <div className={viewUsersPageStyles["media-body"]}>
-                          <div
-                            className={cx(
-                              viewUsersPageStyles["media-title"],
-                              "mt-0",
-                              "mb-1"
-                            )}
-                          >
-                            <a href="#">Mona </a> <small> 1 hour ago</small>
-                            {/* here is the review content */}
-                          </div>
-                          this is the greatest web site ever thanks to the
-                          seller.
-                          <div
-                            className={
-                              viewUsersPageStyles["media-feed-control"]
-                            }
-                          >
-                            <a href="#">
-                              <i
-                                className={cx(
-                                  viewUsersPageStyles["batch-icon"],
-                                  "batch-icon-heart-full"
-                                )}
-                              ></i>{" "}
-                              Like (4)
-                            </a>
-                            <a href="#">
-                              <i
-                                className={cx(
-                                  viewUsersPageStyles["batch-icon"],
-                                  "batch-icon-speech-bubble-left-tip"
-                                )}
-                              ></i>{" "}
-                              Comment (2)
-                            </a>
-                            <a href="#">
-                              <i className="batch-icon batch-icon-flag"></i>{" "}
-                              Report
-                            </a>
-                          </div>
-                          {/* <div className="media-body-reply-block">
-                            <ul className="list-unstyled">
-                              <li className="media mt-4">
+                      {user_comments &&
+                        user_comments.map((comment, index) => {
+                          return (
+                            <div key={index}>
+                              <li className={viewUsersPageStyles.media}>
                                 <div
                                   className={cx(
                                     viewUsersPageStyles["profile-picture"],
@@ -445,7 +355,7 @@ const ViewUsersPage = () => {
                                   )}
                                 >
                                   <img
-                                    src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                    src={`http://localhost:8000${comment.commented_by.profile_pic}`}
                                     width="44"
                                     height="44"
                                   />
@@ -457,15 +367,16 @@ const ViewUsersPage = () => {
                                     className={cx(
                                       viewUsersPageStyles["media-title"],
                                       "mt-0",
-                                      " mb-1"
+                                      "mb-1"
                                     )}
                                   >
-                                    <a href="#">John Doe</a>{" "}
-                                    <small> 45 mins ago</small>
+                                    <a href="#">
+                                      {comment.commented_by.user_name}{" "}
+                                    </a>{" "}
+                                    <small> {comment.created_at}</small>
+                                    {/* here is the comment content */}
                                   </div>
-                                  Cras sit amet nibh libero, in gravida nulla.
-                                  Nulla vel metus scelerisque ante sollicitudin.
-                                  Cras purus odio.
+                                  {comment.content}
                                   <div
                                     className={
                                       viewUsersPageStyles["media-feed-control"]
@@ -478,183 +389,28 @@ const ViewUsersPage = () => {
                                           "batch-icon-heart-full"
                                         )}
                                       ></i>{" "}
-                                      Like
+                                      Like ({comment.numOfLikes})
                                     </a>
-                                    <a href="#">
-                                      <i
-                                        className={cx(
-                                          viewUsersPageStyles["batch-icon"],
-                                          "batch-icon-speech-bubble-left-tip"
-                                        )}
-                                      ></i>{" "}
-                                      Comment
-                                    </a>
+
                                     <a href="#">
                                       <i className="batch-icon batch-icon-flag"></i>{" "}
                                       Report
                                     </a>
-                                  </div>
-                                </div>
-                              </li>
-                              <li className="media mt-4">
-                                <div
-                                  className={cx(
-                                    viewUsersPageStyles["profile-picture"],
-                                    "bg-gradient",
-                                    "bg-primary",
-                                    "mb-4"
-                                  )}
-                                >
-                                  <img
-                                    src="https://bootdey.com/img/Content/avatar/avatar3.png"
-                                    width="44"
-                                    height="44"
-                                  />
-                                </div>
-                                <div
-                                  className={viewUsersPageStyles["media-body"]}
-                                >
-                                  <div
-                                    className={cx(
-                                      viewUsersPageStyles["media-title"],
-                                      "mt-0",
-                                      " mb-1"
-                                    )}
-                                  >
-                                    <a href="#">John Doe</a>{" "}
-                                    <small> 7 mins ago</small>
-                                  </div>
-                                  Cras sit amet nibh libero, in gravida nulla.
-                                  Nulla vel metus scelerisque ante sollicitudin.
-                                  Cras purus odio.
-                                  <div
-                                    className={
-                                      viewUsersPageStyles["media-feed-control"]
-                                    }
-                                  >
-                                    <a href="#">
-                                      <i
-                                        className={cx(
-                                          viewUsersPageStyles["batch-icon"],
-                                          "batch-icon-heart-full"
-                                        )}
-                                      ></i>{" "}
-                                      Like
-                                    </a>
-                                    <a href="#">
-                                      <i
-                                        className={cx(
-                                          viewUsersPageStyles["batch-icon"],
-                                          "batch-icon-speech-bubble-left-tip"
-                                        )}
-                                      ></i>{" "}
-                                      Comment
-                                    </a>
-                                    <a href="#">
+                                    <a
+                                      href="#"
+                                      onClick={() => {
+                                        deleteReviewHandler(comment.RID);
+                                      }}
+                                    >
                                       <i className="batch-icon batch-icon-flag"></i>{" "}
-                                      Report
+                                      Delete
                                     </a>
                                   </div>
                                 </div>
                               </li>
-                              <li
-                                className={cx(
-                                  viewUsersPageStyles["comment-reply-block"],
-                                  "mt-4"
-                                )}
-                              >
-                                <div className={cx("form-group", "clearfix")}>
-                                  <textarea
-                                    className={cx(
-                                      viewUsersPageStyles[
-                                        "comment-reply-textarea"
-                                      ],
-                                      "form-control"
-                                    )}
-                                    rows="2"
-                                    placeholder="Enter your comment here..."
-                                  ></textarea>
-                                  <button
-                                    type="button"
-                                    className={cx(
-                                      "btn",
-                                      "btn-secondary",
-                                      "btn-sm",
-                                      viewUsersPageStyles["comment-reply"],
-                                      "float-right",
-                                      "waves-effect",
-                                      "waves-light"
-                                    )}
-                                  >
-                                    Reply
-                                  </button>
-                                </div>
-                              </li>
-                            </ul>
-                          </div> */}
-                        </div>
-                      </li>
-                      <li className={viewUsersPageStyles.media}>
-                        <div
-                          className={cx(
-                            viewUsersPageStyles["profile-picture"],
-                            "bg-gradient",
-                            "bg-primary",
-                            "mb-4"
-                          )}
-                        >
-                          <img
-                            src="https://bootdey.com/img/Content/avatar/avatar8.png"
-                            width="44"
-                            height="44"
-                          />
-                        </div>
-                        <div className={viewUsersPageStyles["media-body"]}>
-                          <div
-                            className={cx(
-                              viewUsersPageStyles["media-title"],
-                              "mt-0",
-                              " mb-1"
-                            )}
-                          >
-                            <a href="#">Lila </a> <small> 1 hour ago</small>
-                          </div>
-                          <a href="#">
-                            <img
-                              src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                              className="img-fluid img-thumbnail"
-                            />
-                          </a>
-                          <div
-                            className={
-                              viewUsersPageStyles["media-feed-control"]
-                            }
-                          >
-                            <a href="#">
-                              <i
-                                className={cx(
-                                  viewUsersPageStyles["batch-icon"],
-                                  "batch-icon-heart-full"
-                                )}
-                              ></i>{" "}
-                              Like (57)
-                            </a>
-                            <a href="#">
-                              <i
-                                className={cx(
-                                  viewUsersPageStyles["batch-icon"],
-                                  "batch-icon-speech-bubble-left-tip"
-                                )}
-                              ></i>{" "}
-                              Comment
-                            </a>
-                            <a href="#">
-                              <i className="batch-icon batch-icon-flag"></i>{" "}
-                              Report
-                            </a>
-                          </div>
-                        </div>
-                      </li>
+                            </div>
+                          );
+                        })}
                     </ul>
                   </div>
                 </div>
@@ -663,7 +419,10 @@ const ViewUsersPage = () => {
           </div>
         </main>
       </div>
+      <MyFooter />
+
     </>
+    
   );
 };
 
