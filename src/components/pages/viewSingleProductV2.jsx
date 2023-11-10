@@ -85,9 +85,12 @@ const ViewSingleProductPageV2 = () => {
         {filteredObjectImages.length >= 1 ? (
           <>
             <div className="row">
-              <div className="col-xl-7 ms-4 px-1">
+              <div
+                style={{ maxHeight: "30rem" }}
+                className="col-xl-7 ms-4 px-1"
+              >
                 <img
-                  style={{ height: "480px" }}
+                  style={{ height: "100%", width: "100%" }}
                   src={`http://localhost:8000${filteredObjectImages[0].image}`}
                   alt="no"
                 />
@@ -166,7 +169,9 @@ const ViewSingleProductPageV2 = () => {
             </div>
             <div className="row py-0 mt-3 ">
               <div className="col-6">
-                <div className="pb-4 fs-5 fw-bold">Location: </div>
+                <div className="pb-4 fs-5 fw-bold text-dark">
+                  Location: {filteredObject.location}
+                </div>
                 <div className="row">
                   <span
                     className=""
@@ -177,10 +182,6 @@ const ViewSingleProductPageV2 = () => {
                     }}
                     id="map"
                   ></span>
-
-                  <div className="col-6 mt-4 ms-4">
-                    <span>{filteredObject.location}</span>
-                  </div>
                 </div>
               </div>
               {seller ? (
