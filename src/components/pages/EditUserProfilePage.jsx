@@ -51,6 +51,7 @@ const EditProfilePage = () => {
     email: "",
     phone: "",
     password: "",
+    rePassword: "",
   });
 
   const [errors, setErrors] = useState({
@@ -59,6 +60,7 @@ const EditProfilePage = () => {
     phoneError: "*",
     cityError: "*",
     passwordError: "*",
+    rePassword: "*",
   });
 
   const handleChange = (e) => {
@@ -174,12 +176,12 @@ const EditProfilePage = () => {
             </div>
           </div>
 
-          <div className="col-xl-8">
+          <div className="col-xl-6">
             <div className="card mb-4">
               <div className="card-header">Account Details</div>
               <div className="card-body">
                 <form>
-                  <div className="mb-3">
+                  <div className="mb-3 username">
                     <label className="small mb-1" htmlFor="inputUsername">
                       Username (how your name will appear to other users on the
                       site)
@@ -191,7 +193,7 @@ const EditProfilePage = () => {
                       {errors.usernameError}
                     </span>
                     <input
-                      className="form-control"
+                      className="form-control w-75"
                       id="username"
                       name="username"
                       type="text"
@@ -201,32 +203,35 @@ const EditProfilePage = () => {
                     />
                   </div>
 
-                  <div className="">
-                    <label className="fs-6 my-2" htmlFor="state">
-                      Governorate
-                    </label>
-
-                    <select
-                      defaultValue={userInSession.governorate}
-                      onChange={handleChange}
-                      style={{ height: "2rem", width: "15.6rem" }}
-                      className="ms-2 ms-4"
-                      id="governorate"
-                      name="governorate"
-                    >
-                      {egyptGovernorates.map((governorate, index) => {
-                        return (
-                          <option key={index} value={governorate}>
-                            {" "}
-                            {governorate}{" "}
-                          </option>
-                        );
-                      })}
-                    </select>
+                  <div className="governorate pb-4">
+                    <div className="row">
+                      <label className="small pb-1" htmlFor="state">
+                        Governorate
+                      </label>
+                    </div>
+                    <div className="row">
+                      <select
+                        defaultValue={userInSession.governorate}
+                        onChange={handleChange}
+                        style={{ height: "", width: "73%" }}
+                        className="ms-2 form-control "
+                        id="governorate"
+                        name="governorate"
+                      >
+                        {egyptGovernorates.map((governorate, index) => {
+                          return (
+                            <option key={index} value={governorate}>
+                              {" "}
+                              {governorate}{" "}
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
                   </div>
 
                   {/* Form Group (email address) */}
-                  <div className="mb-3">
+                  <div className="email mb-3">
                     <label className="small mb-1" htmlFor="inputEmailAddress">
                       Email address
                     </label>
@@ -237,7 +242,7 @@ const EditProfilePage = () => {
                       {errors.emailError}
                     </span>
                     <input
-                      className="form-control"
+                      className="form-control w-75"
                       id="email"
                       name="email"
                       type="email"
@@ -248,7 +253,7 @@ const EditProfilePage = () => {
                   </div>
 
                   <div className="row gx-3 mb-3">
-                    <div className="col-md-6">
+                    <div className="phone-number ">
                       <label className="small mb-1" htmlFor="inputPhone">
                         Phone number
                       </label>
@@ -259,7 +264,7 @@ const EditProfilePage = () => {
                         {errors.phoneError}
                       </span>
                       <input
-                        className="form-control"
+                        className="form-control w-75"
                         id="phone"
                         name="phone"
                         type="tel"
@@ -268,8 +273,10 @@ const EditProfilePage = () => {
                         onChange={handleChange}
                       />
                     </div>
+                  </div>
 
-                    <div className="col-md-6">
+                  <div className="row gx-3 mb-3">
+                    <div className=" password">
                       <label className="small mb-1" htmlFor="inputPassword">
                         Password
                       </label>
@@ -280,12 +287,35 @@ const EditProfilePage = () => {
                         {errors.passwordError}
                       </span>
                       <input
-                        className="form-control"
+                        className="form-control w-75"
                         id="password"
                         name="password"
                         type="text"
                         placeholder="Enter your New Password"
                         value={formData.password}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row gx-3 mb-3">
+                    <div className="">
+                      <label className="small mb-1" htmlFor="rePassword">
+                        Re Password
+                      </label>
+                      <span
+                        className="ms-2"
+                        style={{ color: "red", fontSize: "12px" }}
+                      >
+                        {errors.passwordError}
+                      </span>
+                      <input
+                        className="form-control w-75"
+                        id="rePassword"
+                        name="rePassword"
+                        type="text"
+                        placeholder="ReType your New Password"
+                        value={formData.rePassword}
                         onChange={handleChange}
                       />
                     </div>

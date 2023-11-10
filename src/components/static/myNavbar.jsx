@@ -5,7 +5,7 @@ import { LoginAction } from "../../store/actions/loginAction";
 import { LogoutAction } from "../../store/actions/logoutAction";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import axios from "axios";
-
+import brandPic from "../../assets/images/6883103.jpg";
 const MyNavbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
@@ -69,12 +69,14 @@ const MyNavbar = () => {
           id="nav"
           className="navbar navbar-expand-lg bg-body p-0 sticky-top"
         >
-          <Link
-            to="/"
-            className="navbar-brand text-dark ms-4 mt-2"
-            href="#home"
-          >
-            <h2>Realtor Project</h2>
+          <Link to="/" className="navbar-brand text-dark ms-4" href="#home">
+            <img
+              className="pe-5"
+              style={{ width: "300px", height: "70px" }}
+              src={brandPic}
+              alt=""
+              srcset=""
+            />
           </Link>
 
           <button
