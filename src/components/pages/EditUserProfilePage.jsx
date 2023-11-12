@@ -6,6 +6,7 @@ import axios from "axios";
 import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
 import { LogoutAction } from "../../store/actions/logoutAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import no_profile_pic from "../../assets/images/no-profile.jpg";
 
 const EditProfilePage = () => {
   const history = useHistory();
@@ -237,12 +238,22 @@ const EditProfilePage = () => {
                       className="mb-4"
                     />
                   </>
+                ) : userInSession.profile_pic ? (
+                  <>
+                    {" "}
+                    <img
+                      style={{ height: "18rem", width: "18rem" }}
+                      className="img-account-profile rounded-circle mb-2"
+                      src={`http://localhost:8000${userInSession.profile_pic}`}
+                      alt=""
+                    />
+                  </>
                 ) : (
                   <>
                     <img
                       style={{ height: "18rem", width: "18rem" }}
                       className="img-account-profile rounded-circle mb-2"
-                      src={`http://localhost:8000${userInSession.profile_pic}`}
+                      src={no_profile_pic}
                       alt=""
                     />
                   </>

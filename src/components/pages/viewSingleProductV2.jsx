@@ -9,6 +9,7 @@ import L from "leaflet";
 import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
 import ContactEmailSellerButton from "../static/EmailButtonComp";
 import axios from "axios";
+import no_profile_pic from "../../assets/images/no-profile.jpg";
 
 const ViewSingleProductPageV2 = () => {
   const param = useParams();
@@ -196,15 +197,31 @@ const ViewSingleProductPageV2 = () => {
                     <div className="row">
                       <div className="col-5">
                         <span className="">
-                          <img
-                            style={{
-                              height: "150px",
-                              width: "150px",
-                              borderRadius: "50%",
-                            }}
-                            src={`http://localhost:8000${seller.profile_pic}`}
-                            alt=""
-                          />
+                          {seller.profile_pic ? (
+                            <>
+                              <img
+                                style={{
+                                  height: "150px",
+                                  width: "150px",
+                                  borderRadius: "50%",
+                                }}
+                                src={`http://localhost:8000${seller.profile_pic}`}
+                                alt=""
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <img
+                                style={{
+                                  height: "150px",
+                                  width: "150px",
+                                  borderRadius: "50%",
+                                }}
+                                src={no_profile_pic}
+                                alt=""
+                              />
+                            </>
+                          )}
                         </span>
                       </div>
                     </div>

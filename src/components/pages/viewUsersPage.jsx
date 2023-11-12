@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import MyFooter from "../static/footer";
+import no_profile_pic from "../../assets/images/no-profile.jpg";
 
 const texts = {
   0: "No rate yet",
@@ -34,6 +35,7 @@ const ViewUsersPage = () => {
         console.log(res.data.data);
         setPropertyOwner(res.data.data);
         setUserComments(res.data.data.comments);
+        console.log(property_owner);
       })
 
       .catch((err) => {
@@ -156,7 +158,7 @@ const ViewUsersPage = () => {
   const [hoverValue, setHoverValue] = useState(2);
   return (
     <>
-      <div style={{minHeight:"1100px"}} className="container">
+      <div style={{ minHeight: "1100px" }} className="container">
         <main
           className={cx(viewUsersPageStyles["main-content"], "p-5")}
           role="main"
@@ -169,7 +171,9 @@ const ViewUsersPage = () => {
                   <div className={viewUsersPageStyles["profile-page-left"]}>
                     <div className={viewUsersPageStyles.row}>
                       <div className="col-lg-12 mb-4">
-                        <div className="ms-5 mb-4 fs-4 fw-bold">{property_owner.user_name}</div>
+                        <div className="ms-5 mb-4 fs-4 fw-bold">
+                          {property_owner.user_name}
+                        </div>
                         <div
                           className={cx(
                             viewUsersPageStyles["profile-picture"],
@@ -179,11 +183,26 @@ const ViewUsersPage = () => {
                             "mb-4"
                           )}
                         >
-                          <img
-                            src={`http://localhost:8000${property_owner.profile_pic}`}
-                            width="144"
-                            height="144"
-                          />
+                          {property_owner.profile_pic ? (
+                            <>
+                              <img
+                                src={`http://localhost:8000${property_owner.profile_pic}`}
+                                alt="user-profile"
+                                width="144"
+                                height="144"
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <img
+                                src={no_profile_pic}
+                                alt="no-user-profile"
+                                width="144"
+                                height="144"
+                                className="bg-body"
+                              />
+                            </>
+                          )}
                         </div>
                         <div className="d-flex justify-content-around ">
                           <div
@@ -300,9 +319,7 @@ const ViewUsersPage = () => {
                   <div className={viewUsersPageStyles["profile-page-center"]}>
                     <h1
                       className={viewUsersPageStyles["card-user-profile-name"]}
-                    >
-                     
-                    </h1>
+                    ></h1>
                     <div className={viewUsersPageStyles["comment-block"]}>
                       <div className="form-group">
                         <textarea
@@ -420,9 +437,7 @@ const ViewUsersPage = () => {
         </main>
       </div>
       <MyFooter />
-
     </>
-    
   );
 };
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import no_profile_pic from "../../assets/images/no-profile.jpg";
 
 const DoneDealPage = () => {
   const dispatch = useDispatch();
@@ -145,17 +146,35 @@ const DoneDealPage = () => {
 
                 <div className="col-4">
                   <div className="offset-4 mt-5" style={{ width: "150px" }}>
-                    <img
-                      src={`http://localhost:8000${user.profile_pic}`}
-                      alt=""
-                      srcSet=""
-                      style={{
-                        width: "100%",
-                        borderRadius: "50%",
-                        padding: "10px",
-                        height: "100%",
-                      }}
-                    />
+                    {user.profile_pic ? (
+                      <>
+                        <img
+                          src={`http://localhost:8000${user.profile_pic}`}
+                          alt=""
+                          srcSet=""
+                          style={{
+                            width: "100%",
+                            borderRadius: "50%",
+                            padding: "10px",
+                            height: "100%",
+                          }}
+                        />
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src={no_profile_pic}
+                          alt=""
+                          srcSet=""
+                          style={{
+                            width: "100%",
+                            borderRadius: "50%",
+                            padding: "10px",
+                            height: "100%",
+                          }}
+                        />
+                      </>
+                    )}
                   </div>
 
                   <h5
