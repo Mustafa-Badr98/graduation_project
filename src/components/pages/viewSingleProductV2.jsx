@@ -10,7 +10,7 @@ import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
 import ContactEmailSellerButton from "../static/EmailButtonComp";
 import axios from "axios";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
-
+import AdditionalOfferButton from "../static/OfferButton";
 const ViewSingleProductPageV2 = () => {
   const param = useParams();
   const mapRef = useRef(null);
@@ -286,6 +286,9 @@ const ViewSingleProductPageV2 = () => {
                   <i className="fa-brands fa-whatsapp"></i>WhatsUp
                 </button>
               </div>
+            </div>
+            <div className="row">
+                <AdditionalOfferButton/>
             </div>
             <div className="row">
               <div className="container">
