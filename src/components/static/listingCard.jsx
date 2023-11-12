@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
@@ -8,80 +9,49 @@ import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import axios from "axios";
 import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
 
+
+
 const ListingCard = (props) => {
   const dispatch = useDispatch();
-  const [is_fav, setFav] = useState(false);
+  const [isFav, setIsFav] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
   const token = useSelector((state) => state.TokenStore.token);
-  const user_fav = user.favorites;
   const localProduct = props.productObject;
-  console.log(localProduct);
 
   const addToFavHandler = () => {
-    if (is_fav) {
-      axios
-        .post(
-          `http://127.0.0.1:8000/api/property/RemFav/${localProduct.id}`,
-          null,
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        )
-        .then((response) => {
-          const userData = response.data.user;
-          console.log(userData);
-          dispatch(RefreshUserDataAction(userData));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    const endpoint = isFav
+      ? `http://127.0.0.1:8000/api/property/RemFav/${localProduct.id}`
+      : `http://127.0.0.1:8000/api/property/AddFav/${localProduct.id}`;
 
-      setFav(false);
-    } else {
-      axios
-        .post(
-          `http://127.0.0.1:8000/api/property/AddFav/${localProduct.id}`,
-          null,
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
-        )
-        .then((response) => {
-          const userData = response.data.user;
-          console.log(userData);
-          dispatch(RefreshUserDataAction(userData));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    axios
+      .post(endpoint, null, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      })
+      .then((response) => {
+        const userData = response.data.user;
+        dispatch(RefreshUserDataAction(userData));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
-      setFav(true);
-    }
-    // checkIsFav();
+    setIsFav(!isFav);
   };
 
-  const checkIsFavWhenMountAndUnMount = () => {
-    if (Object.keys(user).length === 0) {
-    } else {
-      const fav_ids = user_fav.map((fav) => fav.id);
-      if (fav_ids.includes(localProduct.id)) {
-        console.log("found");
-        setFav(true);
-      } else {
-        console.log("not found");
-        setFav(false);
-      }
-    }
-  };
-
+  // useEffect(() => {
+  //   if (Object.keys(user).length !== 0) {
+  //     const favIds = user.favorites.map((fav) => fav.id);
+  //     setIsFav(favIds.includes(localProduct.id));
+  //   }
+  // }, [user, localProduct.id]);
   useEffect(() => {
-    setFav(false);
-    checkIsFavWhenMountAndUnMount();
-  }, [user]);
+    if (Object.keys(user).length !== 0) {
+      const favIds = user.favorites.map((fav) => fav.id);
+      setIsFav(favIds.includes(localProduct.id));
+    }
+  }, [user, localProduct]);
   return (
     <>
       <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5 ">
@@ -92,7 +62,7 @@ const ListingCard = (props) => {
             alt=""
             className="card-img-top"
           />
-          {is_fav ? (
+          {isFav ? (
             <>
               {" "}
               <i
@@ -190,3 +160,14 @@ const ListingCard = (props) => {
 };
 
 export default ListingCard;
+
+
+
+
+
+
+
+
+
+
+
