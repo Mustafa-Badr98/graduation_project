@@ -27,6 +27,7 @@ const ViewUsersPage = () => {
   const authToken = useSelector((state) => state.TokenStore.token);
   const [property_owner, setPropertyOwner] = useState({});
   const [user_comments, setUserComments] = useState([]);
+  const [flag, setFlag] = useState(0);
 
   const get_user_data = () => {
     axios
@@ -43,117 +44,66 @@ const ViewUsersPage = () => {
       });
   };
 
-  const [reviews, setReviews] = useState([
-    {
-      RID: 100,
-      username: "User1",
-      email: "user1@example.com",
-      photoPath: "https://bootdey.com/img/Content/avatar/avatar1.png",
-      comment: "Great seller! Highly recommended.",
-      numOfLikes: 20,
-      timestamp: "2023-10-12T12:30:00Z",
-    },
-    {
-      RID: 101,
-      username: "User2",
-      email: "user2@example.com",
-      photoPath: "https://bootdey.com/img/Content/avatar/avatar2.png",
-      comment: "Excellent service and fast shipping.",
-      numOfLikes: 44,
-      timestamp: "2023-10-12T13:45:00Z",
-    },
-    {
-      RID: 102,
-      username: "User3",
-      email: "user3@example.com",
-      photoPath: "https://bootdey.com/img/Content/avatar/avatar3.png",
-      comment: "Product quality is outstanding!",
-      numOfLikes: 12,
-      timestamp: "2023-10-12T14:15:00Z",
-    },
-    {
-      RID: 103,
-      username: "User4",
-      email: "user4@example.com",
-      photoPath: "https://bootdey.com/img/Content/avatar/avatar4.png",
-      comment: "Will buy again. A+++",
-      numOfLikes: 99,
-      timestamp: "2023-10-12T15:00:00Z",
-    },
-    {
-      RID: 104,
-      username: "User5",
-      email: "user5@example.com",
-      photoPath: "https://bootdey.com/img/Content/avatar/avatar5.png",
-      comment: "Responsive and helpful seller.",
-      numOfLikes: 24,
-      timestamp: "2023-10-12T15:45:00Z",
-    },
-    {
-      RID: 105,
-      username: "User6",
-      email: "user6@example.com",
-      photoPath: "https://bootdey.com/img/Content/avatar/avatar6.png",
-      comment: "Fast delivery and well-packaged.",
-      numOfLikes: 66,
-      timestamp: "2023-10-12T16:30:00Z",
-    },
-    {
-      RID: 106,
-      username: "User7",
-      email: "user7@example.com",
-      photoPath: "https://bootdey.com/img/Content/avatar/avatar7.png",
-      comment: "Highly satisfied with the purchase.",
-      numOfLikes: 98,
-      timestamp: "2023-10-12T17:15:00Z",
-    },
-  ]);
-
-  const [reviewComment, setReviewComment] = useState("");
+  const [comment, setComment] = useState("");
   const commentSectionChangeHandler = (e) => {
-    setReviewComment(e.target.value);
+    setComment(e.target.value);
     console.log(e.target.value);
   };
 
-  const addCommentHandler = (e) => {
-    if (reviewComment.length !== 0) {
-      if (userInSession) {
-        idCount += 1;
-        let now = new Date();
-        let formattedTimestamp = now.toLocaleDateString("en-US");
-        let newReview = {
-          RID: idCount,
-          username: userInSession.username,
-          email: userInSession.email,
-          photoPath: "https://bootdey.com/img/Content/avatar/avatar1.png",
-          comment: reviewComment,
-          numOfLikes: 0,
-          timestamp: formattedTimestamp,
-        };
+  const addCommentHandler = () => {
+    let data = {
+      user: property_owner.id,
+      content: comment,
+    };
 
-        setReviews([newReview, ...reviews]);
-      } else {
-        alert("please log in first to leave a comment");
-      }
-
-      console.log("not empty");
+    if (userInSession) {
+      axios
+        .post("http://127.0.0.1:8000/api/add_comment/", data, {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        })
+        .then((res) => {
+          setFlag(flag + 1);
+          console.log(flag);
+          console.log(res.data.comment);
+        });
     } else {
-      console.log("empty");
+      alert("You should login first to leave a comment.");
     }
   };
 
-  const deleteReviewHandler = (rID) => {
-    console.log(rID);
-    const con = window.confirm("do you want to delete this comment ?");
+  const deleteCommentHandler = (cID) => {
+    console.log(cID);
+    const con = window.confirm("do you want to delete your comment ?");
     if (con) {
-      let holderArray = reviews.filter((comment) => comment.RID !== rID);
-      setReviews(holderArray);
+      console.log(authToken);
+      axios
+        .delete(`http://127.0.0.1:8000/api/delete_comment/${cID}`, {
+          headers: {
+            Authorization: `Token ${authToken}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setFlag(flag + 1);
+          console.log(flag);
+        });
+    } else {
+      alert("delete canceled");
     }
+  };
+
+  const editCommentHandler = (cID, cContent) => {
+    let data = {
+      content: cContent,
+    };
+
   };
 
   useEffect(() => {
     get_user_data();
-  }, []);
+  }, [flag]);
 
   const [hoverValue, setHoverValue] = useState(2);
   return (
@@ -321,6 +271,7 @@ const ViewUsersPage = () => {
                       className={viewUsersPageStyles["card-user-profile-name"]}
                     ></h1>
                     <div className={viewUsersPageStyles["comment-block"]}>
+                      {/* comment input */}
                       <div className="form-group">
                         <textarea
                           className="form-control"
@@ -328,7 +279,7 @@ const ViewUsersPage = () => {
                           rows="2"
                           placeholder="Leave your comment here..."
                           name="comment-section"
-                          value={reviewComment}
+                          value={comment}
                           onChange={commentSectionChangeHandler}
                         ></textarea>
                         <div
@@ -371,11 +322,24 @@ const ViewUsersPage = () => {
                                     "mb-4"
                                   )}
                                 >
-                                  <img
-                                    src={`http://localhost:8000${comment.commented_by.profile_pic}`}
-                                    width="44"
-                                    height="44"
-                                  />
+                                  {comment.commented_by.profile_pic ? (
+                                    <>
+                                      <img
+                                        src={`http://localhost:8000${comment.commented_by.profile_pic}`}
+                                        width="44"
+                                        height="44"
+                                      />
+                                    </>
+                                  ) : (
+                                    <>
+                                      <img
+                                        src={no_profile_pic}
+                                        width="44"
+                                        height="44"
+                                        className="bg-body"
+                                      />
+                                    </>
+                                  )}
                                 </div>
                                 <div
                                   className={viewUsersPageStyles["media-body"]}
@@ -408,20 +372,37 @@ const ViewUsersPage = () => {
                                       ></i>{" "}
                                       Like ({comment.numOfLikes})
                                     </a>
+                                    {userInSession.id ===
+                                    comment.commented_by.id ? (
+                                      <>
+                                        <button
+                                          className="btn btn-danger"
+                                          style={{ scale: ".7" }}
+                                          onClick={() => {
+                                            deleteCommentHandler(comment.id);
+                                          }}
+                                        >
+                                          <i className="batch-icon batch-icon-flag"></i>{" "}
+                                          Delete
+                                        </button>
 
-                                    <a href="#">
-                                      <i className="batch-icon batch-icon-flag"></i>{" "}
-                                      Report
-                                    </a>
-                                    <a
-                                      href="#"
-                                      onClick={() => {
-                                        deleteReviewHandler(comment.RID);
-                                      }}
-                                    >
-                                      <i className="batch-icon batch-icon-flag"></i>{" "}
-                                      Delete
-                                    </a>
+                                        {/* <button
+                                          className="btn btn-secondary"
+                                          style={{ scale: ".7" }}
+                                          onClick={() => {
+                                            editCommentHandler(
+                                              comment.id,
+                                              comment.content
+                                            );
+                                          }}
+                                        >
+                                          <i className="batch-icon batch-icon-flag"></i>{" "}
+                                          Edit
+                                        </button> */}
+                                      </>
+                                    ) : (
+                                      <></>
+                                    )}
                                   </div>
                                 </div>
                               </li>
@@ -436,7 +417,6 @@ const ViewUsersPage = () => {
           </div>
         </main>
       </div>
-      <MyFooter />
     </>
   );
 };
