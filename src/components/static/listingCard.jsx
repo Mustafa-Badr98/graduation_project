@@ -17,6 +17,7 @@ const ListingCard = (props) => {
   const user = useSelector((state) => state.currentUSER.currentUser);
   const token = useSelector((state) => state.TokenStore.token);
   const localProduct = props.productObject;
+  console.log(localProduct)
 
   const addToFavHandler = () => {
     const endpoint = isFav
