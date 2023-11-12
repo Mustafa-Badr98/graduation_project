@@ -7,7 +7,7 @@ import { UpdateFavCountAdd } from "../../store/actions/FavCountAddAction";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
-
+import AdditionalOfferButton from "../static/OfferButton";
 const ViewSingleProductPageV2 = () => {
   const param = useParams();
   const mapRef = useRef(null);
@@ -247,24 +247,8 @@ const ViewSingleProductPageV2 = () => {
                 <div className=" fs-5 ">{product.price} EGP / Month</div>
               </div>
             </div>
-            <div className="row mt-4 ">
-              <div className="col-4">
-                <button className="btn btn-danger">
-                  <i className="fs-6 fa-solid fa-phone me-3 ms-3"></i>
-                  Call
-                </button>
-              </div>{" "}
-              <div className="col-4">
-                <button className="btn btn-info">
-                  <i className="fs-6 fa-solid fa-envelope ms-4 me-4"></i>
-                  Email
-                </button>
-              </div>{" "}
-              <div className="col-4">
-                <button className="btn btn-success">
-                  <i className="fa-brands fa-whatsapp"></i>WhatsUp
-                </button>
-              </div>
+            <div className="row">
+            <AdditionalOfferButton/>
             </div>
             <div className="row">
               <div className="container">

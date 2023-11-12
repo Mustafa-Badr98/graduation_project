@@ -13,7 +13,7 @@ import UserAdsPage from "./components/pages/userAdsPage";
 import ViewSingleProductPageV2 from "./components/pages/viewSingleProductV2";
 import EditProfilePage from "./components/pages/EditUserProfilePage";
 import ViewUsersPage from "./components/pages/viewUsersPage";
-
+import OfferForm from "./components/pages/OfferForm";
 function App() {
   return (
     <>
@@ -29,6 +29,8 @@ function App() {
           <Route exact path="/viewUser/:user" component={ViewUsersPage} />
           <Route exact path="/:id" component={ViewSingleProductPageV2} />
           <Route exact path="/*" component={NotFoundPage} />
+
+          <Route exact path="/OfferForm" component={OfferForm} />
         </Switch>
       </BrowserRouter>
       <LoginModal />
