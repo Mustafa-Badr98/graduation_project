@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const ViewSinglePageProductModal = (props) => {
   const productImages = props.productPhotos;
-  console.log(productImages);
+  // console.log(productImages);
   return (
     <>
       <div
