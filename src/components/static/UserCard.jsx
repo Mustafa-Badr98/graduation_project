@@ -83,6 +83,17 @@ const UserCard = (props) => {
                   >
                     Remove
                   </a>
+
+                  <Link to={`/Property/${localProduct.id}/Offers/`} className="text-dark ms-4 mt-1 fs-5 ">
+                    Offers{" "}
+                    <span
+                      style={{ borderRadius: "40%" }}
+                      className="bg-danger fs-5 text-light px-1"
+                    >
+                      {" "}
+                      {localProduct.offers.length}
+                    </span>
+                  </Link>
                 </div>
               </div>
             </div>

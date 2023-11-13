@@ -21,7 +21,8 @@ import { IsLoadingAction } from "./store/actions/ISLoadingAction";
 import { StoreToken } from "./store/actions/StoreToken";
 import DoneDealPage from "./components/pages/doneDealPage";
 import EditPropertyPage from "./components/pages/EditPropertyPage";
-import OfferForm from "./components/pages/OfferForm";
+import OffersPage from "./components/pages/OffersPage";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -52,12 +53,13 @@ function App() {
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/userAds" component={UserAdsPage} />
           <Route exact path="/EditPropertyAd/:id" component={EditPropertyPage} />
+          <Route exact path="/Property/:id/Offers/" component={OffersPage} />
           <Route exact path="/EditUserProfile" component={EditProfilePage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
           <Route exact path="/:id" component={ViewSingleProductPageV2} />
-          <Route exact path="/OfferForm" component={OfferForm} />
+   
 
           <Route exact path="/*" component={NotFoundPage} />
         </Switch>

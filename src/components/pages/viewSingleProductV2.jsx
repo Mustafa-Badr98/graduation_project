@@ -10,26 +10,59 @@ import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
 import ContactEmailSellerButton from "../static/EmailButtonComp";
 import axios from "axios";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
-import AdditionalOfferButton from "../static/OfferButton";
+
 const ViewSingleProductPageV2 = () => {
   const param = useParams();
   const mapRef = useRef(null);
   const dispatch = useDispatch();
   const [is_fav, setFav] = useState(false);
-
   const [filteredObject, setFilteredObject] = useState({});
   const [filteredObjectImages, setFilteredObjectImages] = useState([]);
   const [seller, setSeller] = useState({});
+  const [offer_price, setOfferPrice] = useState(0);
 
-  const addToFavHandler = () => {
-    if (is_fav) {
-      dispatch(UpdateFavCountRemove(filteredObject));
-      setFav(false);
+  const token = localStorage.getItem("authToken");
+
+  console.log(filteredObject);
+  const handleOfferPriceChange = (e) => {
+    if (e.target.value < 0) {
+      setOfferPrice(0);
     } else {
-      dispatch(UpdateFavCountAdd(filteredObject));
-      setFav(true);
+      setOfferPrice(e.target.value);
     }
   };
+
+  const handleSubmitOffer = () => {
+    console.log("Offer submitted:", offer_price);
+    let data = {
+      property_id: filteredObject.id,
+      price: offer_price,
+    };
+    console.log(data);
+    try {
+      axios
+        .post("http://127.0.0.1:8000/api/add_offer/", data, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+      alert("offer submitted");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const addToFavHandler = () => {
+  //   if (is_fav) {
+  //     dispatch(UpdateFavCountRemove(filteredObject));
+  //     setFav(false);
+  //   } else {
+  //     dispatch(UpdateFavCountAdd(filteredObject));
+  //     setFav(true);
+  //   }
+  // };
   // const checkIsFav = (product) => {
   //   const sessionStorageKeys = Object.keys(sessionStorage);
   //   if (sessionStorageKeys.includes(product.id.toString())) {
@@ -50,7 +83,7 @@ const ViewSingleProductPageV2 = () => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(filteredObjectImages);
+    console.log(filteredObj);
     // checkIsFav(filteredObj);))
   };
 
@@ -267,11 +300,13 @@ const ViewSingleProductPageV2 = () => {
             className="col-3 border border-2 ms-2"
           >
             <div className="fs-1 text-dark">
-              <div className="row px-5">
-                <div className=" fs-5 ">{filteredObject.price} EGP / Month</div>
+              <div className="row px-5 text-center">
+                <div className=" fs-5 mt-4">
+                  Initial Price : {filteredObject.price} EGP{" "}
+                </div>
               </div>
             </div>
-            <div className="row mt-4 ">
+            {/* <div className="row mt-4 ">
               <div className="col-4">
                 <button className="btn btn-danger">
                   <i className="fs-6 fa-solid fa-phone me-3 ms-3"></i>
@@ -286,9 +321,31 @@ const ViewSingleProductPageV2 = () => {
                   <i className="fa-brands fa-whatsapp"></i>WhatsUp
                 </button>
               </div>
+            </div> */}
+            <div className="row mt-2 text-center">
+              <label className="fw-bold">
+                Price:
+                <input
+                  type="number"
+                  pattern="[0-9]*"
+                  inputMode="numeric"
+                  min="0"
+                  value={offer_price}
+                  onChange={handleOfferPriceChange}
+                  className="form-control w-75 ms-5 pe-5"
+                />
+              </label>
             </div>
             <div className="row">
-                <AdditionalOfferButton/>
+              <div className="offset-4 col-6">
+                <button
+                  onClick={handleSubmitOffer}
+                  className="my-2 btn btn-secondary"
+                  type="button"
+                >
+                  Submit Offer
+                </button>
+              </div>
             </div>
             <div className="row">
               <div className="container">
@@ -297,7 +354,7 @@ const ViewSingleProductPageV2 = () => {
             </div>
             <div className="row">
               <div className="container">
-                <div className="offset-2 col-8 border border-1 rounded">
+                {/* <div className="offset-2 col-8 border border-1 rounded">
                   {is_fav ? (
                     <>
                       <span className="px-4" onClick={addToFavHandler}>
@@ -318,7 +375,7 @@ const ViewSingleProductPageV2 = () => {
                       </span>
                     </>
                   )}
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
