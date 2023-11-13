@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import MyFooter from "../static/footer";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 
 const OffersPage = () => {
   const token = localStorage.getItem("authToken");
   const param = useParams();
   const [property_offers, setPropertyOffers] = useState([]);
   const [flag, setFlag] = useState(0);
+  const dispatch = useDispatch();
 
   const getPropertyOffers = () => {
     try {
@@ -37,6 +40,7 @@ const OffersPage = () => {
       })
       .then((res) => {
         // getPropertyOffers();
+        dispatch(GetCurrentUserAction(token));
         console.log(res);
         setFlag(flag + 1);
       });
@@ -74,12 +78,12 @@ const OffersPage = () => {
                 style={{ height: "50px" }}
                 className="bg-dark rounded text-light mt-3 row"
               >
-                <div className="col-2 fs-5 pt-2">
+                <div className="col-3 fs-5 pt-2">
                   Offered By {offer.user.user_name}
                 </div>
-                <div className="col-3 fs-5 pt-2">on {offer.created_at}</div>
+                <div className="col-3 fs-5 pt-2">Date: {offer.created_at.slice(0,10)}</div>
                 <div className="col-3 fs-5 pt-2">
-                  offer Price EGP {offer.price}
+                  offered price  <span className="text-success">{offer.price} </span> EGP
                 </div>
                 <div className="col-1 pt-1">
                   <button
