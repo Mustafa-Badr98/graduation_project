@@ -9,7 +9,9 @@ import IsLoadingReducer from "./IsLoadingReducer";
 import AddToUserProductListReducer from "./UserProductListReducer";
 import StoreTokenReducer from "./StoreTokenReducer";
 import GetProductsSearchedListReducer from "./productsSearchedReducer";
+import FLagReducer from "./FlagReducer";
 export default combineReducers({
+  Flag:FLagReducer,
   IsLog: LogReducer,
   Products: GetProductsListReducer,
   ProductsSearched:GetProductsSearchedListReducer,

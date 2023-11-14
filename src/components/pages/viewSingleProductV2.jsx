@@ -30,7 +30,11 @@ const ViewSingleProductPageV2 = () => {
 
   const token = localStorage.getItem("authToken");
   const storedAuthToken = localStorage.getItem("authToken");
+  const [offersUserIds, setOfferUsersIds] = useState([]);
+  const [flag, setFlag] = useState(0);
 
+  console.log(`users that give offers ${offersUserIds}`);
+  console.log(userInSession.id);
   console.log(filteredObject);
   const handleOfferPriceChange = (e) => {
     if (e.target.value < 0) {
@@ -54,7 +58,11 @@ const ViewSingleProductPageV2 = () => {
             Authorization: `Token ${token}`,
           },
         })
-        .then((res) => console.log(res))
+        .then((res) => {
+          dispatch(GetCurrentUserAction(token));
+          console.log(res);
+          setFlag(flag+1)
+        })
         .catch((err) => console.log(err));
       alert("offer submitted");
     } catch (error) {
@@ -93,6 +101,11 @@ const ViewSingleProductPageV2 = () => {
       .then(() => setFilteredObject(filteredObj))
       .then(() => setFilteredObjectImages(filteredObj.images))
       .then(() => setSeller(filteredObj.seller))
+      .then(() =>
+        setOfferUsersIds(
+          filteredObj.offers.map((offer) => parseInt(offer.user.id, 10))
+        )
+      )
       .catch((err) => {
         console.log(err);
       });
@@ -125,7 +138,7 @@ const ViewSingleProductPageV2 = () => {
   useEffect(() => {
     getProductData();
     getMap();
-  }, []);
+  }, [flag]);
   return (
     <>
       <div className="container mt-5">
@@ -330,8 +343,9 @@ const ViewSingleProductPageV2 = () => {
           >
             <div className="fs-1 text-dark">
               <div className="row px-5 text-center">
-                <div className=" fs-2 text-danger mt-4">
-                  {filteredObject.price} EGP{" "}
+                <div className=" fs-2  mt-4">
+                  <span className="text-danger">{filteredObject.price}</span>{" "}
+                  EGP{" "}
                 </div>
               </div>
             </div>
@@ -370,6 +384,17 @@ const ViewSingleProductPageV2 = () => {
                   >
                     Delete your ad
                   </button>
+                </div>
+              </>
+            ) : offersUserIds.includes(userInSession.id) ? (
+              <>
+                <div className="text-secondary rounded text-center mt-5 fs-4">
+                  {" "}
+                  Your offer has been submitted
+                </div>{" "}
+                <div className="text-secondary rounded text-center fs-4">
+                  {" "}
+                  waiting to review.
                 </div>
               </>
             ) : (

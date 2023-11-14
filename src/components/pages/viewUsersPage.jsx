@@ -4,11 +4,12 @@ import Rate from "rsuite/Rate";
 import "rsuite/dist/rsuite.min.css";
 import RatePopUpComponent from "../static/RatepopUpcomp";
 import viewUsersPageStyles from "./viewUsersPage.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import MyFooter from "../static/footer";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
+import { ChangeFlagAction } from "../../store/actions/changeFlagAction";
 
 const texts = {
   0: "No rate yet",
@@ -22,12 +23,14 @@ let idCount = 0;
 
 const ViewUsersPage = () => {
   const param = useParams();
+  const dispatch = useDispatch();
 
   const userInSession = useSelector((state) => state.currentUSER.currentUser);
   const authToken = useSelector((state) => state.TokenStore.token);
   const [property_owner, setPropertyOwner] = useState({});
   const [user_comments, setUserComments] = useState([]);
-  const [flag, setFlag] = useState(0);
+  const flag = useSelector((state) => state.Flag.flag);
+  const [ratingsUserIds, setRatingsUsersIds] = useState([]);
 
   const get_user_data = () => {
     axios
@@ -36,7 +39,9 @@ const ViewUsersPage = () => {
         console.log(res.data.data);
         setPropertyOwner(res.data.data);
         setUserComments(res.data.data.comments);
-        console.log(property_owner);
+        setRatingsUsersIds(
+          res.data.data.ratings.map((rating) => parseInt(rating.rated_by, 10))
+        );
       })
 
       .catch((err) => {
@@ -64,7 +69,8 @@ const ViewUsersPage = () => {
           },
         })
         .then((res) => {
-          setFlag(flag + 1);
+          // setFlag(flag + 1);
+          dispatch(ChangeFlagAction(flag + 1));
           console.log(flag);
           console.log(res.data.comment);
         });
@@ -86,7 +92,9 @@ const ViewUsersPage = () => {
         })
         .then((res) => {
           console.log(res);
-          setFlag(flag + 1);
+          // setFlag(flag + 1);
+          dispatch(ChangeFlagAction(flag + 1));
+
           console.log(flag);
         });
     } else {
@@ -98,7 +106,6 @@ const ViewUsersPage = () => {
     let data = {
       content: cContent,
     };
-
   };
 
   useEffect(() => {
@@ -154,23 +161,29 @@ const ViewUsersPage = () => {
                             </>
                           )}
                         </div>
-                        <div className="d-flex justify-content-around ">
-                          <div
-                            style={{ height: "2.5em" }}
-                            className={cx(
-                              "btn",
-                              "btn-secondary",
-                              "btn-gradient",
-                              "waves-effect",
-                              "waves-light",
-                              "mt-2"
-                            )}
-                            href="#"
-                          >
-                            Contact
-                          </div>
-                          <RatePopUpComponent />
-                        </div>
+                        {property_owner.id === userInSession.id ? (
+                          <></>
+                        ) : (
+                          <>
+                            <div className="d-flex justify-content-around ">
+                              {ratingsUserIds.includes(userInSession.id) ? (
+                                <>
+                                  <RatePopUpComponent
+                                    title="Edit Rate"
+                                    user={property_owner}
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <RatePopUpComponent
+                                    title="Give Rate"
+                                    user={property_owner}
+                                  />
+                                </>
+                              )}
+                            </div>
+                          </>
+                        )}
                       </div>
                       <div className="col-sm-8">
                         <span className="fs-5 fw-bold">Live Ads :</span>
@@ -227,7 +240,7 @@ const ViewUsersPage = () => {
                             <Rate
                               style={{ width: 120 }}
                               readOnly
-                              defaultValue={property_owner.avg_rating}
+                              value={property_owner.avg_rating}
                             />
 
                             <span className="fs-6 ms-2">
@@ -270,43 +283,50 @@ const ViewUsersPage = () => {
                     <h1
                       className={viewUsersPageStyles["card-user-profile-name"]}
                     ></h1>
-                    <div className={viewUsersPageStyles["comment-block"]}>
-                      {/* comment input */}
-                      <div className="form-group">
-                        <textarea
-                          className="form-control"
-                          id="comment-textarea"
-                          rows="2"
-                          placeholder="Leave your comment here..."
-                          name="comment-section"
-                          value={comment}
-                          onChange={commentSectionChangeHandler}
-                        ></textarea>
-                        <div
-                          className={cx(
-                            viewUsersPageStyles["media-feed-control"],
-                            "clearfix"
-                          )}
-                        >
-                          {/* here should do the logic for adding a comment */}
-                          <button
-                            onClick={addCommentHandler}
-                            type="button"
-                            className={cx(
-                              "btn",
-                              "btn-secondary",
-                              "btn-sm",
-                              viewUsersPageStyles["comment-reply"],
-                              "float-right",
-                              "waves-effect",
-                              "waves-light"
-                            )}
-                          >
-                            Post
-                          </button>
+                    {property_owner.id === userInSession.id ? (
+                      <></>
+                    ) : (
+                      <>
+                        <div className={viewUsersPageStyles["comment-block"]}>
+                          {/* comment input */}
+                          <div className="form-group">
+                            <textarea
+                              className="form-control"
+                              id="comment-textarea"
+                              rows="2"
+                              placeholder="Leave your comment here..."
+                              name="comment-section"
+                              value={comment}
+                              onChange={commentSectionChangeHandler}
+                            ></textarea>
+                            <div
+                              className={cx(
+                                viewUsersPageStyles["media-feed-control"],
+                                "clearfix"
+                              )}
+                            >
+                              {/* here should do the logic for adding a comment */}
+                              <button
+                                onClick={addCommentHandler}
+                                type="button"
+                                className={cx(
+                                  "btn",
+                                  "btn-secondary",
+                                  "btn-sm",
+                                  viewUsersPageStyles["comment-reply"],
+                                  "float-right",
+                                  "waves-effect",
+                                  "waves-light"
+                                )}
+                              >
+                                Post
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
+                      </>
+                    )}
+
                     <hr />
                     <ul className="list-unstyled mt-5">
                       {user_comments &&
