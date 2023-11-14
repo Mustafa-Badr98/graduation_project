@@ -144,10 +144,11 @@ const MyNavbar = () => {
                   <>
                     <li className="nav-item ">
                       <Link
+                        style={{textDecoration:"none"}}
                         to="/sellProduct"
-                        className="btn btn-danger rounded-5 me-3 "
+                        className="btn btn-danger text-light rounded-5 me-3 "
                       >
-                        Sell Your House
+                        Sell Your Property
                       </Link>
                     </li>
                     <div className="dropdown me-4">

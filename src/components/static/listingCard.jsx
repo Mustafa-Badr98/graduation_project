@@ -100,7 +100,6 @@ const ListingCard = (props) => {
               }}
               className="card-text "
             >
-            
               {localProduct.description}
             </p>
             <div className="row align-items-center">
@@ -111,37 +110,40 @@ const ListingCard = (props) => {
                 </span>
                 <span className="ms-1">Bedrooms</span>
               </div>
-              <div className="col-5">
+              <div className="col-4">
                 <span>
                   <i className="fas fa-shower"></i>
                   <span> {localProduct.number_of_bathrooms}</span>
                 </span>
                 <span className="ms-1">Bathrooms</span>
               </div>
-              <div className="col-3">
+              <div className="col-4">
                 <span className="row">
                   <div className="col-12">
-                    <i className="fas fa-vector-square"></i>
-                    <span className="ms-1">Area</span>
+                    <i className="fas fa-vector-square me-1"></i>
+                    <span>
+                      Area{" "}
+                      <span className="ms-1">{localProduct.area_size} M </span>
+                    </span>
                   </div>
                 </span>
                 <span>
-                  <span>
-                    {localProduct.area_size} <span>Sq Ft</span>
-                  </span>
+                  <span></span>
                 </span>
               </div>
             </div>
             <div className="row mt-5">
               <div className="col-6 mt-2">
                 <span className="fs-6 fw-bold">For {localProduct.type} : </span>
-                <span className="ms-1 fs-5 fw-bold">{localProduct.price} EGP</span>
+                <span className="ms-1 fs-5 fw-bold">
+                  <span className="text-danger">{localProduct.price} </span> EGP
+                </span>
               </div>
               <div className="offset-3 col-2">
                 <Link
                   to={`/${localProduct.id}`}
                   style={{ borderRadius: "20px", fontSize: "10px" }}
-                  className="btn btn-primary"
+                  className="btn btn-secondary"
                 >
                   More Details
                 </Link>
