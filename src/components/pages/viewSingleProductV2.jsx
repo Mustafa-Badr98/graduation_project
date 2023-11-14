@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  Link,
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { UpdateFavCountRemove } from "../../store/actions/FavCountRemoveAction";
@@ -10,8 +14,10 @@ import ViewSinglePageProductModal from "../static/ViewSinglePageProductModal";
 import ContactEmailSellerButton from "../static/EmailButtonComp";
 import axios from "axios";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
+import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 
 const ViewSingleProductPageV2 = () => {
+  const history = useHistory();
   const param = useParams();
   const mapRef = useRef(null);
   const dispatch = useDispatch();
@@ -20,8 +26,10 @@ const ViewSingleProductPageV2 = () => {
   const [filteredObjectImages, setFilteredObjectImages] = useState([]);
   const [seller, setSeller] = useState({});
   const [offer_price, setOfferPrice] = useState(0);
+  const userInSession = useSelector((state) => state.currentUSER.currentUser);
 
   const token = localStorage.getItem("authToken");
+  const storedAuthToken = localStorage.getItem("authToken");
 
   console.log(filteredObject);
   const handleOfferPriceChange = (e) => {
@@ -54,22 +62,27 @@ const ViewSingleProductPageV2 = () => {
     }
   };
 
-  // const addToFavHandler = () => {
-  //   if (is_fav) {
-  //     dispatch(UpdateFavCountRemove(filteredObject));
-  //     setFav(false);
-  //   } else {
-  //     dispatch(UpdateFavCountAdd(filteredObject));
-  //     setFav(true);
-  //   }
-  // };
-  // const checkIsFav = (product) => {
-  //   const sessionStorageKeys = Object.keys(sessionStorage);
-  //   if (sessionStorageKeys.includes(product.id.toString())) {
-  //     setFav(true);
-  //   }
-  // };
+  const RemoveButtonHandler = () => {
+    try {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to delete your Ad? You will not be able to retrieve it afterward."
+      );
 
+      if (userConfirmed) {
+        axios
+          .delete(`http://127.0.0.1:8000/api/properties/${filteredObject.id}`)
+          .then((res) => console.log(res))
+          .then(() => {
+            dispatch(GetCurrentUserAction(storedAuthToken));
+            history.push("/");
+          });
+      } else {
+        console.log("Deletion canceled");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getProductData = () => {
     // let productId = parseInt(param.id);
     let filteredObj = {};
@@ -135,12 +148,12 @@ const ViewSingleProductPageV2 = () => {
                 className="col-xl-4 "
               >
                 <img
-                  style={{ height: "14.5rem" }}
+                  style={{ height: "14.5rem", width: "100%" }}
                   src={`http://localhost:8000${filteredObjectImages[1].image}`}
                   alt="no"
                 />{" "}
                 <img
-                  style={{ height: "14.5rem" }}
+                  style={{ height: "14.5rem", width: "100%" }}
                   className="mt-3"
                   src={`http://localhost:8000${filteredObjectImages[2].image}`}
                   alt="no"
@@ -164,22 +177,27 @@ const ViewSingleProductPageV2 = () => {
             <div className="row py-0">
               <span className="fs-5">
                 {" "}
-                Available Area for {filteredObject.type} at{" "}
-                {filteredObject.location} {filteredObject.area_size}M.
+                Available Area {filteredObject.area_size} M at{" "}
+                {filteredObject.location}.
               </span>
             </div>
             <div className="row py-0 mt-3 ">
               <div className="col-6">
                 <div>
                   <i className="fa-solid fa-building me-2"></i>
-                  <span>Property Type : </span>
-                  <span>Open Space </span>
+                  <span className="ms-2 ps-2">Property Type : </span>
+                  <span>For {filteredObject.type}</span>
                 </div>
 
                 <div className="mt-2">
                   <i className="fa-solid fa-bath me-2"></i>
-                  <span>Bathrooms : </span>
+                  <span className="ms-2 ps-1">Bathrooms : </span>
                   <span>{filteredObject.number_of_bathrooms} </span>
+                </div>
+                <div className="mt-2">
+                  <i className="fa-solid fa-bed me-2 "></i>
+                  <span className="ms-2">Bedrooms : </span>
+                  <span>{filteredObject.number_of_bedrooms} </span>
                 </div>
               </div>
               <div className="col-6">
@@ -191,10 +209,25 @@ const ViewSingleProductPageV2 = () => {
 
                 <div className="mt-2">
                   <i className="fa-regular fa-calendar me-2"></i>
-                  <span>Available From : </span>
+                  <span>Published at : </span>
                   <span>{filteredObject.created_at} </span>
                 </div>
+                <div className="mt-2">
+                  <i class="fa-solid fa-eye me-2"></i>
+                  <span>Offers : </span>
+                  <span className="text-danger">
+                    {filteredObject && filteredObject.offers ? (
+                      <>{filteredObject.offers.length} </>
+                    ) : (
+                      <></>
+                    )}{" "}
+                  </span>
+                </div>
               </div>
+            </div>
+            <div className="row mt-5 ">
+              <span className="fs-5 fw-bold">Description :</span>
+              <div className="container mt-3">{filteredObject.description}</div>
             </div>
             <div className="row mt-4 ">
               <div className="container">
@@ -289,20 +322,16 @@ const ViewSingleProductPageV2 = () => {
                 <hr />
               </div>
             </div>
-            <div className="row mt-4 ">
-              <span className="fs-5 fw-bold">Description :</span>
-              <div className="container mt-5">{filteredObject.description}</div>
-            </div>
           </div>
 
           <div
-            style={{ height: "11.8rem", width: "23rem" }}
+            style={{ height: "12.8rem", width: "26.5rem" }}
             className="col-3 border border-2 ms-2"
           >
             <div className="fs-1 text-dark">
               <div className="row px-5 text-center">
-                <div className=" fs-5 mt-4">
-                  Initial Price : {filteredObject.price} EGP{" "}
+                <div className=" fs-2 text-danger mt-4">
+                  {filteredObject.price} EGP{" "}
                 </div>
               </div>
             </div>
@@ -322,31 +351,57 @@ const ViewSingleProductPageV2 = () => {
                 </button>
               </div>
             </div> */}
-            <div className="row mt-2 text-center">
-              <label className="fw-bold">
-                Price:
-                <input
-                  type="number"
-                  pattern="[0-9]*"
-                  inputMode="numeric"
-                  min="0"
-                  value={offer_price}
-                  onChange={handleOfferPriceChange}
-                  className="form-control w-75 ms-5 pe-5"
-                />
-              </label>
-            </div>
-            <div className="row">
-              <div className="offset-4 col-6">
-                <button
-                  onClick={handleSubmitOffer}
-                  className="my-2 btn btn-secondary"
-                  type="button"
-                >
-                  Submit Offer
-                </button>
-              </div>
-            </div>
+            {userInSession && seller && seller.id === userInSession.id ? (
+              <>
+                {" "}
+                <div className="row mt-4">
+                  <div className="offset-1 col-4 btn btn-secondary">
+                    <Link
+                      className="text-light"
+                      to={`EditPropertyAd/${filteredObject.id}`}
+                    >
+                      {" "}
+                      Edit your ad
+                    </Link>
+                  </div>
+                  <button
+                    onClick={RemoveButtonHandler}
+                    className="offset-1 col-4 btn btn-danger"
+                  >
+                    Delete your ad
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="row mt-2 text-center offer-submit">
+                  <label className="fw-bold">
+                    Price:
+                    <input
+                      type="number"
+                      pattern="[0-9]*"
+                      inputMode="numeric"
+                      min="0"
+                      value={offer_price}
+                      onChange={handleOfferPriceChange}
+                      className="form-control w-75 ms-5 pe-5"
+                    />
+                  </label>
+                </div>
+                <div className="row offer-submit">
+                  <div className="offset-4 col-6">
+                    <button
+                      onClick={handleSubmitOffer}
+                      className="my-2 btn btn-secondary"
+                      type="button"
+                    >
+                      Submit Offer
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
             <div className="row">
               <div className="container">
                 <hr className="mt-3 " />

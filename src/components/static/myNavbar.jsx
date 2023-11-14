@@ -79,6 +79,19 @@ const MyNavbar = () => {
             />
           </Link>
 
+          {user.is_admin ? (
+            <>
+              <Link
+                to="/admin_panel"
+                className=" bg-danger rounded text-light "
+              >
+                <span className="fs-5 p-1">Admin Panel</span>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
+
           <button
             className="navbar-toggler ms-auto me-3"
             type="button"
@@ -129,43 +142,12 @@ const MyNavbar = () => {
                   </>
                 ) : (
                   <>
-                    {" "}
-                    <li className="nav-item">
-                      <Link
-                        to="/Fav"
-                        className="nav-link text-dark me-2"
-                        href="#fav"
-                      >
-                        <i className="fa-solid fa-heart fs-5"></i>
-                        <span
-                          style={{
-                            backgroundColor: "rgb(232, 46, 47)",
-                            borderRadius: "20px",
-                            width: "100px",
-                          }}
-                          className="fs-6 text-light ms-1 pe-2 ps-1"
-                        >
-                          {" "}
-                          {userFavCount}
-                        </span>
-                      </Link>
-                    </li>
-                    <li className="mt-2 me-3">
-                      <Link to="/MyDeals" className="dropdown-item">
-                        My Deals
-                      </Link>
-                    </li>
-                    <li className="mt-2 me-3">
-                      <Link to="/userAds" className="dropdown-item">
-                        My Ads
-                      </Link>
-                    </li>
                     <li className="nav-item ">
                       <Link
                         to="/sellProduct"
                         className="btn btn-danger rounded-5 me-3 "
                       >
-                        Sell
+                        Sell Your House
                       </Link>
                     </li>
                     <div className="dropdown me-4">
@@ -176,7 +158,7 @@ const MyNavbar = () => {
                         data-bs-toggle="dropdown"
                         aria-expanded="false"
                       >
-                        {`${user["user_name"]}`}
+                        {user.user_name}
                       </button>
                       <ul className="dropdown-menu">
                         <li>
@@ -184,20 +166,49 @@ const MyNavbar = () => {
                             to={`/EditUserProfile`}
                             className="dropdown-item"
                           >
-                            My Profile
+                            <i class="fa-solid fa-user me-2"></i> My Profile
                           </Link>
                         </li>
                         <li>
                           <Link to="/userAds" className="dropdown-item">
-                            My Ads
+                            <i class="fa-solid fa-house me-2"></i> My Ads
                           </Link>
                         </li>
+                        <li>
+                          <Link to="/MyDeals" className="dropdown-item">
+                            <i class="fa-solid fa-handshake-simple me-2"></i> My
+                            Deals
+                          </Link>
+                        </li>
+
+                        <li>
+                          <Link
+                            to="/Fav"
+                            className="dropdown-item text-dark me-2"
+                          >
+                            <i className="fa-solid fa-heart fs-5 me-2"></i>
+                            Favorites
+                            <span
+                              style={{
+                                backgroundColor: "rgb(232, 46, 47)",
+                                borderRadius: "20px",
+                                width: "80px",
+                              }}
+                              className="fs-6 text-light ms-1 pe-2 ps-1"
+                            >
+                              {" "}
+                              {userFavCount}
+                            </span>
+                          </Link>
+                        </li>
+
                         <li>
                           <Link
                             to=""
                             onClick={logoutHandler}
                             className="dropdown-item"
                           >
+                            <i class="fa-solid fa-right-from-bracket me-2 ms-1"></i>
                             Logout
                           </Link>
                         </li>

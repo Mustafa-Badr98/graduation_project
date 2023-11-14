@@ -135,7 +135,7 @@ const ListingCard = (props) => {
             <div className="row mt-5">
               <div className="col-6 mt-2">
                 <span className="fs-6 fw-bold">For {localProduct.type} : </span>
-                <span className="ms-1 fs-5 fw-bold">${localProduct.price}</span>
+                <span className="ms-1 fs-5 fw-bold">{localProduct.price} EGP</span>
               </div>
               <div className="offset-3 col-2">
                 <Link
