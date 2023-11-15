@@ -23,7 +23,11 @@ const AdminHomePage = () => {
                 <ul>
                   <li className="fs-5">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} className="" to="/admin_panel/users">
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      className=""
+                      to="/admin_panel/users"
+                    >
                       users
                     </Link>
                   </li>
@@ -35,7 +39,11 @@ const AdminHomePage = () => {
                 <ul>
                   <li className="fs-5">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} className="" to="">
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      className=""
+                      to="/admin_panel/comments"
+                    >
                       users comments
                     </Link>
                   </li>
@@ -47,7 +55,11 @@ const AdminHomePage = () => {
                 <ul>
                   <li className="fs-5">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} className="" to="">
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      className=""
+                      to="/admin_panel/ratings"
+                    >
                       users Ratings
                     </Link>
                   </li>
@@ -61,7 +73,11 @@ const AdminHomePage = () => {
                 <ul>
                   <li className="fs-5">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} className="" to="">
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      className=""
+                      to="/admin_panel/properties"
+                    >
                       Users Properties
                     </Link>
                   </li>
@@ -73,7 +89,11 @@ const AdminHomePage = () => {
                 <ul>
                   <li className="fs-5">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} className="" to="">
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      className=""
+                      to="/admin_panel/offers"
+                    >
                       users offers
                     </Link>
                   </li>
@@ -85,7 +105,7 @@ const AdminHomePage = () => {
                 <ul>
                   <li className="fs-5">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} className="" to="">
+                    <Link style={{ textDecoration: "none" }} className="" to="/admin_panel/deals">
                       users deals
                     </Link>
                   </li>

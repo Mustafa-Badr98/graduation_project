@@ -25,6 +25,12 @@ import OffersPage from "./components/pages/OffersPage";
 import AdminHomePage from "./components/pages/admin_pages/adminPanelHome";
 import { Redirect } from "react-router-dom";
 import AdminUsersPage from "./components/pages/admin_pages/adminUsersPage";
+
+import AdminCommentsPage from "./components/pages/admin_pages/adminCommentsPage";
+import AdminPropertiesPage from "./components/pages/admin_pages/adminPropertiesPage";
+import AdminOffersPage from "./components/pages/admin_pages/adminOffersPage";
+import AdminRatingsPage from "./components/pages/admin_pages/adminRatingsPage";
+import AdminDealsPage from "./components/pages/admin_pages/adminDealsPage";
 function App() {
   const user = useSelector((state) => state.currentUSER.currentUser);
   console.log(user);
@@ -70,6 +76,27 @@ function App() {
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
           <Route exact path="/admin_panel" component={AdminHomePage} />
           <Route exact path="/admin_panel/users" component={AdminUsersPage} />
+          <Route
+            exact
+            path="/admin_panel/properties"
+            component={AdminPropertiesPage}
+          />
+          <Route
+            exact
+            path="/admin_panel/comments"
+            component={AdminCommentsPage}
+          />
+          <Route exact path="/admin_panel/offers" component={AdminOffersPage} />
+          <Route
+            exact
+            path="/admin_panel/ratings"
+            component={AdminRatingsPage}
+          />
+          <Route
+            exact
+            path="/admin_panel/deals"
+            component={AdminDealsPage}
+          />
 
           <Route exact path="/:id" component={ViewSingleProductPageV2} />
 

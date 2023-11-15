@@ -4,9 +4,9 @@ import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
 
-const AdminUsersPage = () => {
+const AdminDealsPage = () => {
   const user = useSelector((state) => state.currentUSER.currentUser);
-  const [allUsers, setAllUsers] = useState([]);
+  const [allDeals, setAllDeals] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
   const handelSearchChange = (e) => {
@@ -16,10 +16,10 @@ const AdminUsersPage = () => {
   useEffect(() => {
     try {
       axios
-        .get("http://127.0.0.1:8000/api/users/")
+        .get("http://127.0.0.1:8000/api/deals/")
         .then((res) => {
-          console.log(res.data.users);
-          setAllUsers(res.data.users);
+          console.log(res.data.Deals);
+          setAllDeals(res.data.Deals);
         })
         .catch((err) => console.log(err));
     } catch (error) {
@@ -38,7 +38,7 @@ const AdminUsersPage = () => {
             <div className="offset-8 col-2">
               <label for="search_field ">Search By:</label>
               <select name="search_field" className="form-control">
-                <option value="username">Username</option>
+                <option value="property">commented on user</option>
                 <option value="id">id</option>
                 <option value="first_name">First Name</option>
                 <option value="last_name">Last Name</option>
@@ -68,36 +68,40 @@ const AdminUsersPage = () => {
           </div>
         </div>
         <div className="container border border-1 rounded  mt-5 p-5">
-          <h4 className="mb-4">Users:</h4>
+          <h4 className="mb-4">Deals:</h4>
           <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">ID</th>
-                <th scope="col">User Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Rating</th>
-                <th scope="col">number of Ads</th>
+                <th scope="col">Buyer</th>
+                <th scope="col">Seller</th>
+                <th scope="col">Property</th>
+                <th scope="col">Deal amount</th>
+                <th scope="col">Done at</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
-              {allUsers.length > 0 ? (
+              {allDeals.length > 0 ? (
                 <>
-                  {allUsers.map((user, index) => (
+                  {allDeals.map((deal, index) => (
                     <tr key={index}>
                       <th scope="row"> {index}</th>
                       <td>
-                        <span className="fw-bold">{user.id}</span>{" "}
+                        <span className="fw-bold">{deal.id}</span>{" "}
                       </td>
-                      <td>{user.user_name} </td>
-                      <td> {user.email}</td>
-                      <td>{user.mobile_phone} </td>
-                      <td>{user.avg_rating} </td>
-                      <td>{user.properties_owned.length} </td>
+                      <td>{deal.buyer.user_name} </td>
+                      <td> {deal.seller.user_name}</td>
+                      <td> {deal.property.title}</td>
+
+                      <td>
+                        <span className="text-danger">{deal.price} </span>
+                        <span className="ms-1">EGP</span>
+                      </td>
+                      <td>{deal.created_at} </td>
                       <td> </td>
 
                       <td>
@@ -128,4 +132,4 @@ const AdminUsersPage = () => {
   );
 };
 
-export default AdminUsersPage;
+export default AdminDealsPage;
