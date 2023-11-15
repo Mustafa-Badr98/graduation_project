@@ -14,7 +14,7 @@ import ViewSingleProductPageV2 from "./components/pages/viewSingleProductV2";
 import EditProfilePage from "./components/pages/EditUserProfilePage";
 import ViewUsersPage from "./components/pages/viewUsersPage";
 import SearchedPropertiesPage from "./components/pages/searchedPropertiesPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetCurrentUserByTokenAction } from "./store/actions/getCurrentUserByToken";
 import { LoginAction } from "./store/actions/loginAction";
 import { IsLoadingAction } from "./store/actions/ISLoadingAction";
@@ -22,19 +22,25 @@ import { StoreToken } from "./store/actions/StoreToken";
 import DoneDealPage from "./components/pages/doneDealPage";
 import EditPropertyPage from "./components/pages/EditPropertyPage";
 import OffersPage from "./components/pages/OffersPage";
-
+import AdminHomePage from "./components/pages/admin_pages/adminPanelHome";
+import { Redirect } from "react-router-dom";
+import AdminUsersPage from "./components/pages/admin_pages/adminUsersPage";
 function App() {
+  const user = useSelector((state) => state.currentUSER.currentUser);
+  console.log(user);
+  console.log("from app.js");
+
   const dispatch = useDispatch();
 
   const storedAuthToken = localStorage.getItem("authToken");
-  if (storedAuthToken) {
+  if (storedAuthToken && Object.keys(user).length === 0) {
     dispatch(IsLoadingAction(true));
     console.log("Retrieved authToken:", storedAuthToken);
     dispatch(StoreToken(storedAuthToken));
     dispatch(GetCurrentUserByTokenAction(storedAuthToken));
     dispatch(LoginAction());
   } else {
-    console.log("No authToken found in localStorage");
+    console.log("No authToken found in localStorage or there is user");
   }
 
   return (
@@ -48,18 +54,24 @@ function App() {
             path="/searchResult"
             component={SearchedPropertiesPage}
           />
-          
+
           <Route exact path="/MyDeals" component={DoneDealPage} />
           <Route exact path="/register" component={SignupPage} />
           <Route exact path="/userAds" component={UserAdsPage} />
-          <Route exact path="/EditPropertyAd/:id" component={EditPropertyPage} />
+          <Route
+            exact
+            path="/EditPropertyAd/:id"
+            component={EditPropertyPage}
+          />
           <Route exact path="/Property/:id/Offers/" component={OffersPage} />
           <Route exact path="/EditUserProfile" component={EditProfilePage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
+          <Route exact path="/admin_panel" component={AdminHomePage} />
+          <Route exact path="/admin_panel/users" component={AdminUsersPage} />
+
           <Route exact path="/:id" component={ViewSingleProductPageV2} />
-   
 
           <Route exact path="/*" component={NotFoundPage} />
         </Switch>

@@ -135,11 +135,14 @@ const ListingCard = (props) => {
             <div className="row mt-5">
               <div className="col-6 mt-2">
                 <span className="fs-6 fw-bold">For {localProduct.type} : </span>
-                <span className="ms-1 fs-5 fw-bold">
-                  <span className="text-danger">{localProduct.price} </span> EGP
-                </span>
+                <div className="row">
+                  <span className="fs-5 fw-bold">
+                    <span className="text-danger">{localProduct.price} </span>{" "}
+                    EGP
+                  </span>
+                </div>
               </div>
-              <div className="offset-3 col-2">
+              <div className="offset-3 col-2 mt-3">
                 <Link
                   to={`/${localProduct.id}`}
                   style={{ borderRadius: "20px", fontSize: "10px" }}
