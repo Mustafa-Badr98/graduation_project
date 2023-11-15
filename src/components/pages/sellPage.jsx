@@ -56,7 +56,6 @@ function SellPage() {
   const currentUser = useSelector((state) => state.currentUSER.currentUser);
   const token = useSelector((state) => state.TokenStore.token);
 
-  const LocalProductList = useSelector((state) => state.Products.productList);
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -241,6 +240,7 @@ function SellPage() {
                 name="otherInfo"
                 value={formData.otherInfo}
                 onChange={handleChange}
+                style={{ height: "7rem" }}
               />
               {errors.otherInfo && (
                 <div className="invalid-feedback">{errors.otherInfo}</div>

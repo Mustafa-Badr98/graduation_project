@@ -81,9 +81,12 @@ const OffersPage = () => {
                 <div className="col-3 fs-5 pt-2">
                   Offered By {offer.user.user_name}
                 </div>
-                <div className="col-3 fs-5 pt-2">Date: {offer.created_at.slice(0,10)}</div>
                 <div className="col-3 fs-5 pt-2">
-                  offered price  <span className="text-success">{offer.price} </span> EGP
+                  Date: {offer.created_at.slice(0, 10)}
+                </div>
+                <div className="col-3 fs-5 pt-2">
+                  offered price{" "}
+                  <span className="text-success">{offer.price} </span> EGP
                 </div>
                 <div className="col-1 pt-1">
                   <button
@@ -105,7 +108,11 @@ const OffersPage = () => {
             ))}
           </div>
         ) : (
-          <></>
+          <>
+            <div class="alert alert-warning mt-5 fs-1" role="alert">
+             Your property has no offer yet!
+            </div>
+          </>
         )}
       </div>
       <MyFooter />
