@@ -6,8 +6,11 @@ import { DeleteFromProductListAction } from "../../store/actions/DeleteFromProdu
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
+import sold_pic from "../../assets/images/sold.png";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const UserCard = (props) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const storedAuthToken = localStorage.getItem("authToken");
 
@@ -17,32 +20,39 @@ const UserCard = (props) => {
   useEffect(() => {}, []);
 
   const RemoveButtonHandler = () => {
-    try {
-      const userConfirmed = window.confirm(
-        "Are you sure you want to delete your Ad? You will not be able to retrieve it afterward."
-      );
-
-      if (userConfirmed) {
-        axios
-          .delete(`http://127.0.0.1:8000/api/properties/${localProduct.id}`)
-          .then((res) => console.log(res))
-          .then(() => dispatch(GetCurrentUserAction(storedAuthToken)));
-      } else {
-        console.log("Deletion canceled");
-      }
-    } catch (error) {
-      console.log(error);
+    const userConfirmed = window.confirm(
+      "Are you sure you want to delete your Ad? You will not be able to retrieve it afterward."
+    );
+    if (userConfirmed) {
+      axios
+        .delete(`http://127.0.0.1:8000/api/properties/${localProduct.id}`)
+        .then((res) => console.log(res))
+        .then(() => dispatch(GetCurrentUserAction(storedAuthToken)));
+    } else {
+      console.log("Deletion canceled");
+      history.push("/userAds");
     }
   };
 
   return (
     <>
       <div className="container my-5 ">
-        <Link
-          to={`/${localProduct.id}`}
+        <div
+          // to={`/${localProduct.id}`}
           className="card border border-2 text-dark "
           style={{ height: "300px", textDecoration: "none" }}
         >
+          {localProduct.state === "sold" && (
+            <>
+              <img
+                src={sold_pic}
+                alt=""
+                srcset=""
+                style={{ width: "150px", position: "absolute", left: "70rem" }}
+              />
+            </>
+          )}
+
           <div
             className="row"
             style={{ height: "300px", textDecoration: "none" }}
@@ -72,47 +82,48 @@ const UserCard = (props) => {
                 <h5 className="card-text pt-3">
                   Size : <strong>{localProduct.area_size} M </strong>
                 </h5>
-
-                <div className="row mt-5">
-                  <div className="col-2">
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={`EditPropertyAd/${localProduct.id}`}
-                      className="card-link text-light btn btn-secondary"
-                    >
-                      Edit
-                    </Link>
-                  </div>
-                  <div className="col-2">
-                    <a
-                      onClick={RemoveButtonHandler}
-                      className=" text-light btn btn-danger"
-                      style={{ textDecoration: "none" }}
-                    >
-                      Remove
-                    </a>
-                  </div>
-                  <div className="col-5">
-                    <Link
-                      to={`/Property/${localProduct.id}/Offers/`}
-                      className="text-dark ms-4 mt-1 fs-5 "
-                      style={{ textDecoration: "none" }}
-                    >
-                      Offers{" "}
-                      <span
-                        style={{ borderRadius: "40%" }}
-                        className="bg-danger fs-5 text-light px-1"
+                {localProduct.state === "live" && (
+                  <div className="row mt-5">
+                    <div className="col-2">
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={`EditPropertyAd/${localProduct.id}`}
+                        className="card-link text-light btn btn-secondary"
                       >
-                        {" "}
-                        {localProduct.offers.length}
-                      </span>
-                    </Link>
+                        Edit Ad
+                      </Link>
+                    </div>
+                    <div className="col-3">
+                      <button
+                        className="btn btn-danger"
+                        onClick={RemoveButtonHandler}
+                        style={{ textDecoration: "none" }}
+                      >
+                        Delete Ad
+                      </button>
+                    </div>
+                    <div className="col-4">
+                      <Link
+                        to={`/Property/${localProduct.id}/Offers/`}
+                        className="text-dark ms-4 mt-1 fs-5 "
+                        style={{ textDecoration: "none" }}
+                      >
+                        Offers{" "}
+                        <span
+                          style={{ borderRadius: "40%" }}
+                          className="bg-danger fs-5 text-light px-1"
+                        >
+                          {" "}
+                          {localProduct.offers.length}
+                        </span>
+                      </Link>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     </>
   );

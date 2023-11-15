@@ -111,6 +111,8 @@ const EditProfilePage = () => {
             ? "This field is required"
             : !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(e.target.value)
             ? "Not a valid email format"
+            : e.target.value === userInSession.email
+            ? "you must change your email"
             : "",
       });
     } else if (e.target.name === "password") {

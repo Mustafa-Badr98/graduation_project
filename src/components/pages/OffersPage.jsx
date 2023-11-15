@@ -4,8 +4,10 @@ import MyFooter from "../static/footer";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const OffersPage = () => {
+  const history = useHistory();
   const token = localStorage.getItem("authToken");
   const param = useParams();
   const [property_offers, setPropertyOffers] = useState([]);
@@ -30,36 +32,48 @@ const OffersPage = () => {
   };
 
   const handelAcceptOffer = (offerId) => {
-    console.log(offerId);
-    console.log("hi");
-    axios
-      .get(`http://127.0.0.1:8000/api/accept_offer/${offerId}`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((res) => {
-        // getPropertyOffers();
-        dispatch(GetCurrentUserAction(token));
-        console.log(res);
-        setFlag(flag + 1);
-      });
+    const userConfirmed = window.confirm(
+      "Are you sure you want to accept this offer ?"
+    );
+    if (userConfirmed) {
+      axios
+        .get(`http://127.0.0.1:8000/api/accept_offer/${offerId}`, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+        .then((res) => {
+          getPropertyOffers();
+          dispatch(GetCurrentUserAction(token));
+          console.log(res);
+          setFlag(flag + 1);
+          alert(
+            "Congratulations on the Successful Sale of Your Property! Deal Has Been Done. "
+          );
+          history.push("/userAds");
+        });
+    }
   };
 
   const handelRejectOffer = (offerId) => {
-    console.log(offerId);
-    console.log("hi");
-    axios
-      .delete(`http://127.0.0.1:8000/api/reject_offer/${offerId}`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      })
-      .then((res) => {
-        getPropertyOffers();
-        console.log(res);
-        setFlag(flag + 1);
-      });
+    const userConfirmed = window.confirm(
+      "Are you sure you want to reject this offer ?"
+    );
+    if (userConfirmed) {
+      axios
+        .delete(`http://127.0.0.1:8000/api/reject_offer/${offerId}`, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+        .then((res) => {
+          getPropertyOffers();
+          alert("Offer Rejected");
+          console.log(res);
+          setFlag(flag + 1);
+        });
+    } else {
+    }
   };
 
   useEffect(() => {
@@ -110,7 +124,7 @@ const OffersPage = () => {
         ) : (
           <>
             <div class="alert alert-warning mt-5 fs-1" role="alert">
-             Your property has no offer yet!
+              Your property has no offer yet!
             </div>
           </>
         )}
