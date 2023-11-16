@@ -65,11 +65,8 @@ const MyNavbar = () => {
   return (
     <>
       <div className="container ">
-        <nav
-          id="nav"
-          className="navbar navbar-expand-lg bg-body p-0 sticky-top"
-        >
-          <Link to="/" className="navbar-brand text-dark ms-4" href="#home">
+        <nav id="nav" className="navbar navbar-expand-lg bg-body p-0">
+          <Link to="/" className="navbar-brand text-dark" href="#home">
             <img
               className="pe-5"
               style={{ width: "300px", height: "70px" }}
@@ -78,19 +75,6 @@ const MyNavbar = () => {
               srcSet=""
             />
           </Link>
-
-          {user.is_admin ? (
-            <>
-              <Link
-                to="/admin_panel"
-                className=" bg-danger rounded text-light "
-              >
-                <span className="fs-5 p-1">Admin Panel</span>
-              </Link>
-            </>
-          ) : (
-            <></>
-          )}
 
           <button
             className="navbar-toggler ms-auto me-3"
@@ -144,7 +128,7 @@ const MyNavbar = () => {
                   <>
                     <li className="nav-item ">
                       <Link
-                        style={{textDecoration:"none"}}
+                        style={{ textDecoration: "none" }}
                         to="/sellProduct"
                         className="btn btn-danger text-light rounded-5 me-3 "
                       >
@@ -167,17 +151,17 @@ const MyNavbar = () => {
                             to={`/EditUserProfile`}
                             className="dropdown-item"
                           >
-                            <i class="fa-solid fa-user me-2"></i> My Profile
+                            <i className="fa-solid fa-user me-2"></i> My Profile
                           </Link>
                         </li>
                         <li>
                           <Link to="/userAds" className="dropdown-item">
-                            <i class="fa-solid fa-house me-2"></i> My Ads
+                            <i className="fa-solid fa-house me-2"></i> My Ads
                           </Link>
                         </li>
                         <li>
                           <Link to="/MyDeals" className="dropdown-item">
-                            <i class="fa-solid fa-handshake-simple me-2"></i> My
+                            <i className="fa-solid fa-handshake-simple me-2"></i> My
                             Deals
                           </Link>
                         </li>
@@ -209,7 +193,7 @@ const MyNavbar = () => {
                             onClick={logoutHandler}
                             className="dropdown-item"
                           >
-                            <i class="fa-solid fa-right-from-bracket me-2 ms-1"></i>
+                            <i className="fa-solid fa-right-from-bracket me-2 ms-1"></i>
                             Logout
                           </Link>
                         </li>
@@ -220,17 +204,18 @@ const MyNavbar = () => {
               </ul>
             </div>
           </div>
-          <div className="d-flex justify-content-end me-5  d-lg-flex">
-            <a href="https://www.facebook.com/">
-              <i className="fab fa-facebook text-dark pe-2"></i>
-            </a>
-            <a href="https://twitter.com/?lang=en">
-              <i className="fab fa-twitter text-dark pe-2"></i>
-            </a>
-            <a href="https://www.linkedin.com/in/mustafa-badr-iti/">
-              <i className="fab fa-linkedin text-dark"></i>
-            </a>
-          </div>
+          {user.is_admin ? (
+            <>
+              <Link
+                to="/admin_panel"
+                className="text-light rounded-5"
+              >
+                <i className="fa-solid fa-toolbox fs-4" style={{ color: "#f82a2a" }}></i>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
         </nav>
       </div>
     </>

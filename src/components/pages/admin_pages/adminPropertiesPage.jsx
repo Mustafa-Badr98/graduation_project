@@ -36,7 +36,7 @@ const AdminPropertiesPage = () => {
           </div>
           <div className="row search-by-selector mb-2">
             <div className="offset-8 col-2">
-              <label for="search_field ">Search By:</label>
+              <label htmlFor="search_field ">Search By:</label>
               <select name="search_field" className="form-control">
                 <option value="property">property</option>
                 <option value="id">id</option>

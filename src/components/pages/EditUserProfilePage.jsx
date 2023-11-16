@@ -223,7 +223,7 @@ const EditProfilePage = () => {
   }, [formData]);
   return (
     <>
-      <div className="container-xl px-4 pt-5 mt-4 vh-100">
+      <div style={{minHeight:"100vh"}} className="container-xl px-4 pt-5 mt-4">
         <nav className="nav nav-borders"></nav>
         <hr className="mt-0 mb-4" />
         <div className="row">
