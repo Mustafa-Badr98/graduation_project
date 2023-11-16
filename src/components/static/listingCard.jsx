@@ -102,7 +102,7 @@ const ListingCard = (props) => {
             >
               {localProduct.description}
             </p>
-            <div className="row align-items-center">
+            <div className="row align-items-center mt-3">
               <div className="col-4">
                 <span>
                   <i className="fas fa-th-large"></i>
@@ -132,7 +132,7 @@ const ListingCard = (props) => {
                 </span>
               </div>
             </div>
-            <div className="row mt-5">
+            <div className="row mt-2">
               <div className="col-6 mt-2">
                 <span className="fs-6 fw-bold">For {localProduct.type} : </span>
                 <div className="row">

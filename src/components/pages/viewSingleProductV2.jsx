@@ -240,7 +240,7 @@ const ViewSingleProductPageV2 = () => {
             </div>
             <div className="row mt-5 ">
               <span className="fs-5 fw-bold">Description :</span>
-              <div className="container mt-3">{filteredObject.description}</div>
+              <div className="container mt-3 fs-5">{filteredObject.description}</div>
             </div>
             <div className="row mt-4 ">
               <div className="container">

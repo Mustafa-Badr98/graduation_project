@@ -75,7 +75,18 @@ const MyNavbar = () => {
               srcSet=""
             />
           </Link>
-
+          {user.is_admin ? (
+            <>
+              <Link to="/admin_panel" className="text-light rounded-5">
+                <i
+                  className="fa-solid fa-toolbox fs-4"
+                  style={{ color: "#f82a2a" }}
+                ></i>
+              </Link>
+            </>
+          ) : (
+            <></>
+          )}
           <button
             className="navbar-toggler ms-auto me-3"
             type="button"
@@ -204,18 +215,6 @@ const MyNavbar = () => {
               </ul>
             </div>
           </div>
-          {user.is_admin ? (
-            <>
-              <Link
-                to="/admin_panel"
-                className="text-light rounded-5"
-              >
-                <i className="fa-solid fa-toolbox fs-4" style={{ color: "#f82a2a" }}></i>
-              </Link>
-            </>
-          ) : (
-            <></>
-          )}
         </nav>
       </div>
     </>

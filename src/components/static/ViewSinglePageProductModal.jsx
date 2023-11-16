@@ -20,7 +20,6 @@ const ViewSinglePageProductModal = (props) => {
             <div className="">
               {" "}
               <div
-                style={{ maxWidth: "800px" }}
                 id="carouselExampleIndicators"
                 className="carousel slide"
                 data-bs-ride="carousel"
@@ -37,17 +36,25 @@ const ViewSinglePageProductModal = (props) => {
                     ></button>
                   ))}
                 </div>{" "}
-                <div className="carousel-inner" >
+                <div
+                  className="carousel-inner"
+                  style={{ width: "800px", height: "500px" }}
+                >
                   {productImages.map((image, index) => (
                     <div
+                      style={{ width: "800px", height: "500px" }}
                       key={index}
                       className={`carousel-item ${index === 0 ? "active" : ""}`}
                     >
                       <img
                         src={`http://localhost:8000${image.image}`}
-                        className="d-block w-100"
+                        className="d-block "
                         alt={`Slide ${index + 1}`}
-                        style={{ objectFit: "cover" ,height: "100%"}}
+                        style={{
+                          objectFit: "cover",
+                          height: "100%",
+                          width: "100%",
+                        }}
                       />
                     </div>
                   ))}

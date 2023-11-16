@@ -6,20 +6,18 @@ import NothingFoundAlert from "../static/nothingFoundAlert";
 import LoadingSpinner from "../static/loadingSpinner";
 import ListingCard from "../static/listingCard";
 
-
 const SearchedPropertiesPage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
-  const searchedProducts = useSelector((state) => state.ProductsSearched.productSearchedList);
-  const isResultFound = useSelector((state) => state.Products.found);
-  
+  const searchedProducts = useSelector(
+    (state) => state.ProductsSearched.productSearchedList
+  );
+
   const dispatch = useDispatch();
-  
 
   useEffect(() => {}, [searchedProducts]);
 
   return (
     <>
-   
       <HeroSection />
       <div className="container mt-5">
         <div className="row">
@@ -33,6 +31,12 @@ const SearchedPropertiesPage = () => {
         <div className="row">
           {localIsLoading ? (
             <LoadingSpinner />
+          ) : searchedProducts.length === 0 ? (
+            <>
+            
+            <NothingFoundAlert />
+            <div style={{height:"300px"}}></div>
+            </>
           ) : (
             searchedProducts.map((item, index) => {
               return <ListingCard key={index} productObject={item} />;
@@ -40,8 +44,6 @@ const SearchedPropertiesPage = () => {
           )}
         </div>
       </div>
-
-      {isResultFound === false && <NothingFoundAlert />}
 
       <MyFooter />
     </>
