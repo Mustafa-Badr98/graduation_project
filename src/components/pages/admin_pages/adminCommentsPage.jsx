@@ -5,6 +5,8 @@ import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
 
 const AdminCommentsPage = () => {
+  const storedAuthToken = localStorage.getItem("authToken");
+
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [allComments, setAllComments] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -13,7 +15,34 @@ const AdminCommentsPage = () => {
     console.log(e.target.value);
     setSearchValue(e.target.value);
   };
-  useEffect(() => {
+
+  const handelDeleteButton = (id) => {
+    try {
+      const userConfirmed = window.confirm(
+        "Are you sure you want to delete this Comment?."
+      );
+      if (userConfirmed) {
+        console.log(id);
+        console.log(storedAuthToken);
+        const response = axios
+          .delete(`http://127.0.0.1:8000/api/delete_comment/admin/${id}`, {
+            headers: {
+              Authorization: `Token ${storedAuthToken}`,
+            },
+          })
+          .then((res) => console.log(res))
+          .then(() => get_comments());
+
+        // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
+      } else {
+        console.log("Deletion canceled");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const get_comments = () => {
     try {
       axios
         .get("http://127.0.0.1:8000/api/comments/")
@@ -24,6 +53,11 @@ const AdminCommentsPage = () => {
         .catch((err) => console.log(err));
     } catch (error) {
       console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (Object.keys(allComments).length === 0) {
+      get_comments();
     }
   }, []);
 
@@ -40,9 +74,8 @@ const AdminCommentsPage = () => {
               <select name="search_field" className="form-control">
                 <option value="property">commented on user</option>
                 <option value="id">id</option>
-                <option value="first_name">First Name</option>
-                <option value="last_name">Last Name</option>
-                <option value="email">Email</option>
+                <option value="comment_user">comment user</option>
+                <option value="content">content</option>
               </select>
             </div>
           </div>
@@ -100,15 +133,11 @@ const AdminCommentsPage = () => {
                       <td> </td>
                       <td> </td>
 
-                      <td>
-                        <button className="bg-body">
-                          <i className="pt-3 fa-solid fa-pen-to-square"></i>
-                        </button>
-                      </td>
                       <td className="">
                         <button className="bg-body">
                           <i
-                            className="pt-3 fa-solid fa-trash"
+                            onClick={() => handelDeleteButton(comment.id)}
+                            className="pt-1 fa-solid fa-trash"
                             style={{ color: "#ff0f0f" }}
                           ></i>
                         </button>

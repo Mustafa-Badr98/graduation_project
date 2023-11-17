@@ -56,37 +56,43 @@ const ListingCard = (props) => {
             alt=""
             className="card-img-top"
           />
-          {isFav ? (
+          {Object.keys(user).length > 0 ? (
             <>
-              {" "}
-              <i
-                onClick={addToFavHandler}
-                className="fas fa-heart clickable-heart"
-                style={{
-                  position: "absolute",
-                  top: "10px",
-                  right: "10px",
-                  fontSize: "30px",
-                  color: "rgb(232, 46, 47)",
-                  cursor: "pointer",
-                }}
-              ></i>{" "}
+              {isFav ? (
+                <>
+                  {" "}
+                  <i
+                    onClick={addToFavHandler}
+                    className="fas fa-heart clickable-heart"
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      fontSize: "30px",
+                      color: "rgb(232, 46, 47)",
+                      cursor: "pointer",
+                    }}
+                  ></i>{" "}
+                </>
+              ) : (
+                <>
+                  <i
+                    onClick={addToFavHandler}
+                    className="fas fa-heart clickable-heart"
+                    style={{
+                      position: "absolute",
+                      top: "10px",
+                      right: "10px",
+                      fontSize: "30px",
+                      color: "black",
+                      cursor: "pointer",
+                    }}
+                  ></i>{" "}
+                </>
+              )}
             </>
           ) : (
-            <>
-              <i
-                onClick={addToFavHandler}
-                className="fas fa-heart clickable-heart"
-                style={{
-                  position: "absolute",
-                  top: "10px",
-                  right: "10px",
-                  fontSize: "30px",
-                  color: "black",
-                  cursor: "pointer",
-                }}
-              ></i>{" "}
-            </>
+            <></>
           )}
 
           <div className="card-body">

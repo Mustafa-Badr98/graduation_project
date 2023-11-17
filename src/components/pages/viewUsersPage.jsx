@@ -163,7 +163,7 @@ const ViewUsersPage = () => {
                         </div>
                         {property_owner.id === userInSession.id ? (
                           <></>
-                        ) : (
+                        ) : Object.keys(userInSession).length > 0 ? (
                           <>
                             <div className="d-flex justify-content-around ">
                               {ratingsUserIds.includes(userInSession.id) ? (
@@ -183,6 +183,8 @@ const ViewUsersPage = () => {
                               )}
                             </div>
                           </>
+                        ) : (
+                          <></>
                         )}
                       </div>
                       <div className="col-sm-8">
@@ -306,21 +308,28 @@ const ViewUsersPage = () => {
                               )}
                             >
                               {/* here should do the logic for adding a comment */}
-                              <button
-                                onClick={addCommentHandler}
-                                type="button"
-                                className={cx(
-                                  "btn",
-                                  "btn-secondary",
-                                  "btn-sm",
-                                  viewUsersPageStyles["comment-reply"],
-                                  "float-right",
-                                  "waves-effect",
-                                  "waves-light"
-                                )}
-                              >
-                                Post
-                              </button>
+                              {Object.keys(userInSession).length > 0 ? (
+                                <>
+                                  {" "}
+                                  <button
+                                    onClick={addCommentHandler}
+                                    type="button"
+                                    className={cx(
+                                      "btn",
+                                      "btn-secondary",
+                                      "btn-sm",
+                                      viewUsersPageStyles["comment-reply"],
+                                      "float-right",
+                                      "waves-effect",
+                                      "waves-light"
+                                    )}
+                                  >
+                                    Post
+                                  </button>
+                                </>
+                              ) : (
+                                <> Login To Leave a comment.</>
+                              )}
                             </div>
                           </div>
                         </div>

@@ -61,7 +61,7 @@ const ViewSingleProductPageV2 = () => {
         .then((res) => {
           dispatch(GetCurrentUserAction(token));
           console.log(res);
-          setFlag(flag+1)
+          setFlag(flag + 1);
         })
         .catch((err) => console.log(err));
       alert("offer submitted");
@@ -240,7 +240,9 @@ const ViewSingleProductPageV2 = () => {
             </div>
             <div className="row mt-5 ">
               <span className="fs-5 fw-bold">Description :</span>
-              <div className="container mt-3 fs-5">{filteredObject.description}</div>
+              <div className="container mt-3 fs-5">
+                {filteredObject.description}
+              </div>
             </div>
             <div className="row mt-4 ">
               <div className="container">
@@ -365,7 +367,7 @@ const ViewSingleProductPageV2 = () => {
                 </button>
               </div>
             </div> */}
-            {userInSession && seller && seller.id === userInSession.id ? (
+            {seller.id === userInSession.id ? (
               <>
                 {" "}
                 <div className="row mt-4">
@@ -397,7 +399,7 @@ const ViewSingleProductPageV2 = () => {
                   waiting to review.
                 </div>
               </>
-            ) : (
+            ) : Object.keys(userInSession).length > 0 ? (
               <>
                 <div className="row mt-2 text-center offer-submit">
                   <label className="fw-bold">
@@ -413,6 +415,7 @@ const ViewSingleProductPageV2 = () => {
                     />
                   </label>
                 </div>
+
                 <div className="row offer-submit">
                   <div className="offset-4 col-6">
                     <button
@@ -425,6 +428,8 @@ const ViewSingleProductPageV2 = () => {
                   </div>
                 </div>
               </>
+            ) : (
+              <div className="mt-5 fs-4 ms-5 ps-4">Login to submit an offer</div>
             )}
 
             <div className="row">

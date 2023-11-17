@@ -78,7 +78,17 @@ const UserCard = (props) => {
                   </div>
                 </div>
 
-                <p className="card-text pt-3">{localProduct.description}</p>
+                <p
+                  style={{
+                    maxHeight: "100px",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "",
+                  }}
+                  className="card-text pt-3"
+                >
+                  {localProduct.description}
+                </p>
                 <h5 className="card-text pt-3">
                   Size : <strong>{localProduct.area_size} M </strong>
                 </h5>

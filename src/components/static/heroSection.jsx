@@ -187,7 +187,7 @@ const HeroSection = () => {
                   })}
                 </select>
               </div>
-              <div className="col-2">
+              {/* <div className="col-2">
                 <label className="text-light" htmlFor="purposeSelect">
                   {" "}
                   Property Type{" "}
@@ -209,7 +209,7 @@ const HeroSection = () => {
                     Commercial for Sale
                   </option>
                 </select>
-              </div>
+              </div> */}
             </div>
             <div className="row mt-4">
               <div className="offset-1 col-2">

@@ -170,6 +170,7 @@ const AdminPropertiesPage = () => {
                 <th scope="col">Price</th>
                 <th scope="col">N Offers</th>
                 <th scope="col">Published at</th>
+                <th scope="col">Type</th>
                 <th scope="col">State</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -189,6 +190,8 @@ const AdminPropertiesPage = () => {
                       <td>{property.price} </td>
                       <td>{property.offers.length} </td>
                       <td>{property.created_at} </td>
+                      <td>{property.type} </td>
+
                       <td>
                         {" "}
                         {property.state === "live" ? (
