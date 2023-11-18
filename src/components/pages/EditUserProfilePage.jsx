@@ -7,8 +7,52 @@ import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
 import { LogoutAction } from "../../store/actions/logoutAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
+import ConfirmationModal from "../static/confirmModal";
+import MessageModal from "../static/messageModal";
 
 const EditProfilePage = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [messageBody, setMessageBody] = useState("");
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const handleShowModalMessage = () => {
+    setShowMessageModal(true);
+  };
+
+  const handleCloseModalMessage = () => {
+    setShowMessageModal(false);
+  };
+
+  const handleDeleteAccountModal = (id) => {
+    handleCloseModal();
+
+    const response = axios
+      .delete(`http://127.0.0.1:8000/api/user/delete/${id}`, {
+        headers: {
+          Authorization: `Token ${storedAuthToken}`,
+        },
+      })
+      .then((res) => console.log(res))
+      .then(() => {
+        setMessageBody("Your Account has been deleted.");
+        handleShowModalMessage();
+      })
+
+      .then(() => dispatch(LogoutAction()));
+    // .then(() => {
+    //   setTimeout(() => {}, [5000]);
+    // })
+    // .then(() => history.push("/"));
+  };
+
   const history = useHistory();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
@@ -153,7 +197,7 @@ const EditProfilePage = () => {
   };
 
   const handleSaveChanges = () => {
-    if (!hasErrors) {
+    if (!hasErrors && Object.keys(userInSession).length > 0) {
       const data = new FormData();
 
       data.append("user_name", formData.username);
@@ -186,44 +230,52 @@ const EditProfilePage = () => {
       // dispatch(GetCurrentUserAction(modUser));
 
       console.log("Saving changes:", formData);
-      alert("changes has been saved");
+      setMessageBody("Changes has been saved.");
+      handleShowModalMessage();
+      // alert("changes has been saved");
     } else {
-      alert("please check all the fields");
+      setMessageBody("Please check all the fields.");
+      handleShowModalMessage();
+      // alert("please check all the fields");
     }
   };
 
-  const handleDeleteAccount = () => {
-    try {
-      const userConfirmed = window.confirm(
-        "Are you sure you want to delete your Account? You will not be able to retrieve it afterward."
-      );
-      if (userConfirmed) {
-        console.log(storedAuthToken);
-        const response = axios
-          .delete("http://127.0.0.1:8000/api/user/delete", {
-            headers: {
-              Authorization: `Token ${storedAuthToken}`,
-            },
-          })
-          .then((res) => console.log(res))
-          .then(() => alert("your account has been deleted. logout complete"))
-          .then(() => dispatch(LogoutAction()))
-          .then(() => history.push("/"));
+  // const handleDeleteAccount = () => {
+  //   try {
+  //     const userConfirmed = window.confirm(
+  //       "Are you sure you want to delete your Account? You will not be able to retrieve it afterward."
+  //     );
+  //     if (userConfirmed) {
+  //       console.log(storedAuthToken);
+  //       const response = axios
+  //         .delete("http://127.0.0.1:8000/api/user/delete", {
+  //           headers: {
+  //             Authorization: `Token ${storedAuthToken}`,
+  //           },
+  //         })
+  //         .then((res) => console.log(res))
+  //         .then(() => alert("your account has been deleted. logout complete"))
+  //         .then(() => dispatch(LogoutAction()))
+  //         .then(() => history.push("/"));
 
-        // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
-      } else {
-        console.log("Deletion canceled");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  //       // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
+  //     } else {
+  //       console.log("Deletion canceled");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
   useEffect(() => {
     checkHasError();
   }, [formData]);
   return (
     <>
-      <div style={{minHeight:"100vh"}} className="container-xl px-4 pt-5 mt-4">
+      <div
+        style={{ minHeight: "100vh" }}
+        className="container-xl px-4 pt-5 mt-4"
+      >
         <nav className="nav nav-borders"></nav>
         <hr className="mt-0 mb-4" />
         <div className="row">
@@ -433,14 +485,17 @@ const EditProfilePage = () => {
                       className="btn btn-primary"
                       type="button"
                       onClick={handleSaveChanges}
-                      disabled={hasErrors}
+                      disabled={
+                        hasErrors || Object.keys(userInSession).length === 0
+                      }
                     >
                       Save changes
                     </button>
                     <button
                       className="btn btn-danger ms-5"
                       type="button"
-                      onClick={handleDeleteAccount}
+                      onClick={handleShowModal}
+                      disabled={Object.keys(userInSession).length === 0}
                     >
                       Delete Account
                     </button>
@@ -452,6 +507,18 @@ const EditProfilePage = () => {
         </div>
       </div>
       <MyFooter />
+
+      <ConfirmationModal
+        show={showModal}
+        onHide={handleCloseModal}
+        onConfirm={() => handleDeleteAccountModal(userInSession.id)}
+        body={"Are you sure you want to Delete Your Account ?"}
+      />
+      <MessageModal
+        show={showMessageModal}
+        onHide={handleCloseModalMessage}
+        body={messageBody}
+      />
     </>
   );
 };

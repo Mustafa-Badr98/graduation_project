@@ -14,6 +14,10 @@ const MyNavbar = () => {
     setShowModal(true);
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const handleConfirmLogout = () => {
     axios
       .post("http://127.0.0.1:8000/api/user/logout", null, {
@@ -38,10 +42,7 @@ const MyNavbar = () => {
     setShowModal(false);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
+  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [userFavCount, setUserFavCount] = useState(0);
@@ -234,14 +235,14 @@ const MyNavbar = () => {
                         </li>
 
                         <li>
-                          <Link
-                            to=""
+                          <button
+                           
                             onClick={handleLogout}
                             className="dropdown-item"
                           >
                             <i className="fa-solid fa-right-from-bracket me-2 ms-1"></i>
                             Logout
-                          </Link>
+                          </button>
                         </li>
                       </ul>
                     </div>
