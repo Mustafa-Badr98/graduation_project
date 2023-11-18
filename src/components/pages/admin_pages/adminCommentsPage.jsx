@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
+import AdminCommentRowComp from "./adminCommentRowComp";
 
 const AdminCommentsPage = () => {
   const storedAuthToken = localStorage.getItem("authToken");
@@ -121,28 +122,7 @@ const AdminCommentsPage = () => {
               {allComments.length > 0 ? (
                 <>
                   {allComments.map((comment, index) => (
-                    <tr key={index}>
-                      <th scope="row"> {index}</th>
-                      <td>
-                        <span className="fw-bold">{comment.id}</span>{" "}
-                      </td>
-                      <td>{comment.user.user_name} </td>
-                      <td> {comment.commented_by.user_name}</td>
-                      <td>{comment.content} </td>
-                      <td>{comment.created_at} </td>
-                      <td> </td>
-                      <td> </td>
-
-                      <td className="">
-                        <button className="bg-body">
-                          <i
-                            onClick={() => handelDeleteButton(comment.id)}
-                            className="pt-1 fa-solid fa-trash"
-                            style={{ color: "#ff0f0f" }}
-                          ></i>
-                        </button>
-                      </td>
-                    </tr>
+                    <AdminCommentRowComp key={index} comment={comment} />
                   ))}
                 </>
               ) : (
