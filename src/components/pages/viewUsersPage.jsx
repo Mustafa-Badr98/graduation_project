@@ -10,6 +10,7 @@ import axios from "axios";
 import MyFooter from "../static/footer";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
 import { ChangeFlagAction } from "../../store/actions/changeFlagAction";
+import CommentComp from "../static/commentComp";
 
 const texts = {
   0: "No rate yet",
@@ -100,12 +101,6 @@ const ViewUsersPage = () => {
     } else {
       alert("delete canceled");
     }
-  };
-
-  const editCommentHandler = (cID, cContent) => {
-    let data = {
-      content: cContent,
-    };
   };
 
   useEffect(() => {
@@ -340,103 +335,7 @@ const ViewUsersPage = () => {
                     <ul className="list-unstyled mt-5">
                       {user_comments &&
                         user_comments.map((comment, index) => {
-                          return (
-                            <div key={index}>
-                              <li className={viewUsersPageStyles.media}>
-                                <div
-                                  className={cx(
-                                    viewUsersPageStyles["profile-picture"],
-                                    "bg-gradient",
-                                    "bg-primary",
-                                    "mb-4"
-                                  )}
-                                >
-                                  {comment.commented_by.profile_pic ? (
-                                    <>
-                                      <img
-                                        src={`http://localhost:8000${comment.commented_by.profile_pic}`}
-                                        width="44"
-                                        height="44"
-                                      />
-                                    </>
-                                  ) : (
-                                    <>
-                                      <img
-                                        src={no_profile_pic}
-                                        width="44"
-                                        height="44"
-                                        className="bg-body"
-                                      />
-                                    </>
-                                  )}
-                                </div>
-                                <div
-                                  className={viewUsersPageStyles["media-body"]}
-                                >
-                                  <div
-                                    className={cx(
-                                      viewUsersPageStyles["media-title"],
-                                      "mt-0",
-                                      "mb-1"
-                                    )}
-                                  >
-                                    <a href="#">
-                                      {comment.commented_by.user_name}{" "}
-                                    </a>{" "}
-                                    <small> {comment.created_at}</small>
-                                    {/* here is the comment content */}
-                                  </div>
-                                  {comment.content}
-                                  <div
-                                    className={
-                                      viewUsersPageStyles["media-feed-control"]
-                                    }
-                                  >
-                                    <a href="#">
-                                      <i
-                                        className={cx(
-                                          viewUsersPageStyles["batch-icon"],
-                                          "batch-icon-heart-full"
-                                        )}
-                                      ></i>{" "}
-                                      Like ({comment.numOfLikes})
-                                    </a>
-                                    {userInSession.id ===
-                                    comment.commented_by.id ? (
-                                      <>
-                                        <button
-                                          className="btn btn-danger"
-                                          style={{ scale: ".7" }}
-                                          onClick={() => {
-                                            deleteCommentHandler(comment.id);
-                                          }}
-                                        >
-                                          <i className="batch-icon batch-icon-flag"></i>{" "}
-                                          Delete
-                                        </button>
-
-                                        {/* <button
-                                          className="btn btn-secondary"
-                                          style={{ scale: ".7" }}
-                                          onClick={() => {
-                                            editCommentHandler(
-                                              comment.id,
-                                              comment.content
-                                            );
-                                          }}
-                                        >
-                                          <i className="batch-icon batch-icon-flag"></i>{" "}
-                                          Edit
-                                        </button> */}
-                                      </>
-                                    ) : (
-                                      <></>
-                                    )}
-                                  </div>
-                                </div>
-                              </li>
-                            </div>
-                          );
+                          return <CommentComp key={index} comment={comment} />;
                         })}
                     </ul>
                   </div>

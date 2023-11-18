@@ -20,6 +20,7 @@ const UserCard = (props) => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+  
   const history = useHistory();
   const dispatch = useDispatch();
   const storedAuthToken = localStorage.getItem("authToken");

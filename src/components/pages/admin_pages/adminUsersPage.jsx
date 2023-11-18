@@ -199,7 +199,7 @@ const AdminUsersPage = () => {
                           <div className="text-danger">False</div>
                         )}
                       </td>
-                      {!user.is_admin ? (
+                      {!user.is_admin  ? (
                         <>
                           <td>
                             <button className="bg-body">
