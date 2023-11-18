@@ -147,7 +147,7 @@ const AdminUsersPage = () => {
             </span>
           </div>
         </div>
-        <div className="container border border-1 rounded  mt-5 p-5">
+        <div style={{minHeight:"430px"}}  className="container border border-1 rounded  mt-5 p-5">
           <div className="row">
             <h4 className="col-4 mb-4">Users:</h4>{" "}
             <button className="offset-6 col-2 h-25 btn btn-primary">

@@ -151,7 +151,7 @@ const AdminPropertiesPage = () => {
             </span>
           </div>
         </div>
-        <div className="container border border-1 rounded  mt-5 p-5">
+        <div style={{minHeight:"410px"}}  className="container border border-1 rounded  mt-5 p-5">
           <h4 className="mb-4">Properties:</h4>
           <table className="table">
             <thead>

@@ -17,31 +17,22 @@ const AdminCommentsPage = () => {
     setSearchValue(e.target.value);
   };
 
-  const handelDeleteButton = (id) => {
-    try {
-      const userConfirmed = window.confirm(
-        "Are you sure you want to delete this Comment?."
-      );
-      if (userConfirmed) {
-        console.log(id);
-        console.log(storedAuthToken);
-        const response = axios
-          .delete(`http://127.0.0.1:8000/api/delete_comment/admin/${id}`, {
-            headers: {
-              Authorization: `Token ${storedAuthToken}`,
-            },
-          })
-          .then((res) => console.log(res))
-          .then(() => get_comments());
+  const [currentPage, setCurrentPage] = useState(1);
+  const [commentPerPage] = useState(5);
 
-        // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
-      } else {
-        console.log("Deletion canceled");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+  const indexOfLastComment = currentPage * commentPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentPerPage;
+  const currentComments = allComments.slice(
+    indexOfFirstComment,
+    indexOfLastComment
+  );
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(allComments.length / commentPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const totalPages = Math.ceil(allComments.length / commentPerPage);
 
   const get_comments = () => {
     try {
@@ -101,7 +92,7 @@ const AdminCommentsPage = () => {
             </span>
           </div>
         </div>
-        <div className="container border border-1 rounded  mt-5 p-5">
+        <div style={{minHeight:"410px"}} className="container border border-1 rounded  mt-5 p-5 ">
           <h4 className="mb-4">Comments:</h4>
           <table className="table">
             <thead>
@@ -118,10 +109,10 @@ const AdminCommentsPage = () => {
                 <th scope="col"></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
               {allComments.length > 0 ? (
                 <>
-                  {allComments.map((comment, index) => (
+                  {currentComments.map((comment, index) => (
                     <AdminCommentRowComp key={index} comment={comment} />
                   ))}
                 </>
@@ -131,6 +122,42 @@ const AdminCommentsPage = () => {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="pagination justify-content-center">
+        <ul className="pagination">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              className="page-link"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <button onClick={() => paginate(number)} className="page-link">
+                {number}
+              </button>
+            </li>
+          ))}
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="page-link"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
       </div>
       <MyFooter />
     </>
