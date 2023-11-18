@@ -4,9 +4,11 @@ import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import AdminUserRowComp from "./adminUserRowComp";
 
 const AdminUsersPage = () => {
   const storedAuthToken = localStorage.getItem("authToken");
+  const flag = useSelector((state) => state.Flag.flag);
 
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [allUsers, setAllUsers] = useState([]);
@@ -108,7 +110,7 @@ const AdminUsersPage = () => {
     if (Object.keys(allUsers).length === 0) {
       get_users();
     }
-  }, [allUsers, searchByValue]);
+  }, [searchByValue, flag]);
 
   return (
     <>
@@ -182,47 +184,7 @@ const AdminUsersPage = () => {
               {allUsers.length > 0 ? (
                 <>
                   {allUsers.map((user, index) => (
-                    <tr key={index}>
-                      <th scope="row"> {index}</th>
-                      <td>
-                        <span className="fw-bold">{user.id}</span>{" "}
-                      </td>
-                      <td>{user.user_name} </td>
-                      <td>{user.email}</td>
-                      <td>{user.mobile_phone} </td>
-                      <td>{user.avg_rating} </td>
-                      <td>{user.properties_owned.length} </td>
-                      <td>
-                        {user.is_admin ? (
-                          <div className="text-success">True</div>
-                        ) : (
-                          <div className="text-danger">False</div>
-                        )}
-                      </td>
-                      {!user.is_admin  ? (
-                        <>
-                          <td>
-                            <button className="bg-body">
-                              <i className="pt-2 fa-solid fa-pen-to-square"></i>
-                            </button>
-                          </td>
-                          <td className="">
-                            <button className="bg-body">
-                              <i
-                                onClick={() => handelDeleteButton(user.id)}
-                                className="pt-2 fa-solid fa-trash"
-                                style={{ color: "#ff0f0f" }}
-                              ></i>
-                            </button>
-                          </td>
-                        </>
-                      ) : (
-                        <>
-                          <td></td>
-                          <td></td>
-                        </>
-                      )}
-                    </tr>
+                    <AdminUserRowComp key={index} user={user} />
                   ))}
                 </>
               ) : (
