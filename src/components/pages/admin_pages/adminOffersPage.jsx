@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
+import AdminOfferRowComp from "./adminOfferRowComp";
 
 const AdminOffersPage = () => {
   const user = useSelector((state) => state.currentUSER.currentUser);
@@ -88,34 +89,7 @@ const AdminOffersPage = () => {
               {allOffers.length > 0 ? (
                 <>
                   {allOffers.map((offer, index) => (
-                    <tr key={index}>
-                      <th scope="row"> {index}</th>
-                      <td>
-                        <span className="fw-bold">{offer.id}</span>{" "}
-                      </td>
-                      <td>{offer.user.user_name} </td>
-                      <td> {offer.property.title}</td>
-                      <td>
-                        <span className="text-danger">{offer.price} </span> EGP
-                      </td>
-                      <td>{offer.created_at} </td>
-                      <td> </td>
-                      <td> </td>
-
-                      <td>
-                        <button className="bg-body">
-                          <i className="pt-3 fa-solid fa-pen-to-square"></i>
-                        </button>
-                      </td>
-                      <td className="">
-                        <button className="bg-body">
-                          <i
-                            className="pt-3 fa-solid fa-trash"
-                            style={{ color: "#ff0f0f" }}
-                          ></i>
-                        </button>
-                      </td>
-                    </tr>
+                    <AdminOfferRowComp offer={offer} key={index}/>
                   ))}
                 </>
               ) : (
