@@ -3,13 +3,25 @@ import { useSelector } from "react-redux";
 import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
-import AdminCommentRowComp from "./adminCommentRowComp";
 import AdminRatingRowComp from "./adminRatingRowComp";
 
 const AdminRatingsPage = () => {
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [allRatings, setAllRatings] = useState([]);
   const [searchValue, setSearchValue] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ratingPerPage] = useState(5);
+
+  const indexOfLastRate = currentPage * ratingPerPage;
+  const indexOfFirstRate = indexOfLastRate - ratingPerPage;
+  const currentRates = allRatings.slice(indexOfFirstRate, indexOfLastRate);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(allRatings.length / ratingPerPage); i++) {
+    pageNumbers.push(i);
+  }
+  const totalPages = Math.ceil(allRatings.length / ratingPerPage);
 
   const handelSearchChange = (e) => {
     console.log(e.target.value);
@@ -69,7 +81,10 @@ const AdminRatingsPage = () => {
             </span>
           </div>
         </div>
-        <div className="container border border-1 rounded  mt-5 p-5">
+        <div
+          style={{ minHeight: "430px" }}
+          className="container border border-1 rounded  mt-5 p-5"
+        >
           <h4 className="mb-4">Ratings:</h4>
           <table className="table">
             <thead>
@@ -89,7 +104,7 @@ const AdminRatingsPage = () => {
             <tbody>
               {allRatings.length > 0 ? (
                 <>
-                  {allRatings.map((rating, index) => (
+                  {currentRates.map((rating, index) => (
                     <AdminRatingRowComp rating={rating} key={index} />
                   ))}
                 </>
@@ -99,6 +114,42 @@ const AdminRatingsPage = () => {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="pagination justify-content-center">
+        <ul className="pagination">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              className="page-link"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <button onClick={() => paginate(number)} className="page-link">
+                {number}
+              </button>
+            </li>
+          ))}
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="page-link"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
       </div>
       <MyFooter />
     </>

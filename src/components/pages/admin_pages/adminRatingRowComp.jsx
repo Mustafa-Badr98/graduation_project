@@ -65,7 +65,7 @@ const AdminRatingRowComp = (props) => {
         <td className="">
           <button className="bg-body">
             <i
-              className="pt-3 fa-solid fa-trash"
+              className="pt-2 fa-solid fa-trash"
               style={{ color: "#ff0f0f" }}
               onClick={handleShowDeleteConfirm}
             ></i>
