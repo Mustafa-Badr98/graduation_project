@@ -51,7 +51,7 @@ const ListingCard = (props) => {
       <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5 ">
         <div className="card">
           <img
-            style={{ maxHeight: "200px" }}
+            style={{ maxHeight: "200px" ,minHeight:"200px"}}
             src={`http://localhost:8000${localProduct.images[0].image}`}
             alt=""
             className="card-img-top"

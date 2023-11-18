@@ -5,6 +5,7 @@ import { LoginAction } from "../../store/actions/loginAction";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { StoreToken } from "../../store/actions/StoreToken";
+import MessageModal from "./messageModal";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 axios.defaults.withCredentials = true;
@@ -14,6 +15,17 @@ const client = axios.create({
 });
 
 const LoginModal = () => {
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [messageBody, setMessageBody] = useState("");
+
+  const handleShowModalMessage = () => {
+    setShowMessageModal(true);
+  };
+
+  const handleCloseModalMessage = () => {
+    setShowMessageModal(false);
+  };
+
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -89,7 +101,8 @@ const LoginModal = () => {
           console.log(authToken);
           dispatch(LoginAction());
           dispatch(GetCurrentUserAction(authToken));
-          alert("login complete");
+          setMessageBody("Login Complete.");
+          handleShowModalMessage();
           const closeButton = document.getElementById("closeButton");
           if (closeButton) {
             closeButton.click();
@@ -100,7 +113,8 @@ const LoginModal = () => {
           //   "Error:",
           //   error.response ? error.response.data.detail : error.message
           // );
-          alert("did you forget your password or email ? ");
+          setMessageBody("Did you forget your password or email ? .");
+          handleShowModalMessage();
         });
     } else {
       alert("did you forget your email ?");
@@ -191,6 +205,11 @@ const LoginModal = () => {
           </div>
         </div>
       </div>
+      <MessageModal
+        show={showMessageModal}
+        onHide={handleCloseModalMessage}
+        body={messageBody}
+      />
     </>
   );
 };

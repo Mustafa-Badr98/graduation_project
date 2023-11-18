@@ -10,6 +10,7 @@ import {
 } from "react-router-dom/cjs/react-router-dom.min";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import no_property_pic from "../../assets/images/no_photo.jpg";
+import MessageModal from "../static/messageModal";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -19,6 +20,16 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000",
 });
 function EditPropertyPage() {
+  const [showModal, setShowModal] = useState(false);
+  const [modalBody, setModalBody] = useState("");
+  const handleShowMessage = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const [productToEdit, setProductToEdit] = useState({});
   const egyptGovernorates = [
     "Alexandria",
@@ -216,11 +227,14 @@ function EditPropertyPage() {
       }
 
       dispatch(GetProductsListAction());
-
-      alert("your product has been Edited");
+      setModalBody("Your product has been edited");
+      handleShowMessage();
+      // alert("your product has been Edited");
       // history.push("/");
     } else {
-      alert("please check all req fields");
+      setModalBody("Please check all the required fields");
+      handleShowMessage();
+      // alert("please check all req fields");
     }
   };
 
@@ -262,7 +276,7 @@ function EditPropertyPage() {
                     name="otherInfo"
                     value={formData.otherInfo}
                     onChange={handleChange}
-                    style={{height:"7rem"}}
+                    style={{ height: "7rem" }}
                   />
                   {errors.otherInfo && (
                     <div className="invalid-feedback">{errors.otherInfo}</div>
@@ -489,12 +503,18 @@ function EditPropertyPage() {
                 </div>
 
                 <button type="submit" className="btn btn-danger mt-3">
-                  Post Your Ad
+                  Edit Your Ad
                 </button>
               </form>
             </div>
           </div>
           <MyFooter />
+
+          <MessageModal
+            show={showModal}
+            onHide={handleCloseModal}
+            body={modalBody}
+          />
         </>
       ) : (
         <></>
