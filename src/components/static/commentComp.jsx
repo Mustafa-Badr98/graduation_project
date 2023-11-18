@@ -29,6 +29,7 @@ const CommentComp = (props) => {
   const history = useHistory();
 
   const deleteCommentHandler = () => {
+    handleCloseModal();
     axios
       .delete(`http://127.0.0.1:8000/api/delete_comment/${localComment.id}`, {
         headers: {
@@ -43,7 +44,7 @@ const CommentComp = (props) => {
 
   return (
     <>
-      <div>
+      <div className="mt-3">
         <li className={viewUsersPageStyles.media}>
           <div
             className={cx(

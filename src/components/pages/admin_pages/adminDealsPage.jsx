@@ -9,6 +9,20 @@ const AdminDealsPage = () => {
   const [allDeals, setAllDeals] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dealPerPage] = useState(5);
+
+  const indexOfLastDeal = currentPage * dealPerPage;
+  const indexOfFirstDeal = indexOfLastDeal - dealPerPage;
+  const currentDeals = allDeals.slice(indexOfFirstDeal, indexOfLastDeal);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(allDeals.length / dealPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const totalPages = Math.ceil(allDeals.length / dealPerPage);
+
   const handelSearchChange = (e) => {
     console.log(e.target.value);
     setSearchValue(e.target.value);
@@ -67,7 +81,10 @@ const AdminDealsPage = () => {
             </span>
           </div>
         </div>
-        <div className="container border border-1 rounded  mt-5 p-5">
+        <div
+          style={{ minHeight: "410px" }}
+          className="container border border-1 rounded  mt-5 p-5"
+        >
           <h4 className="mb-4">Deals:</h4>
           <table className="table">
             <thead>
@@ -80,14 +97,13 @@ const AdminDealsPage = () => {
                 <th scope="col">Deal amount</th>
                 <th scope="col">Done at</th>
                 <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+               
               </tr>
             </thead>
             <tbody>
               {allDeals.length > 0 ? (
                 <>
-                  {allDeals.map((deal, index) => (
+                  {currentDeals.map((deal, index) => (
                     <tr key={index}>
                       <th scope="row"> {index}</th>
                       <td>
@@ -103,8 +119,6 @@ const AdminDealsPage = () => {
                       </td>
                       <td>{deal.created_at} </td>
                       <td> </td>
-
-                     
                     </tr>
                   ))}
                 </>
@@ -114,6 +128,42 @@ const AdminDealsPage = () => {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className="pagination justify-content-center">
+        <ul className="pagination">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              className="page-link"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <button onClick={() => paginate(number)} className="page-link">
+                {number}
+              </button>
+            </li>
+          ))}
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="page-link"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
       </div>
       <MyFooter />
     </>
