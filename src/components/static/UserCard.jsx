@@ -8,8 +8,18 @@ import axios from "axios";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import sold_pic from "../../assets/images/sold.png";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import ConfirmationModal from "./confirmModal";
 
 const UserCard = (props) => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowDeleteConfirm = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
   const history = useHistory();
   const dispatch = useDispatch();
   const storedAuthToken = localStorage.getItem("authToken");
@@ -19,21 +29,12 @@ const UserCard = (props) => {
 
   useEffect(() => {}, []);
 
-  const RemoveButtonHandler = () => {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to delete your Ad? You will not be able to retrieve it afterward."
-    );
-    if (userConfirmed) {
-      axios
-        .delete(`http://127.0.0.1:8000/api/properties/${localProduct.id}`)
-        .then((res) => console.log(res))
-        .then(() => dispatch(GetCurrentUserAction(storedAuthToken)));
-    } else {
-      console.log("Deletion canceled");
-      history.push("/userAds");
-    }
+  const DeleteAdHandler = () => {
+    axios
+      .delete(`http://127.0.0.1:8000/api/properties/${localProduct.id}`)
+      .then((res) => console.log(res))
+      .then(() => dispatch(GetCurrentUserAction(storedAuthToken)));
   };
-
   return (
     <>
       <div className="container my-5 ">
@@ -106,7 +107,7 @@ const UserCard = (props) => {
                     <div className="col-3">
                       <button
                         className="btn btn-danger"
-                        onClick={RemoveButtonHandler}
+                        onClick={handleShowDeleteConfirm}
                         style={{ textDecoration: "none" }}
                       >
                         Delete Ad
@@ -135,6 +136,12 @@ const UserCard = (props) => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        show={showModal}
+        onHide={handleCloseModal}
+        onConfirm={DeleteAdHandler}
+        body={"Are you sure you want to delete your AD ?"}
+      />
     </>
   );
 };

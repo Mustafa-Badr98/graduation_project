@@ -5,13 +5,15 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import ConfirmationModal from "../static/confirmModal";
+import OfferComp from "../static/offerComp";
 
 const OffersPage = () => {
   const history = useHistory();
   const token = localStorage.getItem("authToken");
   const param = useParams();
   const [property_offers, setPropertyOffers] = useState([]);
-  const [flag, setFlag] = useState(0);
+
   const dispatch = useDispatch();
 
   const getPropertyOffers = () => {
@@ -31,54 +33,9 @@ const OffersPage = () => {
     }
   };
 
-  const handelAcceptOffer = (offerId) => {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to accept this offer ?"
-    );
-    if (userConfirmed) {
-      axios
-        .get(`http://127.0.0.1:8000/api/accept_offer/${offerId}`, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        })
-        .then((res) => {
-          getPropertyOffers();
-          dispatch(GetCurrentUserAction(token));
-          console.log(res);
-          setFlag(flag + 1);
-          alert(
-            "Congratulations on the Successful Sale of Your Property! Deal Has Been Done. "
-          );
-          history.push("/userAds");
-        });
-    }
-  };
-
-  const handelRejectOffer = (offerId) => {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to reject this offer ?"
-    );
-    if (userConfirmed) {
-      axios
-        .delete(`http://127.0.0.1:8000/api/reject_offer/${offerId}`, {
-          headers: {
-            Authorization: `Token ${token}`,
-          },
-        })
-        .then((res) => {
-          getPropertyOffers();
-          alert("Offer Rejected");
-          console.log(res);
-          setFlag(flag + 1);
-        });
-    } else {
-    }
-  };
-
   useEffect(() => {
     getPropertyOffers();
-  }, [flag]);
+  }, []);
   return (
     <>
       <div className="container mt-5 vh-100">
@@ -87,43 +44,12 @@ const OffersPage = () => {
           <div className="mt-5">
             {" "}
             {property_offers.map((offer, index) => (
-              <div
-                key={index}
-                style={{ height: "50px" }}
-                className="bg-dark rounded text-light mt-3 row"
-              >
-                <div className="col-3 fs-5 pt-2">
-                  Offered By {offer.user.user_name}
-                </div>
-                <div className="col-3 fs-5 pt-2">
-                  Date: {offer.created_at.slice(0, 10)}
-                </div>
-                <div className="col-3 fs-5 pt-2">
-                  offered price{" "}
-                  <span className="text-success">{offer.price} </span> EGP
-                </div>
-                <div className="col-1 pt-1">
-                  <button
-                    onClick={() => handelAcceptOffer(offer.id)}
-                    className="btn btn-success "
-                  >
-                    Accept{" "}
-                  </button>
-                </div>
-                <div className="col-1 pt-1">
-                  <button
-                    onClick={() => handelRejectOffer(offer.id)}
-                    className="btn btn-danger "
-                  >
-                    Reject{" "}
-                  </button>
-                </div>
-              </div>
+              <OfferComp offer={offer} key={index} />
             ))}
           </div>
         ) : (
           <>
-            <div class="alert alert-warning mt-5 fs-1" role="alert">
+            <div className="alert alert-warning mt-5 fs-1" role="alert">
               Your property has no offer yet!
             </div>
           </>

@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
+import ConfirmationModal from "./confirmModal";
 
 const ListingCard = (props) => {
+
+
   const dispatch = useDispatch();
   const [isFav, setIsFav] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
@@ -161,6 +164,7 @@ const ListingCard = (props) => {
           </div>
         </div>
       </div>
+
     </>
   );
 };
