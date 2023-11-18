@@ -6,7 +6,42 @@ import { LogoutAction } from "../../store/actions/logoutAction";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import axios from "axios";
 import brandPic from "../../assets/images/6883103.jpg";
+import ConfirmationModal from "./confirmModal";
 const MyNavbar = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleLogout = () => {
+    setShowModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    axios
+      .post("http://127.0.0.1:8000/api/user/logout", null, {
+        withCredentials: true,
+
+        headers: {
+          Authorization: `Token ${storedAuthToken}`,
+        },
+      })
+      .then((response) => {
+        // console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(
+          "Logout error:",
+          error.response ? error.response.data : error.message
+        );
+      });
+
+    dispatch(LogoutAction());
+
+    setShowModal(false);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [userFavCount, setUserFavCount] = useState(0);
@@ -17,37 +52,37 @@ const MyNavbar = () => {
   const dispatch = useDispatch();
   dispatch(GetProductsListAction());
 
-  function logoutHandler() {
-    const userConfirmed = window.confirm(
-      "Are you sure you want to Logout ? we will miss you ):  "
-    );
+  // function logoutHandler() {
+  //   const userConfirmed = window.confirm(
+  //     "Are you sure you want to Logout ? we will miss you ):  "
+  //   );
 
-    if (userConfirmed) {
-      axios
-        .post("http://127.0.0.1:8000/api/user/logout", null, {
-          withCredentials: true,
+  //   if (userConfirmed) {
+  //     axios
+  //       .post("http://127.0.0.1:8000/api/user/logout", null, {
+  //         withCredentials: true,
 
-          headers: {
-            Authorization: `Token ${storedAuthToken}`,
-          },
-        })
-        .then((response) => {
-          // console.log(response.data);
-          // Handle successful logout, if needed
-        })
-        .catch((error) => {
-          console.error(
-            "Logout error:",
-            error.response ? error.response.data : error.message
-          );
-          // Handle logout error, if needed
-        });
+  //         headers: {
+  //           Authorization: `Token ${storedAuthToken}`,
+  //         },
+  //       })
+  //       .then((response) => {
+  //         // console.log(response.data);
+  //         // Handle successful logout, if needed
+  //       })
+  //       .catch((error) => {
+  //         console.error(
+  //           "Logout error:",
+  //           error.response ? error.response.data : error.message
+  //         );
+  //         // Handle logout error, if needed
+  //       });
 
-      dispatch(LogoutAction());
-    } else {
-      return -1;
-    }
-  }
+  //     dispatch(LogoutAction());
+  //   } else {
+  //     return -1;
+  //   }
+  // }
 
   useEffect(() => {
     if (Object.keys(user).length === 0) {
@@ -172,8 +207,8 @@ const MyNavbar = () => {
                         </li>
                         <li>
                           <Link to="/MyDeals" className="dropdown-item">
-                            <i className="fa-solid fa-handshake-simple me-2"></i> My
-                            Deals
+                            <i className="fa-solid fa-handshake-simple me-2"></i>{" "}
+                            My Deals
                           </Link>
                         </li>
 
@@ -201,7 +236,7 @@ const MyNavbar = () => {
                         <li>
                           <Link
                             to=""
-                            onClick={logoutHandler}
+                            onClick={handleLogout}
                             className="dropdown-item"
                           >
                             <i className="fa-solid fa-right-from-bracket me-2 ms-1"></i>
@@ -217,6 +252,12 @@ const MyNavbar = () => {
           </div>
         </nav>
       </div>
+      <ConfirmationModal
+        show={showModal}
+        onHide={handleCloseModal}
+        onConfirm={handleConfirmLogout}
+        body={"Are you sure you want to Logout ? we will miss you ):  "}
+      />
     </>
   );
 };

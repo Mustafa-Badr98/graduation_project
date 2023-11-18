@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { AddToUserProductListAction } from "../../store/actions/AddToUserProductList";
@@ -8,6 +8,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import no_property_pic from "../../assets/images/no_photo.jpg";
+import MessageModal from "../static/messageModal";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -17,6 +18,9 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000",
 });
 function SellPage() {
+  const [showModal, setShowModal] = useState(false);
+  const [modalBody, setModalBody] = useState("");
+
   const storedAuthToken = localStorage.getItem("authToken");
 
   const egyptGovernorates = [
@@ -78,6 +82,14 @@ function SellPage() {
     (_, index) => index
   );
   const [errors, setErrors] = useState({});
+
+  const handleShowMessage = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -198,14 +210,20 @@ function SellPage() {
       }
 
       dispatch(GetCurrentUserAction(storedAuthToken));
+      setModalBody("Congratulations.. Your product has been added");
+      handleShowMessage();
 
-      alert("your product has been added");
-      history.push("/");
+      // history.push("/");
     } else {
-      alert("please log in or check all req fields");
+      setModalBody("please login or check all the required fields");
+      handleShowMessage();
+    
     }
   };
 
+
+
+ 
   return (
     <>
       <div className="container mt-5 p-5">
@@ -461,6 +479,11 @@ function SellPage() {
         </div>
       </div>
       <MyFooter />
+      <MessageModal
+        show={showModal}
+        onHide={handleCloseModal}
+        body={modalBody}
+      />
     </>
   );
 }
