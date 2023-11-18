@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
+import AdminCommentRowComp from "./adminCommentRowComp";
+import AdminRatingRowComp from "./adminRatingRowComp";
 
 const AdminRatingsPage = () => {
   const user = useSelector((state) => state.currentUSER.currentUser);
@@ -88,34 +90,7 @@ const AdminRatingsPage = () => {
               {allRatings.length > 0 ? (
                 <>
                   {allRatings.map((rating, index) => (
-                    <tr key={index}>
-                      <th scope="row"> {index}</th>
-                      <td>
-                        <span className="fw-bold">{rating.id}</span>{" "}
-                      </td>
-                      <td>{rating.user} </td>
-                      <td> {rating.rated_by}</td>
-                      <td>
-                        <span className="text-danger">{rating.rating} </span>
-                      </td>
-                      <td>{rating.created_at} </td>
-                      <td> </td>
-                      <td> </td>
-
-                      <td>
-                        <button className="bg-body">
-                          <i className="pt-3 fa-solid fa-pen-to-square"></i>
-                        </button>
-                      </td>
-                      <td className="">
-                        <button className="bg-body">
-                          <i
-                            className="pt-3 fa-solid fa-trash"
-                            style={{ color: "#ff0f0f" }}
-                          ></i>
-                        </button>
-                      </td>
-                    </tr>
+                    <AdminRatingRowComp rating={rating} key={index} />
                   ))}
                 </>
               ) : (
