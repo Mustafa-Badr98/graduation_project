@@ -6,7 +6,20 @@ import { LoginAction } from "../../store/actions/loginAction";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import axios from "axios";
 import { StoreToken } from "../../store/actions/StoreToken";
+import MessageModal from "../static/messageModal";
 const SignupPage = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalBody, setModalBody] = useState(
+    "SignUp Complete. and you are now logged in."
+  );
+  const handleShowMessage = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const egyptGovernorates = [
     "Alexandria",
     "Aswan",
@@ -169,12 +182,13 @@ const SignupPage = () => {
               console.log(authToken);
               dispatch(LoginAction());
               dispatch(GetCurrentUserAction(authToken));
-              alert("login complete");
             });
 
-          alert(
-            "SignUp Complete. You will now be redirected to the home page."
-          );
+          handleShowMessage();
+          // alert(
+          //   "SignUp Complete. You will now be redirected to the home page."
+          // );
+        
           history.push("/");
         })
         .catch((e) => {
@@ -395,6 +409,11 @@ const SignupPage = () => {
       <MyAlert
         title={`welcome ${formData.username} `}
         description="i Hope you enjoy our website to the fullest "
+      />
+      <MessageModal
+        show={showModal}
+        onHide={handleCloseModal}
+        body={modalBody}
       />
     </>
   );

@@ -15,8 +15,19 @@ import ContactEmailSellerButton from "../static/EmailButtonComp";
 import axios from "axios";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
+import ConfirmationModal from "../static/confirmModal";
 
 const ViewSingleProductPageV2 = () => {
+  const [showModal, setShowModal] = useState(false);
+
+  const handleLogout = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const history = useHistory();
   const param = useParams();
   const mapRef = useRef(null);
@@ -64,33 +75,21 @@ const ViewSingleProductPageV2 = () => {
           setFlag(flag + 1);
         })
         .catch((err) => console.log(err));
-      alert("offer submitted");
     } catch (error) {
       console.log(error);
     }
   };
 
   const RemoveButtonHandler = () => {
-    try {
-      const userConfirmed = window.confirm(
-        "Are you sure you want to delete your Ad? You will not be able to retrieve it afterward."
-      );
-
-      if (userConfirmed) {
-        axios
-          .delete(`http://127.0.0.1:8000/api/properties/${filteredObject.id}`)
-          .then((res) => console.log(res))
-          .then(() => {
-            dispatch(GetCurrentUserAction(storedAuthToken));
-            history.push("/");
-          });
-      } else {
-        console.log("Deletion canceled");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    axios
+      .delete(`http://127.0.0.1:8000/api/properties/${filteredObject.id}`)
+      .then((res) => console.log(res))
+      .then(() => {
+        dispatch(GetCurrentUserAction(storedAuthToken));
+        history.push("/");
+      });
   };
+
   const getProductData = () => {
     // let productId = parseInt(param.id);
     let filteredObj = {};
@@ -429,7 +428,9 @@ const ViewSingleProductPageV2 = () => {
                 </div>
               </>
             ) : (
-              <div className="mt-5 fs-4 ms-5 ps-4">Login to submit an offer</div>
+              <div className="mt-5 fs-4 ms-5 ps-4">
+                Login to submit an offer
+              </div>
             )}
 
             <div className="row">
@@ -469,6 +470,12 @@ const ViewSingleProductPageV2 = () => {
 
       <ViewSinglePageProductModal productPhotos={filteredObjectImages} />
       <MyFooter />
+      <ConfirmationModal
+        show={showModal}
+        onHide={handleCloseModal}
+        onConfirm={RemoveButtonHandler}
+        body={"Are you sure you want to Logout ? we will miss you ):  "}
+      />
     </>
   );
 };

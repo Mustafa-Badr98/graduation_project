@@ -111,11 +111,11 @@ const DoneDealPage = () => {
                             >
                               <div className="col-12 font-small">
                                 Deal : #{deal.id}
-                                <Link to={`/${deal.property.id}`}>
+                                <span>
                                   {" "}
                                   {deal.property.title} at{" "}
                                   {deal.property.location}
-                                </Link>
+                                </span>
                               </div>
                               {isShowingSold ? (
                                 <>
