@@ -9,7 +9,6 @@ import AdminUserRowComp from "./adminUserRowComp";
 const AdminUsersPage = () => {
   const storedAuthToken = localStorage.getItem("authToken");
   const flag = useSelector((state) => state.Flag.flag);
-
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [allUsers, setAllUsers] = useState([]);
   const [searchValue, setSearchValue] = useState("");
@@ -24,6 +23,20 @@ const AdminUsersPage = () => {
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(5);
+
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = allUsers.slice(indexOfFirstUser, indexOfLastUser);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(allUsers.length / usersPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const totalPages = Math.ceil(allUsers.length / usersPerPage);
 
   const handelSearchChange = (e) => {
     console.log(e.target.value);
@@ -68,31 +81,7 @@ const AdminUsersPage = () => {
       });
   };
 
-  const handelDeleteButton = (id) => {
-    try {
-      const userConfirmed = window.confirm(
-        "Are you sure you want to delete this Account?."
-      );
-      if (userConfirmed) {
-        console.log(id);
-        console.log(storedAuthToken);
-        const response = axios
-          .delete(`http://127.0.0.1:8000/api/users/resources/${id}`, {
-            headers: {
-              Authorization: `Token ${storedAuthToken}`,
-            },
-          })
-          .then((res) => console.log(res))
-          .then(() => get_users());
 
-        // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
-      } else {
-        console.log("Deletion canceled");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
   const get_users = () => {
     try {
       axios
@@ -183,7 +172,7 @@ const AdminUsersPage = () => {
             <tbody>
               {allUsers.length > 0 ? (
                 <>
-                  {allUsers.map((user, index) => (
+                  {currentUsers.map((user, index) => (
                     <AdminUserRowComp key={index} user={user} />
                   ))}
                 </>
@@ -193,6 +182,43 @@ const AdminUsersPage = () => {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="pagination justify-content-center">
+        <ul className="pagination">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              className="page-link"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <button onClick={() => paginate(number)} className="page-link">
+                {number}
+              </button>
+            </li>
+          ))}
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="page-link"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
       </div>
       <MyFooter />
     </>
