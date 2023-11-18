@@ -24,6 +24,23 @@ const AdminPropertiesPage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [propertyPerPage] = useState(5);
+
+  const indexOfLastProperty = currentPage * propertyPerPage;
+  const indexOfFirstProperty = indexOfLastProperty - propertyPerPage;
+  const currentProperty = allProperties.slice(
+    indexOfFirstProperty,
+    indexOfLastProperty
+  );
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(allProperties.length / propertyPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const totalPages = Math.ceil(allProperties.length / propertyPerPage);
+
   const handelSearchChange = (e) => {
     console.log(e.target.value);
     setSearchValue(e.target.value);
@@ -49,31 +66,6 @@ const AdminPropertiesPage = () => {
     setSearchByValue(e.target.value);
   };
 
-  const handelDeleteButton = (id) => {
-    try {
-      const userConfirmed = window.confirm(
-        "Are you sure you want to delete this Property?."
-      );
-      if (userConfirmed) {
-        console.log(id);
-        console.log(storedAuthToken);
-        axios
-          .delete(`http://127.0.0.1:8000/api/properties/${id}`, {
-            headers: {
-              Authorization: `Token ${storedAuthToken}`,
-            },
-          })
-          .then((res) => console.log(res))
-          .then(() => get_properties());
-
-        // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
-      } else {
-        console.log("Deletion canceled");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
 
   const handelSubmitSearch = () => {
     console.log(searchByValueData);
@@ -180,7 +172,7 @@ const AdminPropertiesPage = () => {
             <tbody>
               {allProperties.length > 0 ? (
                 <>
-                  {allProperties.map((property, index) => (
+                  {currentProperty.map((property, index) => (
                     <AdminPropertyRowComp key={index} property={property} />
                   ))}
                 </>
@@ -190,6 +182,43 @@ const AdminPropertiesPage = () => {
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div className="pagination justify-content-center">
+        <ul className="pagination">
+          <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              className="page-link"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </button>
+          </li>
+          {pageNumbers.map((number) => (
+            <li
+              key={number}
+              className={`page-item ${currentPage === number ? "active" : ""}`}
+            >
+              <button onClick={() => paginate(number)} className="page-link">
+                {number}
+              </button>
+            </li>
+          ))}
+          <li
+            className={`page-item ${
+              currentPage === totalPages ? "disabled" : ""
+            }`}
+          >
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              className="page-link"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </button>
+          </li>
+        </ul>
       </div>
       <MyFooter />
     </>
