@@ -4,6 +4,7 @@ import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import axios from "axios";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import AdminPropertyRowComp from "./adminPropertyRowComp";
 
 const AdminPropertiesPage = () => {
   const storedAuthToken = localStorage.getItem("authToken");
@@ -180,42 +181,7 @@ const AdminPropertiesPage = () => {
               {allProperties.length > 0 ? (
                 <>
                   {allProperties.map((property, index) => (
-                    <tr key={index}>
-                      <th scope="row"> {index}</th>
-                      <td>
-                        <span className="fw-bold">{property.id}</span>{" "}
-                      </td>
-                      <td>{property.title} </td>
-                      <td> {property.seller.user_name}</td>
-                      <td>{property.price} </td>
-                      <td>{property.offers.length} </td>
-                      <td>{property.created_at} </td>
-                      <td>{property.type} </td>
-
-                      <td>
-                        {" "}
-                        {property.state === "live" ? (
-                          <div className="text-success">Live</div>
-                        ) : (
-                          <div className="text-danger">Sold</div>
-                        )}
-                      </td>
-
-                      <td>
-                        <button className="bg-body">
-                          <i className="pt-2 fa-solid fa-pen-to-square"></i>
-                        </button>
-                      </td>
-                      <td className="">
-                        <button className="bg-body">
-                          <i
-                            onClick={() => handelDeleteButton(property.id)}
-                            className="pt-2 fa-solid fa-trash"
-                            style={{ color: "#ff0f0f" }}
-                          ></i>
-                        </button>
-                      </td>
-                    </tr>
+                    <AdminPropertyRowComp key={index} property={property} />
                   ))}
                 </>
               ) : (

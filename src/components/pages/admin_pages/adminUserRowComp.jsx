@@ -34,7 +34,7 @@ const AdminUserRowComp = (props) => {
           },
         })
         .then((res) => console.log(res));
-      window.location.reload();
+      refreshPage();
     } catch (error) {
       console.log(error);
     }
@@ -42,6 +42,9 @@ const AdminUserRowComp = (props) => {
     // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
   };
 
+  function refreshPage() {
+    window.location.reload();
+  }
   return (
     <>
       <tr>
