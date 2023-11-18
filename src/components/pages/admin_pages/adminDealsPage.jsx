@@ -104,19 +104,7 @@ const AdminDealsPage = () => {
                       <td>{deal.created_at} </td>
                       <td> </td>
 
-                      <td>
-                        <button className="bg-body">
-                          <i className="pt-3 fa-solid fa-pen-to-square"></i>
-                        </button>
-                      </td>
-                      <td className="">
-                        <button className="bg-body">
-                          <i
-                            className="pt-3 fa-solid fa-trash"
-                            style={{ color: "#ff0f0f" }}
-                          ></i>
-                        </button>
-                      </td>
+                     
                     </tr>
                   ))}
                 </>
