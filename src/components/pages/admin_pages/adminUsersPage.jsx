@@ -103,7 +103,7 @@ const AdminUsersPage = () => {
 
   return (
     <>
-      <div style={{ minHeight: "100vh" }} className="container">
+      <div style={{ minHeight: "75vh" }} className="container">
         <div className="row admin_header mt-5">
           <div className="offset-4 col-6">
             <h1>Admin Panel</h1>
@@ -147,7 +147,7 @@ const AdminUsersPage = () => {
             </span>
           </div>
         </div>
-        <div style={{minHeight:"430px"}}  className="container border border-1 rounded  mt-5 p-5">
+        <div   className="container border border-1 rounded  mt-5 p-5">
           <div className="row">
             <h4 className="col-4 mb-4">Users:</h4>{" "}
             <button className="offset-6 col-2 h-25 btn btn-primary">

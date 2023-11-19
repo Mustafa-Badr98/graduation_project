@@ -43,7 +43,7 @@ const AdminRatingsPage = () => {
 
   return (
     <>
-      <div style={{ minHeight: "100vh" }} className="container">
+      <div style={{ minHeight: "75vh" }} className="container">
         <div className="row admin_header mt-5">
           <div className="offset-4 col-6">
             <h1>Admin Panel</h1>
