@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { ChangeFlagAction } from "../../../store/actions/changeFlagAction";
 import ConfirmationModal from "../../static/confirmModal";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 const AdminUserRowComp = (props) => {
   const dispatch = useDispatch();
@@ -67,9 +68,9 @@ const AdminUserRowComp = (props) => {
         {!user.is_admin ? (
           <>
             <td>
-              <button className="bg-body">
+              <Link to="/EditUserProfile" className="bg-body">
                 <i className="pt-2 fa-solid fa-pen-to-square"></i>
-              </button>
+              </Link>
             </td>
             <td className="">
               <button className="bg-body">

@@ -81,7 +81,6 @@ const AdminUsersPage = () => {
       });
   };
 
-
   const get_users = () => {
     try {
       axios
@@ -147,12 +146,15 @@ const AdminUsersPage = () => {
             </span>
           </div>
         </div>
-        <div   className="container border border-1 rounded  mt-5 p-5">
+        <div className="container border border-1 rounded  mt-5 p-5">
           <div className="row">
             <h4 className="col-4 mb-4">Users:</h4>{" "}
-            <button className="offset-6 col-2 h-25 btn btn-primary">
+            <Link
+              to="/add_admin_user"
+              className="offset-6 col-2 h-25 btn btn-primary"
+            >
               Add admin user
-            </button>
+            </Link>
           </div>
           <table className="table">
             <thead>

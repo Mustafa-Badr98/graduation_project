@@ -31,6 +31,7 @@ import AdminPropertiesPage from "./components/pages/admin_pages/adminPropertiesP
 import AdminOffersPage from "./components/pages/admin_pages/adminOffersPage";
 import AdminRatingsPage from "./components/pages/admin_pages/adminRatingsPage";
 import AdminDealsPage from "./components/pages/admin_pages/adminDealsPage";
+import AddAdminUserPage from "./components/pages/admin_pages/addAdminUserPage";
 function App() {
   const user = useSelector((state) => state.currentUSER.currentUser);
   console.log(user);
@@ -92,12 +93,8 @@ function App() {
             path="/admin_panel/ratings"
             component={AdminRatingsPage}
           />
-          <Route
-            exact
-            path="/admin_panel/deals"
-            component={AdminDealsPage}
-          />
-
+          <Route exact path="/admin_panel/deals" component={AdminDealsPage} />
+          <Route exact path="/add_admin_user" component={AddAdminUserPage} />
           <Route exact path="/:id" component={ViewSingleProductPageV2} />
 
           <Route exact path="/*" component={NotFoundPage} />
