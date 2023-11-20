@@ -9,8 +9,10 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
 import ConfirmationModal from "../static/confirmModal";
 import MessageModal from "../static/messageModal";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
 
 const EditProfilePage = () => {
+  const param = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageBody, setMessageBody] = useState("");
@@ -56,7 +58,8 @@ const EditProfilePage = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
-  const userInSession = useSelector((state) => state.currentUSER.currentUser);
+  // const userInSession = useSelector((state) => state.currentUSER.currentUser);
+  const [userInSession, setUser] = useState({});
   const storedAuthToken = localStorage.getItem("authToken");
 
   const egyptGovernorates = [
@@ -266,9 +269,20 @@ const EditProfilePage = () => {
   //     console.error("Error:", error);
   //   }
   // };
-
+  const get_user_data = () => {
+    try {
+      axios
+        .get(`http://127.0.0.1:8000/api/user/id/${param.id}`)
+        .then((res) => {
+          console.log(res.data.data)
+          setUser(res.data.data)
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {}
+  };
   useEffect(() => {
     checkHasError();
+    get_user_data();
   }, [formData]);
   return (
     <>

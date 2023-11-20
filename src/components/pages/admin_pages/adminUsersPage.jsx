@@ -98,7 +98,7 @@ const AdminUsersPage = () => {
     if (Object.keys(allUsers).length === 0) {
       get_users();
     }
-  }, [searchByValue, flag]);
+  }, [searchByValue, flag,allUsers]);
 
   return (
     <>

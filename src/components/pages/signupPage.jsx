@@ -167,7 +167,7 @@ const SignupPage = () => {
 
       axios
         .post("http://127.0.0.1:8000/api/user/register", data_send)
-        .then((res) => {
+        .then(async (res) => {
           console.log(res.data.user);
           const loginData = {
             email: formData.email,
@@ -183,13 +183,15 @@ const SignupPage = () => {
               dispatch(LoginAction());
               dispatch(GetCurrentUserAction(authToken));
             });
+          await handleShowMessage();
 
-          handleShowMessage();
+          await new Promise((resolve) => setTimeout(resolve, 5000));
+
+          await history.push("/");
+
           // alert(
           //   "SignUp Complete. You will now be redirected to the home page."
           // );
-        
-          history.push("/");
         })
         .catch((e) => {
           alert("your email is already registered");

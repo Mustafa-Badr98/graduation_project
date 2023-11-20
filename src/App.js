@@ -71,7 +71,7 @@ function App() {
             component={EditPropertyPage}
           />
           <Route exact path="/Property/:id/Offers/" component={OffersPage} />
-          <Route exact path="/EditUserProfile" component={EditProfilePage} />
+          <Route exact path="/EditUserProfile/:id" component={EditProfilePage} />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />

@@ -68,7 +68,7 @@ const AdminUserRowComp = (props) => {
         {!user.is_admin ? (
           <>
             <td>
-              <Link to="/EditUserProfile" className="bg-body">
+              <Link to={`/EditUserProfile/${user.id}`} className="bg-body">
                 <i className="pt-2 fa-solid fa-pen-to-square"></i>
               </Link>
             </td>

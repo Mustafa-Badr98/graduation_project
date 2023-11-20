@@ -195,7 +195,7 @@ const MyNavbar = () => {
                       <ul className="dropdown-menu">
                         <li>
                           <Link
-                            to={`/EditUserProfile`}
+                            to={`/EditUserProfile/${user.id}`}
                             className="dropdown-item"
                           >
                             <i className="fa-solid fa-user me-2"></i> My Profile
