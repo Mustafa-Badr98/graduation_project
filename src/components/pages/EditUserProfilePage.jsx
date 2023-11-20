@@ -33,7 +33,7 @@ const EditProfilePage = () => {
     setShowMessageModal(false);
   };
 
-  const handleDeleteAccountModal = (id) => {
+  const handleDeleteAccountModal = async (id) => {
     handleCloseModal();
 
     const response = axios
@@ -43,16 +43,15 @@ const EditProfilePage = () => {
         },
       })
       .then((res) => console.log(res))
-      .then(() => {
-        setMessageBody("Your Account has been deleted.");
-        handleShowModalMessage();
-      })
 
       .then(() => dispatch(LogoutAction()));
-    // .then(() => {
-    //   setTimeout(() => {}, [5000]);
-    // })
-    // .then(() => history.push("/"));
+    setMessageBody("Your Account has been deleted.");
+
+    await handleShowModalMessage();
+
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    await history.push("/");
   };
 
   const history = useHistory();
@@ -274,8 +273,8 @@ const EditProfilePage = () => {
       axios
         .get(`http://127.0.0.1:8000/api/user/id/${param.id}`)
         .then((res) => {
-          console.log(res.data.data)
-          setUser(res.data.data)
+          console.log(res.data.data);
+          setUser(res.data.data);
         })
         .catch((error) => console.log(error));
     } catch (error) {}

@@ -211,19 +211,20 @@ function SellPage() {
 
       dispatch(GetCurrentUserAction(storedAuthToken));
       setModalBody("Congratulations.. Your product has been added");
-      handleShowMessage();
+
+      await handleShowMessage();
+
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+
+      await history.push("/");
 
       // history.push("/");
     } else {
       setModalBody("please login or check all the required fields");
       handleShowMessage();
-    
     }
   };
 
-
-
- 
   return (
     <>
       <div className="container mt-5 p-5">
