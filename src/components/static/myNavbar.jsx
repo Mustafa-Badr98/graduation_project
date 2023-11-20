@@ -101,7 +101,7 @@ const MyNavbar = () => {
 
   return (
     <>
-          <LanguageSwitcher/>
+          
 
       <div className="container ">
         <nav id="nav" className="navbar navbar-expand-lg bg-body p-0">
@@ -114,6 +114,7 @@ const MyNavbar = () => {
               srcSet=""
             />
           </Link>
+          
           {user.is_admin ? (
             <>
               <Link to="/admin_panel" className="text-light rounded-5">
@@ -249,6 +250,8 @@ const MyNavbar = () => {
                         </li>
                       </ul>
                     </div>
+                    <i className="fa-solid fa-earth-americas mt-2 me-1 fs-4"></i>
+                    <LanguageSwitcher/>
                   </>
                 )}
               </ul>

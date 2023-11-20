@@ -7,12 +7,20 @@ const LanguageSwitcher = () => {
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
+    console.log(i18n.language);
   };
 
   return (
     <div>
-      <button onClick={() => changeLanguage("en")}>English</button>
-      <button onClick={() => changeLanguage("ar")}>Arabic</button>
+      {i18n.language === "ar" ? (
+        <>
+          <button className="btn btn-dark rounded-5" onClick={() => changeLanguage("en")}>En</button>
+        </>
+      ) : (
+        <>
+          <button className="btn btn-dark rounded-5" onClick={() => changeLanguage("ar")}>Ar</button>
+        </>
+      )}
       {/* Add buttons for other languages as needed */}
     </div>
   );

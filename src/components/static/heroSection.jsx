@@ -4,9 +4,12 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { GetProductsListByFilterAction } from "../../store/actions/GetProductListByFilterAction";
+import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+
 
   const [searchData, setSearchData] = useState({
     purpose: "",
@@ -137,19 +140,19 @@ const HeroSection = () => {
           <div className="container">
             <div className="offset-3 row">
               <div className="col">
-                <h1 className="text-light">Your next property is here.</h1>
+                <h1 className="text-light">{t("Your next property is here")}</h1>
               </div>
             </div>
             <div className="offset-3 row">
               <div className="col text-white fs-4">
-                Let's find a home that's perfect for you
+               {t("Let's find a home that's perfect for you")} 
               </div>
             </div>
             <div className="row mt-4">
               <div className="offset-1 col-2">
                 <label className="text-light" htmlFor="purposeSelect">
                   {" "}
-                  Purpose{" "}
+                  {t("Purpose")}{" "}
                 </label>
                 <select
                   name="purpose"
@@ -159,9 +162,9 @@ const HeroSection = () => {
                   className="form-select "
                   aria-label="Default select example"
                 >
-                  <option value="">Rent or Sell ?</option>
-                  <option value="Sell">Sell</option>
-                  <option value="Rent">Rent</option>
+                  <option value="">{t("Rent or Sell ?")}</option>
+                  <option value="Sell">{t("Sell")}</option>
+                  <option value="Rent">{t("Rent")}</option>
                 </select>
               </div>
               <div className="col-6">
@@ -176,13 +179,13 @@ const HeroSection = () => {
                   onChange={handleInputChange}
                 >
                   <option selected value="">
-                    All Egypt
+                    {t("All Egypt")}
                   </option>
                   {egyptGovernorates.map((governorate, index) => {
                     return (
                       <option name="location" key={index} value={governorate}>
                         {" "}
-                        {governorate}{" "}
+                        {t(governorate)}{" "}
                       </option>
                     );
                   })}
