@@ -64,13 +64,7 @@ const AdminOfferRowComp = (props) => {
 
       
         <td className="">
-          <button className="bg-body">
-            <i
-              className="pt-2 fa-solid fa-trash"
-              style={{ color: "#ff0f0f" }}
-              onClick={handleShowDeleteConfirm}
-            ></i>
-          </button>
+
         </td>
       </tr>
       <ConfirmationModal

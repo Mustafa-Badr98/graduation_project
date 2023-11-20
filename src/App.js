@@ -32,8 +32,15 @@ import AdminOffersPage from "./components/pages/admin_pages/adminOffersPage";
 import AdminRatingsPage from "./components/pages/admin_pages/adminRatingsPage";
 import AdminDealsPage from "./components/pages/admin_pages/adminDealsPage";
 import AddAdminUserPage from "./components/pages/admin_pages/addAdminUserPage";
+import Paypal from "./components/pages/paypal";
+import { useState } from "react";
+import i18n from "./components/118n";
+
+
+
 function App() {
   const user = useSelector((state) => state.currentUSER.currentUser);
+
   console.log(user);
   console.log("from app.js");
 
@@ -49,9 +56,24 @@ function App() {
   } else {
     console.log("No authToken found in localStorage or there is user");
   }
+  const [checkout, setCheckOut] = useState(false);
 
   return (
     <>
+      {/* <div className="App">
+      {checkout ? (
+        <Paypal />
+      ) : (
+        <button
+          onClick={() => {
+            setCheckOut(true);
+          }}
+        >
+          Checkout
+        </button>
+      )}
+    </div> */}
+
       <BrowserRouter>
         <MyNavbar />
         <Switch>
@@ -71,11 +93,66 @@ function App() {
             component={EditPropertyPage}
           />
           <Route exact path="/Property/:id/Offers/" component={OffersPage} />
-          <Route exact path="/EditUserProfile/:id" component={EditProfilePage} />
+          <Route
+            exact
+            path="/EditUserProfile/:id"
+            component={EditProfilePage}
+          />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
-          <Route exact path="/admin_panel" component={AdminHomePage} />
+
+          {/* <Route
+            path="/admin"
+            element={
+              <PrivateRoute login={is_admin}>
+                <AdminHomePage />
+              </PrivateRoute>
+            }
+          /> */}
+          {user.is_admin ? (
+            <>
+              <Route exact path="/admin_panel" component={AdminHomePage} />
+              <Route
+                exact
+                path="/admin_panel/users"
+                component={AdminUsersPage}
+              />
+              <Route
+                exact
+                path="/admin_panel/properties"
+                component={AdminPropertiesPage}
+              />
+              <Route
+                exact
+                path="/admin_panel/comments"
+                component={AdminCommentsPage}
+              />
+              <Route
+                exact
+                path="/admin_panel/offers"
+                component={AdminOffersPage}
+              />
+              <Route
+                exact
+                path="/admin_panel/ratings"
+                component={AdminRatingsPage}
+              />
+              <Route
+                exact
+                path="/admin_panel/deals"
+                component={AdminDealsPage}
+              />
+              <Route
+                exact
+                path="/add_admin_user"
+                component={AddAdminUserPage}
+              />
+            </>
+          ) : (
+            <Redirect to="/" />
+          )}
+          {/* <Route exact path="/admin_panel" component={AdminHomePage} />
           <Route exact path="/admin_panel/users" component={AdminUsersPage} />
           <Route
             exact
@@ -94,7 +171,7 @@ function App() {
             component={AdminRatingsPage}
           />
           <Route exact path="/admin_panel/deals" component={AdminDealsPage} />
-          <Route exact path="/add_admin_user" component={AddAdminUserPage} />
+          <Route exact path="/add_admin_user" component={AddAdminUserPage} /> */}
           <Route exact path="/:id" component={ViewSingleProductPageV2} />
 
           <Route exact path="/*" component={NotFoundPage} />

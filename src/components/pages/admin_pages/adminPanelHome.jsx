@@ -2,16 +2,19 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import MyFooter from "../../static/footer";
 import { Link } from "react-router-dom/cjs/react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const AdminHomePage = () => {
   const user = useSelector((state) => state.currentUSER.currentUser);
+
+  const { t } = useTranslation();
 
   return (
     <>
       <div style={{ minHeight: "100vh" }} className="container">
         <div className="row admin_header mt-5">
           <div className="offset-4 col-6">
-            <h1>Admin Panel</h1>
+            <h1>{t("admin")} Panel</h1>
           </div>
         </div>
         <div className="container border border-1 rounded  mt-5 p-5">
@@ -105,7 +108,11 @@ const AdminHomePage = () => {
                 <ul>
                   <li className="fs-5">
                     {" "}
-                    <Link style={{ textDecoration: "none" }} className="" to="/admin_panel/deals">
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      className=""
+                      to="/admin_panel/deals"
+                    >
                       users deals
                     </Link>
                   </li>

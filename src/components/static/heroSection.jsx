@@ -159,6 +159,7 @@ const HeroSection = () => {
                   className="form-select "
                   aria-label="Default select example"
                 >
+                  <option value="">Rent or Sell ?</option>
                   <option value="Sell">Sell</option>
                   <option value="Rent">Rent</option>
                 </select>

@@ -1,6 +1,3 @@
-
-
-
 import React, { useEffect, useState } from "react";
 import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +9,7 @@ import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import RateComp from "../static/RateComp";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import { IsLoadingAction } from "../../store/actions/ISLoadingAction";
+import Paypal from "./paypal";
 
 const HomePage = () => {
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
@@ -38,8 +36,11 @@ const HomePage = () => {
 
   return (
     <>
+
       <HeroSection />
+      
       <div className="container mt-5">
+
         <div className="row">
           <div className="col-3">
             <h2 className="fw-bold">Check our Listings</h2>

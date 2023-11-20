@@ -7,6 +7,7 @@ import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import axios from "axios";
 import brandPic from "../../assets/images/6883103.jpg";
 import ConfirmationModal from "./confirmModal";
+import LanguageSwitcher from "./LanguageSwitcher";
 const MyNavbar = () => {
   const [showModal, setShowModal] = useState(false);
 
@@ -100,6 +101,8 @@ const MyNavbar = () => {
 
   return (
     <>
+          <LanguageSwitcher/>
+
       <div className="container ">
         <nav id="nav" className="navbar navbar-expand-lg bg-body p-0">
           <Link to="/" className="navbar-brand text-dark" href="#home">

@@ -94,7 +94,7 @@ const LoginModal = () => {
 
       client
         .post("/api/user/login", loginData)
-        .then((response) => {
+        .then(async (response) => {
           const authToken = response.data.token;
           localStorage.setItem("authToken", authToken);
           dispatch(StoreToken(authToken));
@@ -102,11 +102,16 @@ const LoginModal = () => {
           dispatch(LoginAction());
           dispatch(GetCurrentUserAction(authToken));
           setMessageBody("Login Complete.");
+      
+
           handleShowModalMessage();
+      
           const closeButton = document.getElementById("closeButton");
           if (closeButton) {
             closeButton.click();
           }
+
+       
         })
         .catch((error) => {
           // console.error(
