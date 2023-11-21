@@ -35,6 +35,7 @@ import AddAdminUserPage from "./components/pages/admin_pages/addAdminUserPage";
 import Paypal from "./components/pages/paypal";
 import { useEffect, useState } from "react";
 import i18n from "./components/118n";
+import paymentPage from "./components/pages/paymentPage";
 
 function App() {
   const user = useSelector((state) => state.currentUSER.currentUser);
@@ -119,6 +120,7 @@ function App() {
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
           <Route exact path="/property:id" component={ViewSingleProductPageV2} />
+          <Route exact path="/payment:id" component={paymentPage} />
 
 
           {/* <Route

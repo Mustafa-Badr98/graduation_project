@@ -97,9 +97,7 @@ const AdminOffersPage = () => {
                 <th scope="col">Offer</th>
                 <th scope="col">Offered at</th>
                 <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                
               </tr>
             </thead>
             <tbody>

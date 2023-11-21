@@ -114,10 +114,10 @@ const LoginModal = () => {
        
         })
         .catch((error) => {
-          // console.error(
-          //   "Error:",
-          //   error.response ? error.response.data.detail : error.message
-          // );
+          console.error(
+            "Error:",
+            error.response ? error.response.data.detail : error.message
+          );
           setMessageBody("Did you forget your password or email ? .");
           handleShowModalMessage();
         });

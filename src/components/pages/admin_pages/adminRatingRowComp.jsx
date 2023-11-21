@@ -59,12 +59,7 @@ const AdminRatingRowComp = (props) => {
           <span className="text-danger">{rating.rating} </span>
         </td>
         <td>{rating.created_at} </td>
-        <td> </td>
-        <td> </td>
 
-        <td className="">
-
-        </td>
       </tr>
       <ConfirmationModal
         show={showModal}

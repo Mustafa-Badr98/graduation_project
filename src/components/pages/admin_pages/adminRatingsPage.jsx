@@ -95,10 +95,6 @@ const AdminRatingsPage = () => {
                 <th scope="col">rated by user</th>
                 <th scope="col">rating</th>
                 <th scope="col">rated at</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>

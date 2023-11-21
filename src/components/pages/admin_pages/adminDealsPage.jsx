@@ -96,7 +96,7 @@ const AdminDealsPage = () => {
                 <th scope="col">Property</th>
                 <th scope="col">Deal amount</th>
                 <th scope="col">Done at</th>
-                <th scope="col"></th>
+             
                
               </tr>
             </thead>
@@ -118,7 +118,7 @@ const AdminDealsPage = () => {
                         <span className="ms-1">EGP</span>
                       </td>
                       <td>{deal.created_at} </td>
-                      <td> </td>
+                      
                     </tr>
                   ))}
                 </>

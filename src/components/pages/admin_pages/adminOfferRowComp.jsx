@@ -59,9 +59,7 @@ const AdminOfferRowComp = (props) => {
           <span className="text-danger">{offer.price} </span> EGP
         </td>
         <td>{offer.created_at} </td>
-        <td> </td>
-        <td> </td>
-
+        
       
         <td className="">
 

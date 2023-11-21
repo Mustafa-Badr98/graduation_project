@@ -124,7 +124,7 @@ const EditProfilePage = () => {
       photo: [file],
     });
     console.log(formData.photo);
-    setErrors({ photoErrors: "" });
+    setErrors({ ...errors, photoErrors: "" });
   };
 
   const clearSelectedImage = () => {

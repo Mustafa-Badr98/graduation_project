@@ -113,7 +113,7 @@ const AdminCommentsPage = () => {
               {allComments.length > 0 ? (
                 <>
                   {currentComments.map((comment, index) => (
-                    <AdminCommentRowComp key={index} comment={comment} />
+                    <AdminCommentRowComp key={index} comment={comment} refreshPage={get_comments} />
                   ))}
                 </>
               ) : (
