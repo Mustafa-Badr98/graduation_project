@@ -33,10 +33,8 @@ import AdminRatingsPage from "./components/pages/admin_pages/adminRatingsPage";
 import AdminDealsPage from "./components/pages/admin_pages/adminDealsPage";
 import AddAdminUserPage from "./components/pages/admin_pages/addAdminUserPage";
 import Paypal from "./components/pages/paypal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import i18n from "./components/118n";
-
-
 
 function App() {
   const user = useSelector((state) => state.currentUSER.currentUser);
@@ -57,6 +55,25 @@ function App() {
     console.log("No authToken found in localStorage or there is user");
   }
   const [checkout, setCheckOut] = useState(false);
+  const [checkIsAdmin, setIsAdmin] = useState(false);
+
+  const checkAdmin = () => {
+    const storedUserData = localStorage.getItem("userData");
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      if (userData.is_admin) {
+        console.log(userData)
+        setIsAdmin(true);
+      } else {
+        console.log("not admin");
+      }
+    } else {
+      console.log("No user data in local storage");
+    }
+  };
+  useEffect(() => {
+    checkAdmin();
+  }, []);
 
   return (
     <>
@@ -101,6 +118,8 @@ function App() {
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
+          <Route exact path="/property:id" component={ViewSingleProductPageV2} />
+
 
           {/* <Route
             path="/admin"
@@ -110,7 +129,7 @@ function App() {
               </PrivateRoute>
             }
           /> */}
-          {user.is_admin ? (
+          {checkIsAdmin ? (
             <>
               <Route exact path="/admin_panel" component={AdminHomePage} />
               <Route
@@ -172,7 +191,6 @@ function App() {
           />
           <Route exact path="/admin_panel/deals" component={AdminDealsPage} />
           <Route exact path="/add_admin_user" component={AddAdminUserPage} /> */}
-          <Route exact path="/:id" component={ViewSingleProductPageV2} />
 
           <Route exact path="/*" component={NotFoundPage} />
         </Switch>

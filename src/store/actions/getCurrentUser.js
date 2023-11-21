@@ -9,7 +9,8 @@ export const GetCurrentUserAction = (token) => (dispatch) => {
     })
     .then((response) => {
       const userData = response.data.user;
-      console.log(userData)
+      // console.log(userData)
+      localStorage.setItem("userData", JSON.stringify(userData));
       dispatch({ type: "GET_USER_SUCCESS", payload: userData });
     })
     .catch((error) => {

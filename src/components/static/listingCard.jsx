@@ -153,7 +153,7 @@ const ListingCard = (props) => {
               </div>
               <div className="offset-3 col-2 mt-3">
                 <Link
-                  to={`/${localProduct.id}`}
+                  to={`/property${localProduct.id}`}
                   style={{ borderRadius: "20px", fontSize: "10px" }}
                   className="btn btn-secondary"
                 >

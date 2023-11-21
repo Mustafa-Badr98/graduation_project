@@ -23,19 +23,20 @@ const AdminUserRowComp = (props) => {
     setShowModal(false);
   };
 
-  const handelDeleteButton = () => {
+  const handelDeleteButton = async () => {
     handleCloseModal();
     console.log(user.id);
     console.log(storedAuthToken);
     try {
-      const response = axios
+      const response = await axios
         .delete(`http://127.0.0.1:8000/api/users/resources/${user.id}`, {
           headers: {
             Authorization: `Token ${storedAuthToken}`,
           },
         })
         .then((res) => console.log(res));
-      refreshPage();
+      dispatch(ChangeFlagAction(flag + 1));
+      props.refreshAdminUsers();
     } catch (error) {
       console.log(error);
     }
@@ -44,8 +45,14 @@ const AdminUserRowComp = (props) => {
   };
 
   function refreshPage() {
-    window.location.reload();
+    // window.location.reload();
+    dispatch(ChangeFlagAction(flag + 1));
   }
+
+  useEffect(() => {
+    
+  }, [flag]);
+
   return (
     <>
       <tr>

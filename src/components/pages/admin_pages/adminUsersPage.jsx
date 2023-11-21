@@ -94,6 +94,16 @@ const AdminUsersPage = () => {
       console.log(error);
     }
   };
+
+  const refreshAdminUsers = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/users/");
+      setAllUsers(response.data.users);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (Object.keys(allUsers).length === 0) {
       get_users();
@@ -175,7 +185,7 @@ const AdminUsersPage = () => {
               {allUsers.length > 0 ? (
                 <>
                   {currentUsers.map((user, index) => (
-                    <AdminUserRowComp key={index} user={user} />
+                    <AdminUserRowComp key={index} user={user} refreshAdminUsers={refreshAdminUsers} />
                   ))}
                 </>
               ) : (

@@ -115,6 +115,7 @@ const ViewUsersPage = () => {
           className={cx(viewUsersPageStyles["main-content"], "p-5")}
           role="main"
         >
+          <h2>User Page :</h2>
           <div className={cx(viewUsersPageStyles.row, "mb-4")}>
             <div className="col-md-12">
               <div className={viewUsersPageStyles.card}>
@@ -345,6 +346,7 @@ const ViewUsersPage = () => {
           </div>
         </main>
       </div>
+      <MyFooter/>
     </>
   );
 };
