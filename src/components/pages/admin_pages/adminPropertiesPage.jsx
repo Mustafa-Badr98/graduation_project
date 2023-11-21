@@ -173,7 +173,7 @@ const AdminPropertiesPage = () => {
               {allProperties.length > 0 ? (
                 <>
                   {currentProperty.map((property, index) => (
-                    <AdminPropertyRowComp key={index} property={property} />
+                    <AdminPropertyRowComp key={index} property={property} refreshPage={get_properties} />
                   ))}
                 </>
               ) : (

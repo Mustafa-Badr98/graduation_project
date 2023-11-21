@@ -43,7 +43,7 @@ const AdminPropertyRowComp = (props) => {
   //   // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
   // };
 
-  const handelDeleteButton = () => {
+  const handelDeleteButton = async () => {
     handleCloseModal();
     console.log(storedAuthToken);
     try {
@@ -55,7 +55,7 @@ const AdminPropertyRowComp = (props) => {
         })
         .then((res) => console.log(res))
         .then(() => {
-          refreshPage();
+          props.refreshPage();
         });
     } catch (error) {
       console.log(error);
@@ -64,9 +64,6 @@ const AdminPropertyRowComp = (props) => {
     // .then((res) => dispatch(RefreshUserDataAction(res.data.user)));
   };
 
-  function refreshPage() {
-    window.location.reload();
-  }
   return (
     <>
       <tr>
