@@ -28,7 +28,7 @@ const DoneDealPage = () => {
   return (
     <>
       {Object.keys(user).length === 0 ? (
-        <></>
+        <> </>
       ) : (
         <>
           {" "}
@@ -87,7 +87,7 @@ const DoneDealPage = () => {
                                       color: "#28a745",
                                     }}
                                   >
-                                    + {deal.price} $
+                                    + {deal.price} EGP
                                   </div>
                                 </>
                               ) : (
@@ -100,7 +100,7 @@ const DoneDealPage = () => {
                                       color: "rgb(226, 113, 113)",
                                     }}
                                   >
-                                    - {deal.price} $
+                                    - {deal.price} EGP
                                   </div>
                                 </>
                               )}
@@ -178,7 +178,7 @@ const DoneDealPage = () => {
                   </div>
 
                   <h5
-                    class="text-center pt-2 mb-0 mb-md-5 pb-0 mt-2"
+                    className="text-center pt-2 mb-0 mb-md-5 pb-0 mt-2"
                     style={{ fontSize: "20px", color: "var(--bg-font-4)" }}
                   >
                     {user.user_name}

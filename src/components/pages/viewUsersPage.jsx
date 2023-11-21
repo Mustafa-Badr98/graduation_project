@@ -107,7 +107,7 @@ const ViewUsersPage = () => {
     get_user_data();
   }, [flag]);
 
-  const [hoverValue, setHoverValue] = useState(2);
+  
   return (
     <>
       <div style={{ minHeight: "1100px" }} className="container">
@@ -115,7 +115,7 @@ const ViewUsersPage = () => {
           className={cx(viewUsersPageStyles["main-content"], "p-5")}
           role="main"
         >
-          <h2>User Page :</h2>
+          <h2 className="offset-3">User Page :</h2>
           <div className={cx(viewUsersPageStyles.row, "mb-4")}>
             <div className="col-md-12">
               <div className={viewUsersPageStyles.card}>

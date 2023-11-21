@@ -138,23 +138,32 @@ function SellPage() {
       validationErrors.area = "Area Size is required.";
     } else if (isNaN(Number(formData.area))) {
       validationErrors.area = "Area Size must be a number.";
+    } else if (formData.area <= 0) {
+      validationErrors.area = "Area cant be zero or less.";
     }
 
     if (!formData.bedrooms.trim()) {
-      validationErrors.bedrooms = "Number of rooms is required.";
+      validationErrors.bedrooms = "Number of bedrooms is required.";
     } else if (isNaN(Number(formData.bedrooms))) {
-      validationErrors.bedrooms = "Number of rooms must be a number.";
+      validationErrors.bedrooms = "Number of bedrooms must be a number.";
+    } else if (formData.bedrooms <= 0) {
+      validationErrors.bedrooms = "Number of bedrooms cant be zero or less.";
     }
+
     if (!formData.bathrooms.trim()) {
-      validationErrors.bathrooms = "Number of rooms is required.";
+      validationErrors.bathrooms = "Number of bathrooms is required.";
     } else if (isNaN(Number(formData.bathrooms))) {
-      validationErrors.bathrooms = "Number of rooms must be a number.";
+      validationErrors.bathrooms = "Number of bathrooms must be a number.";
+    } else if (formData.bathrooms <= 0) {
+      validationErrors.bathrooms = "Number of bathrooms cant be zero or less.";
     }
 
     if (!formData.price.trim()) {
       validationErrors.price = "Price is required.";
     } else if (isNaN(Number(formData.price))) {
       validationErrors.price = "Price must be a number.";
+    } else if (formData.price <= 0) {
+      validationErrors.price = "Price cant be zero or less.";
     }
 
     if (formData.photos.length < 3) {
@@ -227,6 +236,7 @@ function SellPage() {
 
   return (
     <>
+
       <div className="container mt-5 p-5">
         <h1 className="text-secondary text-center mb-4">Post Your AD</h1>
 

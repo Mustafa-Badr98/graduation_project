@@ -10,7 +10,6 @@ const HeroSection = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-
   const [searchData, setSearchData] = useState({
     purpose: "",
     location: "",
@@ -140,12 +139,14 @@ const HeroSection = () => {
           <div className="container">
             <div className="offset-3 row">
               <div className="col">
-                <h1 className="text-light">{t("Your next property is here")}</h1>
+                <h1 className="text-light">
+                  {t("Your next property is here")}
+                </h1>
               </div>
             </div>
             <div className="offset-3 row">
               <div className="col text-white fs-4">
-               {t("Let's find a home that's perfect for you")} 
+                {t("Let's find a home that's perfect for you")}
               </div>
             </div>
             <div className="row mt-4">
@@ -169,7 +170,7 @@ const HeroSection = () => {
               </div>
               <div className="col-6">
                 <label className="text-light" htmlFor="floatingInput">
-                  Location
+                  {t("Location")}
                 </label>
                 <select
                   name="location"
@@ -219,7 +220,7 @@ const HeroSection = () => {
               <div className="offset-1 col-2">
                 <label className="text-light" htmlFor="purposeSelect">
                   {" "}
-                  Area{" "}
+                  {t("Area")}{" "}
                 </label>
 
                 <div className="dropdown">
@@ -230,7 +231,9 @@ const HeroSection = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    min {searchData.area_min}M , max {searchData.area_max}M{" "}
+                    {t("min")} {searchData.area_min}
+                    {t("M")} , {t("max")} {searchData.area_max}
+                    {t("M")}{" "}
                   </button>
                   <div className="dropdown-menu" style={{ width: "100%" }}>
                     <div className="row">
@@ -287,7 +290,7 @@ const HeroSection = () => {
               <div className="col-3">
                 <label className="text-light" htmlFor="purposeSelect">
                   {" "}
-                  Beds / Bathrooms{" "}
+                  {t("Beds")} / {t("Bathrooms")}{" "}
                 </label>
                 <div className="dropdown">
                   <button
@@ -297,13 +300,13 @@ const HeroSection = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    bathrooms ({searchData.bathrooms}) bedrooms: (
+                    {t("Bathrooms")} ({searchData.bathrooms}) {t("Beds")} (
                     {searchData.bedrooms}){" "}
                   </button>
                   <div className="dropdown-menu" style={{ width: "100%" }}>
                     <div className="row">
-                      <div className="offset-1 col-5">Bathrooms</div>
-                      <div className=" col-5">Bedrooms</div>
+                      <div className="offset-1 col-5">{t("Bathrooms")}</div>
+                      <div className=" col-5">{t("Beds")}</div>
                     </div>
                     <div className="row mt-2">
                       <div className="col-5">
@@ -335,7 +338,7 @@ const HeroSection = () => {
               <div className="col-3">
                 <label className="text-light" htmlFor="purposeSelect">
                   {" "}
-                  Price{" "}
+                  {t("Price")}{" "}
                 </label>
                 <div className="dropdown">
                   <button
@@ -345,7 +348,7 @@ const HeroSection = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    min {searchData.price_min}$ , max {searchData.price_max}${" "}
+                    {t("min")} {searchData.price_min}EGP , {t("max")} {searchData.price_max}EGP{" "}
                   </button>
                   <div className="dropdown-menu" style={{ width: "100%" }}>
                     <div className="row">
@@ -384,7 +387,7 @@ const HeroSection = () => {
                   onClick={handelSearchButton}
                   className="btn btn-danger w-100 mt-4"
                 >
-                  Find
+                  {t("Find")}
                 </button>
               </div>
             </div>

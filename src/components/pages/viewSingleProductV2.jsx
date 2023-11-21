@@ -180,7 +180,7 @@ const ViewSingleProductPageV2 = () => {
         <div className="row mt-4">
           <div className="offset-2 col-7 ms-4 px-1">
             <div className="row">
-              <p style={{ color: "silver" }} className="fs-5 fw-bold">
+              <p style={{ color: "Black" }} className="fs-5 fw-bold">
                 {" "}
                 {filteredObject.title}
               </p>

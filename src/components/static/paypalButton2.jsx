@@ -41,7 +41,8 @@ const PayPalButton2 = (props) => {
           dispatch(GetCurrentUserAction(token));
           // history.push("/userAds");
         })
-        .catch((error) => console.log(error));
+        // .catch((error) => console.log(error));
+        
       await history.push("/");
     }, 5000);
     return (

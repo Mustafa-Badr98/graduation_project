@@ -8,7 +8,11 @@ import axios from "axios";
 import brandPic from "../../assets/images/6883103.jpg";
 import ConfirmationModal from "./confirmModal";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useTranslation } from "react-i18next";
+
 const MyNavbar = () => {
+  const { t } = useTranslation();
+
   const [showModal, setShowModal] = useState(false);
 
   const handleLogout = () => {
@@ -43,7 +47,6 @@ const MyNavbar = () => {
     setShowModal(false);
   };
 
-  
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [userFavCount, setUserFavCount] = useState(0);
@@ -53,38 +56,6 @@ const MyNavbar = () => {
 
   const dispatch = useDispatch();
   dispatch(GetProductsListAction());
-
-  // function logoutHandler() {
-  //   const userConfirmed = window.confirm(
-  //     "Are you sure you want to Logout ? we will miss you ):  "
-  //   );
-
-  //   if (userConfirmed) {
-  //     axios
-  //       .post("http://127.0.0.1:8000/api/user/logout", null, {
-  //         withCredentials: true,
-
-  //         headers: {
-  //           Authorization: `Token ${storedAuthToken}`,
-  //         },
-  //       })
-  //       .then((response) => {
-  //         // console.log(response.data);
-  //         // Handle successful logout, if needed
-  //       })
-  //       .catch((error) => {
-  //         console.error(
-  //           "Logout error:",
-  //           error.response ? error.response.data : error.message
-  //         );
-  //         // Handle logout error, if needed
-  //       });
-
-  //     dispatch(LogoutAction());
-  //   } else {
-  //     return -1;
-  //   }
-  // }
 
   useEffect(() => {
     if (Object.keys(user).length === 0) {
@@ -101,8 +72,6 @@ const MyNavbar = () => {
 
   return (
     <>
-          
-
       <div className="container ">
         <nav id="nav" className="navbar navbar-expand-lg bg-body p-0">
           <Link to="/" className="navbar-brand text-dark" href="#home">
@@ -114,7 +83,7 @@ const MyNavbar = () => {
               srcSet=""
             />
           </Link>
-          
+
           {user.is_admin ? (
             <>
               <Link to="/admin_panel" className="text-light rounded-5">
@@ -161,7 +130,7 @@ const MyNavbar = () => {
                             backgroundColor: "chocolate",
                           }}
                         >
-                          LogIn
+                          {t("Login")}
                         </span>
                       </li>
 
@@ -170,10 +139,12 @@ const MyNavbar = () => {
                           className="nav-link text-dark fs-6 me-2"
                           to="/register"
                         >
-                          SignUp
+                          {t("Register")}
                         </Link>
                       </li>
                     </div>
+                    <i className="fa-solid fa-earth-americas mt-2 me-1 fs-4"></i>
+                    <LanguageSwitcher />
                   </>
                 ) : (
                   <>
@@ -183,7 +154,7 @@ const MyNavbar = () => {
                         to="/sellProduct"
                         className="btn btn-danger text-light rounded-5 me-3 "
                       >
-                        Sell Your Property
+                        {t("Sell Your Property")}
                       </Link>
                     </li>
                     <div className="dropdown me-4">
@@ -202,18 +173,19 @@ const MyNavbar = () => {
                             to={`/EditUserProfile/${user.id}`}
                             className="dropdown-item"
                           >
-                            <i className="fa-solid fa-user me-2"></i> My Profile
+                            <i className="fa-solid fa-user me-2"></i>{t("My Profile")} 
                           </Link>
                         </li>
                         <li>
                           <Link to="/userAds" className="dropdown-item">
-                            <i className="fa-solid fa-house me-2"></i> My Ads
+                            <i className="fa-solid fa-house me-2"></i> {t("My Ads")}
                           </Link>
                         </li>
                         <li>
                           <Link to="/MyDeals" className="dropdown-item">
                             <i className="fa-solid fa-handshake-simple me-2"></i>{" "}
-                            My Deals
+                            
+                            {t("My Deals")}
                           </Link>
                         </li>
 
@@ -223,7 +195,8 @@ const MyNavbar = () => {
                             className="dropdown-item text-dark me-2"
                           >
                             <i className="fa-solid fa-heart fs-5 me-2"></i>
-                            Favorites
+                            
+                            {t("Favorites")}
                             <span
                               style={{
                                 backgroundColor: "rgb(232, 46, 47)",
@@ -240,18 +213,18 @@ const MyNavbar = () => {
 
                         <li>
                           <button
-                           
                             onClick={handleLogout}
                             className="dropdown-item"
                           >
                             <i className="fa-solid fa-right-from-bracket me-2 ms-1"></i>
-                            Logout
+                            
+                            {t("Logout")}
                           </button>
                         </li>
                       </ul>
                     </div>
                     <i className="fa-solid fa-earth-americas mt-2 me-1 fs-4"></i>
-                    <LanguageSwitcher/>
+                    <LanguageSwitcher />
                   </>
                 )}
               </ul>
