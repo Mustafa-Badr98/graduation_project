@@ -4,6 +4,7 @@ import ConfirmationModal from "./confirmModal";
 import { useDispatch } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import MessageModal from "./messageModal";
 
 const OfferComp = (props) => {
   const token = localStorage.getItem("authToken");
@@ -15,7 +16,11 @@ const OfferComp = (props) => {
 
   const [showModalReject, setShowModalReject] = useState(false);
   const [showModalAccept, setShowModalAccept] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
+  const handleCloseMessage = () => {
+    setShowMessage(false);
+  };
   const handleShowReject = () => {
     setShowModalReject(true);
   };
@@ -36,15 +41,17 @@ const OfferComp = (props) => {
     console.log("Accepted");
     handleCloseModalAccept();
     axios
-      .get(`http://127.0.0.1:8000/api/accept_offer/${localOffer.id}`, {
+      .get(`http://127.0.0.1:8000/api/send_deal_emil/${localOffer.id}`, {
         headers: {
           Authorization: `Token ${token}`,
         },
       })
       .then((res) => {
+        console.log(res);
         dispatch(GetCurrentUserAction(token));
-        history.push("/userAds");
+        // history.push("/userAds");
       });
+    setShowMessage(true);
   };
 
   const handelRejectOffer = () => {
@@ -107,6 +114,11 @@ const OfferComp = (props) => {
         onHide={handleCloseModalAccept}
         onConfirm={handelAcceptOffer}
         body={"Are you sure you want to accept this offer ?"}
+      />
+      <MessageModal
+        show={showMessage}
+        onHide={handleCloseMessage}
+        body="An email has been sent to offer owner to finalized the deal. "
       />
     </div>
   );

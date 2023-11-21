@@ -55,7 +55,6 @@ function App() {
   } else {
     console.log("No authToken found in localStorage or there is user");
   }
-  const [checkout, setCheckOut] = useState(false);
   const [checkIsAdmin, setIsAdmin] = useState(false);
 
   const checkAdmin = () => {
@@ -63,7 +62,7 @@ function App() {
     if (storedUserData) {
       const userData = JSON.parse(storedUserData);
       if (userData.is_admin) {
-        console.log(userData)
+        console.log(userData);
         setIsAdmin(true);
       } else {
         console.log("not admin");
@@ -78,20 +77,6 @@ function App() {
 
   return (
     <>
-      {/* <div className="App">
-      {checkout ? (
-        <Paypal />
-      ) : (
-        <button
-          onClick={() => {
-            setCheckOut(true);
-          }}
-        >
-          Checkout
-        </button>
-      )}
-    </div> */}
-
       <BrowserRouter>
         <MyNavbar />
         <Switch>
@@ -119,18 +104,17 @@ function App() {
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
-          <Route exact path="/property:id" component={ViewSingleProductPageV2} />
-          <Route exact path="/payment:id" component={paymentPage} />
+          <Route
+            exact
+            path="/property:id"
+            component={ViewSingleProductPageV2}
+          />
+          <Route
+            exact
+            path="/payment/property:property_id/offer:offer_id"
+            component={paymentPage}
+          />
 
-
-          {/* <Route
-            path="/admin"
-            element={
-              <PrivateRoute login={is_admin}>
-                <AdminHomePage />
-              </PrivateRoute>
-            }
-          /> */}
           {checkIsAdmin ? (
             <>
               <Route exact path="/admin_panel" component={AdminHomePage} />
