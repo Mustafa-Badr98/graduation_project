@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import PayPalButton from "../static/paypalButton";
 import PayPalButton2 from "../static/paypalButton2";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Redirect, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import UserCard from "../static/UserCard";
 import MyFooter from "../static/footer";
+import { useSelector } from "react-redux";
 
 export default function PaymentPage() {
   const containerStyle = {
@@ -48,10 +49,17 @@ export default function PaymentPage() {
     color: "green",
   };
 
+  const user = useSelector((state) => state.currentUSER.currentUser);
   const param = useParams();
   const [property, setProperty] = useState({});
   const [offer, setOffer] = useState({});
   const [checkout, setCheckOut] = useState(false);
+  const [userOffers, setUserOffers] = useState([]);
+  const [is_valid, setIsValid] = useState(true);
+  // console.log(userOffers);
+  // console.log(offer);
+  // console.log(user);
+
   const getProperty = () => {
     axios
       .get(`http://127.0.0.1:8000/api/properties/${param.property_id}`)
@@ -71,10 +79,21 @@ export default function PaymentPage() {
       })
       .catch((err) => console.log(err));
   };
+
+  const get_user_offersID = () => {
+    let userOffers = [];
+
+    if (Object.keys(user).length > 0) {
+      userOffers = user.offers.map((offer) => parseInt(offer.id, 10));
+    }
+
+    return userOffers;
+  };
+
   useEffect(() => {
     getProperty();
     getOffer();
-  }, []);
+  }, [user]);
   return (
     <>
       <div className="container">
@@ -111,7 +130,7 @@ export default function PaymentPage() {
                     "Aewv9q6Zg0wC0HzHzC_Fr_VOseZLAAXxtJQhWlaOg-gLlLvoPQrU_8a_1wzgTfdij8rGdJr8YkVvxwBa",
                 }}
               >
-                <PayPalButton2 offerID={offer.id} amount={offer.price/50} />
+                <PayPalButton2 offerID={offer.id} amount={offer.price / 50} />
               </PayPalScriptProvider>
 
               <button

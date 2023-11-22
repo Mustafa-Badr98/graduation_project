@@ -348,7 +348,9 @@ const HeroSection = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {t("min")} {searchData.price_min}EGP , {t("max")} {searchData.price_max}EGP{" "}
+                    {t("min")} {searchData.price_min}
+                    {t("EGP")} , {t("max")} {searchData.price_max}
+                    {t("EGP")}{" "}
                   </button>
                   <div className="dropdown-menu" style={{ width: "100%" }}>
                     <div className="row">

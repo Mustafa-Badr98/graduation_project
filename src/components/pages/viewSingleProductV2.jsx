@@ -16,8 +16,11 @@ import axios from "axios";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import ConfirmationModal from "../static/confirmModal";
+import { useTranslation } from "react-i18next";
 
 const ViewSingleProductPageV2 = () => {
+  const { t } = useTranslation();
+
   const [showModal, setShowModal] = useState(false);
 
   const handleLogout = () => {
@@ -189,44 +192,48 @@ const ViewSingleProductPageV2 = () => {
             <div className="row py-0">
               <span className="fs-5">
                 {" "}
-                Available Area {filteredObject.area_size} M at{" "}
-                {filteredObject.location}.
+                {t("Available Area")} {filteredObject.area_size} {t("M")}{" "}
+                {t(filteredObject.location)}.
               </span>
             </div>
             <div className="row py-0 mt-3 ">
               <div className="col-6">
                 <div>
                   <i className="fa-solid fa-building me-2"></i>
-                  <span className="ms-2 ps-2">Property Type : </span>
-                  <span>For {filteredObject.type}</span>
+                  <span className="ms-2 ps-2">{t("Property Type")} : </span>
+                  <span>
+                    {t("For")} {t(filteredObject.type)}
+                  </span>
                 </div>
 
                 <div className="mt-2">
                   <i className="fa-solid fa-bath me-2"></i>
-                  <span className="ms-2 ps-1">Bathrooms : </span>
+                  <span className="ms-2 ps-1">{t("Bathrooms")} : </span>
                   <span>{filteredObject.number_of_bathrooms} </span>
                 </div>
                 <div className="mt-2">
                   <i className="fa-solid fa-bed me-2 "></i>
-                  <span className="ms-2">Bedrooms : </span>
+                  <span className="ms-2">{t("Bedrooms")} : </span>
                   <span>{filteredObject.number_of_bedrooms} </span>
                 </div>
               </div>
               <div className="col-6">
                 <div>
                   <i className="fa-solid fa-expand me-2"></i>
-                  <span>Property Size : </span>
-                  <span>{filteredObject.area_size} M</span>
+                  <span>{t("Property Size")} : </span>
+                  <span>
+                    {t(filteredObject.area_size)} {t("M")}
+                  </span>
                 </div>
 
                 <div className="mt-2">
                   <i className="fa-regular fa-calendar me-2"></i>
-                  <span>Published at : </span>
+                  <span>{t("Published at")} : </span>
                   <span>{filteredObject.created_at} </span>
                 </div>
                 <div className="mt-2">
                   <i class="fa-solid fa-eye me-2"></i>
-                  <span>Offers : </span>
+                  <span>{t("Offers")} : </span>
                   <span className="text-danger">
                     {filteredObject && filteredObject.offers ? (
                       <>{filteredObject.offers.length} </>
@@ -238,7 +245,7 @@ const ViewSingleProductPageV2 = () => {
               </div>
             </div>
             <div className="row mt-5 ">
-              <span className="fs-5 fw-bold">Description :</span>
+              <span className="fs-5 fw-bold">{t("Description")} :</span>
               <div className="container mt-3 fs-5">
                 {filteredObject.description}
               </div>
@@ -251,7 +258,7 @@ const ViewSingleProductPageV2 = () => {
             <div className="row py-0 mt-3 ">
               <div className="col-6">
                 <div className="pb-4 fs-5 fw-bold text-dark">
-                  Location: {filteredObject.location}
+                  {t("Location")}: {t(filteredObject.location)}
                 </div>
                 <div className="row">
                   <span
@@ -272,7 +279,7 @@ const ViewSingleProductPageV2 = () => {
                     className="offset-1 col-5 text-dark"
                   >
                     <div className="pb-4 fs-5 fw-bold">
-                      Agent: {seller.user_name}{" "}
+                      {t("Agent")}: {seller.user_name}{" "}
                     </div>
                     <div className="row">
                       <div className="col-5">
@@ -310,7 +317,7 @@ const ViewSingleProductPageV2 = () => {
               ) : (
                 <>
                   <Link to={`/viewUser/no_user`} className="offset-1 col-5">
-                    <div className="pb-4 fs-5 fw-bold">Agent: </div>
+                    <div className="pb-4 fs-5 fw-bold">{t("Agent")}: </div>
                     <div className="row">
                       <div className="col-5">
                         <span className="">
@@ -346,7 +353,7 @@ const ViewSingleProductPageV2 = () => {
               <div className="row px-5 text-center">
                 <div className=" fs-2  mt-4">
                   <span className="text-danger">{filteredObject.price}</span>{" "}
-                  EGP{" "}
+                  {t("EGP")}
                 </div>
               </div>
             </div>
@@ -376,14 +383,14 @@ const ViewSingleProductPageV2 = () => {
                       to={`EditPropertyAd/${filteredObject.id}`}
                     >
                       {" "}
-                      Edit your ad
+                      {t("Edit your ad")}
                     </Link>
                   </div>
                   <button
                     onClick={RemoveButtonHandler}
                     className="offset-1 col-4 btn btn-danger"
                   >
-                    Delete your ad
+                    {t("Delete your ad")}
                   </button>
                 </div>
               </>
@@ -391,18 +398,18 @@ const ViewSingleProductPageV2 = () => {
               <>
                 <div className="text-secondary rounded text-center mt-5 fs-4">
                   {" "}
-                  Your offer has been submitted
+                  {t("Your offer has been submitted")}
                 </div>{" "}
                 <div className="text-secondary rounded text-center fs-4">
                   {" "}
-                  waiting to review.
+                  {t("waiting to review.")}
                 </div>
               </>
             ) : Object.keys(userInSession).length > 0 ? (
               <>
                 <div className="row mt-2 text-center offer-submit">
                   <label className="fw-bold">
-                    Price:
+                    {t("Price")}:
                     <input
                       type="number"
                       pattern="[0-9]*"
@@ -422,14 +429,14 @@ const ViewSingleProductPageV2 = () => {
                       className="my-2 btn btn-secondary"
                       type="button"
                     >
-                      Submit Offer
+                      {t("Submit Offer")}
                     </button>
                   </div>
                 </div>
               </>
             ) : (
               <div className="mt-5 fs-4 ms-5 ps-4">
-                Login to submit an offer
+              {t("Login to submit an offer")}
               </div>
             )}
 

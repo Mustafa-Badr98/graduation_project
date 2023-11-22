@@ -10,8 +10,10 @@ import RateComp from "../static/RateComp";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import { IsLoadingAction } from "../../store/actions/ISLoadingAction";
 import Paypal from "./paypal";
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
+  const { t } = useTranslation();
   const localIsLoading = useSelector((state) => state.IsLOADING.isLoading);
   const products = useSelector((state) => state.Products.productList);
   const isResultFound = useSelector((state) => state.Products.found);
@@ -36,14 +38,12 @@ const HomePage = () => {
 
   return (
     <>
-
       <HeroSection />
-      
-      <div className="container mt-5">
 
+      <div className="container mt-5">
         <div className="row">
           <div className="col-3">
-            <h2 className="fw-bold">Check our Listings</h2>
+            <h2 className="fw-bold">{t("Check our Listings")}</h2>
           </div>
         </div>
       </div>
@@ -73,7 +73,7 @@ const HomePage = () => {
                   className="page-link"
                   onClick={() => handlePageChange(currentPage - 1)}
                 >
-                  Previous
+                  {t("Previous")}
                 </a>
               </li>
               {Array.from(
@@ -107,7 +107,7 @@ const HomePage = () => {
                   className="page-link"
                   onClick={() => handlePageChange(currentPage + 1)}
                 >
-                  Next
+                  {t("Next")}
                 </a>
               </li>
             </ul>
@@ -123,6 +123,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-
-

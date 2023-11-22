@@ -101,15 +101,15 @@ const LoginModal = () => {
           console.log(authToken);
           dispatch(LoginAction());
           dispatch(GetCurrentUserAction(authToken));
-          setMessageBody("Login Complete.");
+          // setMessageBody("Login Complete.");
       
 
-          handleShowModalMessage();
+          // handleShowModalMessage();
       
-          const closeButton = document.getElementById("closeButton");
-          if (closeButton) {
-            closeButton.click();
-          }
+          // const closeButton = document.getElementById("closeButton");
+          // if (closeButton) {
+          //   closeButton.click();
+          // }
 
        
         })

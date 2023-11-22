@@ -4,9 +4,10 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import { RefreshUserDataAction } from "../../store/actions/RefreshUserData";
 import ConfirmationModal from "./confirmModal";
+import { useTranslation } from "react-i18next";
 
 const ListingCard = (props) => {
-
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const [isFav, setIsFav] = useState(false);
@@ -54,7 +55,7 @@ const ListingCard = (props) => {
       <div className="col-xl-4 col-lg-5 col-md-6 col-sm-8  mt-5 ">
         <div className="card">
           <img
-            style={{ maxHeight: "200px" ,minHeight:"200px"}}
+            style={{ maxHeight: "200px", minHeight: "200px" }}
             src={`http://localhost:8000${localProduct.images[0].image}`}
             alt=""
             className="card-img-top"
@@ -117,22 +118,25 @@ const ListingCard = (props) => {
                   <i className="fas fa-th-large"></i>
                   <span> {localProduct.number_of_bedrooms}</span>
                 </span>
-                <span className="ms-1">Bedrooms</span>
+                <span className="ms-1">{t("Bedrooms")}</span>
               </div>
               <div className="col-4">
                 <span>
                   <i className="fas fa-shower"></i>
                   <span> {localProduct.number_of_bathrooms}</span>
                 </span>
-                <span className="ms-1">Bathrooms</span>
+                <span className="ms-1">{t("Bathrooms")}</span>
               </div>
               <div className="col-4">
                 <span className="row">
                   <div className="col-12">
                     <i className="fas fa-vector-square me-1"></i>
                     <span>
-                      Area{" "}
-                      <span className="ms-1">{localProduct.area_size} M </span>
+                      {t("Area")}{" "}
+                      <span className="ms-1">
+                        {localProduct.area_size}
+                        {t("M")}{" "}
+                      </span>
                     </span>
                   </div>
                 </span>
@@ -143,11 +147,11 @@ const ListingCard = (props) => {
             </div>
             <div className="row mt-2">
               <div className="col-6 mt-2">
-                <span className="fs-6 fw-bold">For {localProduct.type} : </span>
+                <span className="fs-6 fw-bold">{t("For")} {t(localProduct.type)} : </span>
                 <div className="row">
                   <span className="fs-5 fw-bold">
                     <span className="text-danger">{localProduct.price} </span>{" "}
-                    EGP
+                    {t("EGP")}
                   </span>
                 </div>
               </div>
@@ -157,14 +161,13 @@ const ListingCard = (props) => {
                   style={{ borderRadius: "20px", fontSize: "10px" }}
                   className="btn btn-secondary"
                 >
-                  More Details
+                  {t("More Details")}
                 </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </>
   );
 };
