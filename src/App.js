@@ -115,7 +115,7 @@ function App() {
             component={paymentPage}
           />
 
-          {checkIsAdmin ? (
+          {user.is_admin ? (
             <>
               <Route exact path="/admin_panel" component={AdminHomePage} />
               <Route

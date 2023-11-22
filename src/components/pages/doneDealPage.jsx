@@ -3,8 +3,10 @@ import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
+import { useTranslation } from "react-i18next";
 
 const DoneDealPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [user_deals, setUserDeals] = useState([]);
@@ -39,7 +41,7 @@ const DoneDealPage = () => {
             <div className="container">
               <div className="row">
                 <div style={{ minHeight: "75vh" }} className="col-8 bg-body ">
-                  <div className="fs-5 fw-bold mt-3 ">Done Deals</div>
+                  <div className="fs-5 fw-bold mt-3 ">{t("Done Deals")} </div>
                   <hr style={{ height: "2px", color: "black" }} />
 
                   <div className="row pb-1">
@@ -48,7 +50,7 @@ const DoneDealPage = () => {
                         onClick={showSoldButtonHandler}
                         className="w-100 btn btn-secondary"
                       >
-                        Sold
+                        {t("Sold")}
                       </span>
                     </div>
                     <div className="col-2">
@@ -56,7 +58,7 @@ const DoneDealPage = () => {
                         onClick={showBoughtButtonHandler}
                         className="w-100 btn btn-secondary"
                       >
-                        Bought
+                        {t("Bought")}
                       </span>
                     </div>
                   </div>
@@ -87,7 +89,7 @@ const DoneDealPage = () => {
                                       color: "#28a745",
                                     }}
                                   >
-                                    + {deal.price} EGP
+                                    + {deal.price} {t("EGP")}
                                   </div>
                                 </>
                               ) : (
@@ -100,7 +102,7 @@ const DoneDealPage = () => {
                                       color: "rgb(226, 113, 113)",
                                     }}
                                   >
-                                    - {deal.price} EGP
+                                    - {deal.price} {t("EGP")}
                                   </div>
                                 </>
                               )}
@@ -110,32 +112,32 @@ const DoneDealPage = () => {
                               style={{ height: "100%" }}
                             >
                               <div className="col-12 font-small">
-                                Deal : #{deal.id}
+                                {t("Deal")} : #{deal.id}
                                 <span>
                                   {" "}
-                                  {deal.property.title} at{" "}
-                                  {deal.property.location}
+                                  {deal.property.title} {t("at")}{" "}
+                                  {t(deal.property.location)}
                                 </span>
                               </div>
                               {isShowingSold ? (
                                 <>
                                   <div className="col-12 font-small">
-                                    Type Of Transaction : Sell
+                                    {t("Type Of Transaction")} : {t("Sell")}
                                   </div>
                                 </>
                               ) : (
                                 <>
                                   <div className="col-12 font-small">
-                                    Type Of Transaction : Buy
+                                    {t("Type Of Transaction")} : {t("Buy")}
                                   </div>
                                 </>
                               )}
 
                               <div className="col-12 font-small">
-                                State: Done
+                                {t("State")}: {t("Done")}
                               </div>
                               <div className="col-12 font-small">
-                                Done At: {deal.created_at}{" "}
+                                {t("Done At")} : {deal.created_at}{" "}
                               </div>
                             </div>
                           </div>
