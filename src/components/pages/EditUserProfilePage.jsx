@@ -10,8 +10,10 @@ import no_profile_pic from "../../assets/images/no-profile.jpg";
 import ConfirmationModal from "../static/confirmModal";
 import MessageModal from "../static/messageModal";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const EditProfilePage = () => {
+  const { t } = useTranslation();
   const param = useParams();
   const [showModal, setShowModal] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
@@ -294,7 +296,7 @@ const EditProfilePage = () => {
         <div className="row">
           <div className="col-xl-4">
             <div className="card mb-4 mb-xl-0">
-              <div className="card-header">Profile Picture</div>
+              <div className="card-header">{t("Profile Picture")}</div>
               <div className="card-body text-center">
                 {formData.photo.length > 0 ? (
                   <>
@@ -327,7 +329,7 @@ const EditProfilePage = () => {
                 )}
 
                 <div className="small font-italic text-muted mb-4">
-                  JPG or PNG no larger than 5 MB
+                  {t("JPG or PNG no larger than 5 MB")}
                 </div>
                 <span className="text-danger">{errors.photoErrors}</span>
                 <input
@@ -342,7 +344,7 @@ const EditProfilePage = () => {
                   onClick={clearSelectedImage}
                   className="btn btn-danger fs-6 mt-3"
                 >
-                  Clear Image
+                  {t("Clear Image")}
                 </button>
               </div>
             </div>
@@ -350,13 +352,16 @@ const EditProfilePage = () => {
 
           <div className="col-xl-6">
             <div className="card mb-4">
-              <div className="card-header">Account Details</div>
+              <div className="card-header">{t("Account Details")} </div>
               <div className="card-body">
                 <form>
                   <div className="mb-3 username">
                     <label className="small mb-1" htmlFor="inputUsername">
-                      Username (how your name will appear to other users on the
-                      site)
+                      {t("Username")} (
+                      {t(
+                        "how your name will appear to other users on the site"
+                      )}{" "}
+                      )
                     </label>
                     <span
                       className="ms-2"
@@ -378,7 +383,7 @@ const EditProfilePage = () => {
                   <div className="governorate pb-4">
                     <div className="row">
                       <label className="small pb-1" htmlFor="state">
-                        Governorate
+                        {t("Governorate")}
                       </label>
                     </div>
                     <div className="row">
@@ -394,7 +399,7 @@ const EditProfilePage = () => {
                           return (
                             <option key={index} value={governorate}>
                               {" "}
-                              {governorate}{" "}
+                              {t(governorate)}{" "}
                             </option>
                           );
                         })}
@@ -405,7 +410,7 @@ const EditProfilePage = () => {
                   {/* Form Group (email address) */}
                   <div className="email mb-3">
                     <label className="small mb-1" htmlFor="inputEmailAddress">
-                      Email address
+                      {t("Email address")}
                     </label>
                     <span
                       className="ms-2"
@@ -427,7 +432,7 @@ const EditProfilePage = () => {
                   <div className="row gx-3 mb-3">
                     <div className="phone-number ">
                       <label className="small mb-1" htmlFor="inputPhone">
-                        Phone number
+                        {t("Phone number")}
                       </label>
                       <span
                         className="ms-2"
@@ -463,7 +468,7 @@ const EditProfilePage = () => {
                         id="password"
                         name="password"
                         type="password"
-                        placeholder="Enter your New Password"
+                        placeholder={t("Enter your New Password")}
                         value={formData.password}
                         onChange={handleChange}
                       />
@@ -473,7 +478,7 @@ const EditProfilePage = () => {
                   <div className="row gx-3 mb-3">
                     <div className="">
                       <label className="small mb-1" htmlFor="rePassword">
-                        Re Password
+                        {t("Re Password")}
                       </label>
                       <span
                         className="ms-2"
@@ -486,7 +491,7 @@ const EditProfilePage = () => {
                         id="rePassword"
                         name="rePassword"
                         type="password"
-                        placeholder="ReType your New Password"
+                        placeholder={t("ReType your New Password")}
                         value={formData.rePassword}
                         onChange={handleChange}
                       />
@@ -502,7 +507,7 @@ const EditProfilePage = () => {
                         hasErrors || Object.keys(userInSession).length === 0
                       }
                     >
-                      Save changes
+                      {t("Save changes")}
                     </button>
                     <button
                       className="btn btn-danger ms-5"
@@ -510,7 +515,7 @@ const EditProfilePage = () => {
                       onClick={handleShowModal}
                       disabled={Object.keys(userInSession).length === 0}
                     >
-                      Delete Account
+                      {t("Delete Account")}
                     </button>
                   </div>
                 </form>

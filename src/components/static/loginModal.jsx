@@ -17,6 +17,7 @@ const client = axios.create({
 const LoginModal = () => {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [messageBody, setMessageBody] = useState("");
+  const closeButton = document.getElementById("closeButton");
 
   const handleShowModalMessage = () => {
     setShowMessageModal(true);
@@ -101,17 +102,13 @@ const LoginModal = () => {
           console.log(authToken);
           dispatch(LoginAction());
           dispatch(GetCurrentUserAction(authToken));
+
+          if (closeButton) {
+            closeButton.click();
+          }
+          
           // setMessageBody("Login Complete.");
-      
-
           // handleShowModalMessage();
-      
-          // const closeButton = document.getElementById("closeButton");
-          // if (closeButton) {
-          //   closeButton.click();
-          // }
-
-       
         })
         .catch((error) => {
           console.error(

@@ -9,8 +9,10 @@ import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import sold_pic from "../../assets/images/sold.png";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import ConfirmationModal from "./confirmModal";
+import { useTranslation } from "react-i18next";
 
 const UserCard = (props) => {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false);
 
   const handleShowDeleteConfirm = () => {
@@ -75,7 +77,7 @@ const UserCard = (props) => {
                   <div className="col-4">
                     <h5 className="card-title">
                       <span className="text-danger">{localProduct.price} </span>{" "}
-                      EGP
+                     {t("EGP")} 
                     </h5>
                   </div>
                 </div>
@@ -92,17 +94,17 @@ const UserCard = (props) => {
                   {localProduct.description}
                 </p>
                 <h5 className="card-text pt-3">
-                  Size : <strong>{localProduct.area_size} M </strong>
+                  {t("Size")}  : <strong>{localProduct.area_size}{t("M")}  </strong>
                 </h5>
                 {localProduct.state === "live" && (
                   <div className="row mt-5">
-                    <div className="col-2">
+                    <div className="col-3">
                       <Link
                         style={{ textDecoration: "none" }}
                         to={`EditPropertyAd/${localProduct.id}`}
                         className="card-link text-light btn btn-secondary"
                       >
-                        Edit Ad
+                        {t("Edit Ad")} 
                       </Link>
                     </div>
                     <div className="col-3">
@@ -111,7 +113,7 @@ const UserCard = (props) => {
                         onClick={handleShowDeleteConfirm}
                         style={{ textDecoration: "none" }}
                       >
-                        Delete Ad
+                        {t("Delete Ad")} 
                       </button>
                     </div>
                     <div className="col-4">
@@ -120,7 +122,7 @@ const UserCard = (props) => {
                         className="text-dark ms-4 mt-1 fs-5 "
                         style={{ textDecoration: "none" }}
                       >
-                        Offers{" "}
+                       {t("Offers")} {" "}
                         <span
                           style={{ borderRadius: "40%" }}
                           className="bg-danger fs-5 text-light px-1"

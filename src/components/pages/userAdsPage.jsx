@@ -5,8 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import UserCard from "../static/UserCard";
 import EmptyUserAdsListAlert from "../static/EmptyUserAdsListAlert";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
+import { useTranslation } from "react-i18next";
 
 const UserAdsPage = () => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.currentUSER.currentUser);
   const [userProperties, setUserProperties] = useState([]);
@@ -30,8 +33,8 @@ const UserAdsPage = () => {
               style={{ minHeight: "100vh" }}
               className="container-fluid mt-5 fw-normal"
             >
-              <div className="fs-6 fw-lighter">Profile</div>
-              <span className="fs-4 fw-bold">Manage and view your Ads</span>
+              
+              <span className="fs-4 fw-bold">{t("Manage and view your Ads")} </span>
               {/* <UserCard productObject={testObject} /> */}
 
               {userProperties && userProperties.length === 0 ? (
