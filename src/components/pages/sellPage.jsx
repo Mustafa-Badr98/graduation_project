@@ -9,6 +9,7 @@ import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import no_property_pic from "../../assets/images/no_photo.jpg";
 import MessageModal from "../static/messageModal";
+import { useTranslation } from "react-i18next";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -18,6 +19,8 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000",
 });
 function SellPage() {
+  const { t } = useTranslation();
+
   const [showModal, setShowModal] = useState(false);
   const [modalBody, setModalBody] = useState("");
 
@@ -236,15 +239,16 @@ function SellPage() {
 
   return (
     <>
-
       <div className="container mt-5 p-5">
-        <h1 className="text-secondary text-center mb-4">Post Your AD</h1>
+        <h1 className="text-secondary text-center mb-4">
+          {t("Post Your AD")}{" "}
+        </h1>
 
         <div className="offset-2 col-8">
           <form onSubmit={handleSubmit} noValidate>
             <div className="mb-3 title">
               <label htmlFor="adName" className="form-label">
-                AD Title:
+                {t("AD Title")}:
               </label>
               <input
                 type="text"
@@ -261,7 +265,7 @@ function SellPage() {
             </div>
             <div className="mb-3 Description">
               <label htmlFor="otherInfo" className="form-label">
-                Description:
+                {t("Description")}:
               </label>
               <textarea
                 className={`form-control ${errors.otherInfo && "is-invalid"}`}
@@ -281,7 +285,7 @@ function SellPage() {
               <div className="col-6 location">
                 <div className="mb-3 location">
                   <label htmlFor="governorate" className="form-label">
-                    Governorate:
+                    {t("Governorate")} :
                   </label>
                   <select
                     name="governorate"
@@ -291,13 +295,13 @@ function SellPage() {
                     onChange={handleChange}
                   >
                     <option selected value="">
-                      All Egypt
+                      {t("All Egypt")}
                     </option>
                     {egyptGovernorates.map((governorate, index) => {
                       return (
                         <option name="location" key={index} value={governorate}>
                           {" "}
-                          {governorate}{" "}
+                          {t(governorate)}{" "}
                         </option>
                       );
                     })}
@@ -310,7 +314,7 @@ function SellPage() {
               <div className="col-6 type">
                 <div className="mb-3 type">
                   <label htmlFor="type" className="form-label">
-                    Type:
+                    {t("Type")} :
                   </label>
                   <select
                     className={`form-select`}
@@ -320,8 +324,8 @@ function SellPage() {
                     onChange={handleChange}
                     required
                   >
-                    <option value="sell">Sale</option>
-                    <option value="rent">Rent</option>
+                    <option value="sell">{t("Sale")} </option>
+                    <option value="rent">{t("Rent")}</option>
                   </select>
                   {errors.type && (
                     <div className="invalid-feedback">{errors.type}</div>
@@ -333,7 +337,7 @@ function SellPage() {
               <div className="col-4 area">
                 <div className="mb-3 area">
                   <label htmlFor="area" className="form-label">
-                    Area (m²):
+                    {t("Area")} (m²):
                   </label>
                   <input
                     type="text"
@@ -352,7 +356,7 @@ function SellPage() {
               <div className="col-4 bedrooms">
                 <div className="mb-3 bedrooms">
                   <label htmlFor="rooms" className="form-label">
-                    Number of bedrooms:
+                    {t("Number of bedrooms")}:
                   </label>
                   <input
                     type="text"
@@ -373,7 +377,7 @@ function SellPage() {
               <div className="col-4 bathrooms">
                 <div className="mb-3 bathrooms">
                   <label htmlFor="rooms" className="form-label">
-                    Number of bathrooms:
+                    {t("Number of bathrooms")} :
                   </label>
                   <input
                     type="text"
@@ -395,7 +399,7 @@ function SellPage() {
 
             <div className="mb-3 price ">
               <label htmlFor="price" className="form-label">
-                Set Price:
+                {t("Set Price")} :
               </label>
               <input
                 type="text"
@@ -413,11 +417,11 @@ function SellPage() {
 
             <div className="mb-3 photos">
               <label htmlFor="photo" className="form-label">
-                Upload Photos (3 at least and up to 6):
+                {t("Upload Photos (3 at least and up to 6)")} :
               </label>
 
               <div className="container border border-1">
-                <h5>Selected Photos:</h5>
+                <h5>{t("Selected Photos")}:</h5>
                 <div className="row mt-5">
                   {formData.photos.length > 0 && (
                     <>
@@ -484,7 +488,7 @@ function SellPage() {
             </div>
 
             <button type="submit" className="btn btn-danger mt-3">
-              Post Your Ad
+              {t("Post Your Ad")} 
             </button>
           </form>
         </div>

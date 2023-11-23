@@ -53,8 +53,8 @@ const AdminRatingRowComp = (props) => {
         <td>
           <span className="fw-bold">{rating.id}</span>{" "}
         </td>
-        <td>{rating.user} </td>
-        <td> {rating.rated_by}</td>
+        <td>{rating.user.user_name} </td>
+        <td> {rating.rated_by.user_name}</td>
         <td>
           <span className="text-danger">{rating.rating} </span>
         </td>

@@ -11,7 +11,7 @@ import MyFooter from "../static/footer";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
 import { ChangeFlagAction } from "../../store/actions/changeFlagAction";
 import CommentComp from "../static/commentComp";
-
+import { useTranslation } from "react-i18next";
 const texts = {
   0: "No rate yet",
   1: "Useless",
@@ -23,6 +23,7 @@ const texts = {
 let idCount = 0;
 
 const ViewUsersPage = () => {
+  const { t } = useTranslation();
   const param = useParams();
   const dispatch = useDispatch();
 
@@ -107,7 +108,6 @@ const ViewUsersPage = () => {
     get_user_data();
   }, [flag]);
 
-  
   return (
     <>
       <div style={{ minHeight: "1100px" }} className="container">
@@ -115,7 +115,7 @@ const ViewUsersPage = () => {
           className={cx(viewUsersPageStyles["main-content"], "p-5")}
           role="main"
         >
-          <h2 className="offset-3">User Page :</h2>
+          <h2 className="offset-3">{t("User Page")} :</h2>
           <div className={cx(viewUsersPageStyles.row, "mb-4")}>
             <div className="col-md-12">
               <div className={viewUsersPageStyles.card}>
@@ -184,7 +184,7 @@ const ViewUsersPage = () => {
                         )}
                       </div>
                       <div className="col-sm-8">
-                        <span className="fs-5 fw-bold">Live Ads :</span>
+                        <span className="fs-5 fw-bold">{t("Live Ads")} :</span>
 
                         {Object.keys(property_owner).length > 0 ? (
                           <>
@@ -197,7 +197,7 @@ const ViewUsersPage = () => {
                         )}
                       </div>
                       <div className="col-sm-6">
-                        <span className="fs-5 fw-bold">Sold :</span>
+                        <span className="fs-5 fw-bold">{t("Sold")} :</span>
 
                         {Object.keys(property_owner).length > 0 ? (
                           <>
@@ -218,7 +218,7 @@ const ViewUsersPage = () => {
                           viewUsersPageStyles["batch-icon-user-alt-add-2"]
                         )}
                       ></i>
-                      Overall Rate
+                      {t("Overall Rate")}
                     </h5>
                     <div
                       className={cx(
@@ -246,7 +246,8 @@ const ViewUsersPage = () => {
                             </span>
                           </div>
                           <div>
-                            number of Rates : ({property_owner.num_ratings})
+                            {t("number of Rates")} : (
+                            {property_owner.num_ratings})
                           </div>
                         </>
                       ) : (
@@ -262,11 +263,13 @@ const ViewUsersPage = () => {
                           "batch-icon-image"
                         )}
                       ></i>
-                      latest Ad
+                      {t("latest Ad")}
                     </h5>
                     {Object.keys(property_owner).length > 0 ? (
                       <>
-                        <Link to={`/${property_owner.properties_owned[0].id}`}>
+                        <Link
+                          to={`/property${property_owner.properties_owned[0].id}`}
+                        >
                           <img
                             src={`http://localhost:8000${property_owner.properties_owned[0].images[0].image}`}
                             className="img-fluid img-thumbnail mt-2"
@@ -346,7 +349,7 @@ const ViewUsersPage = () => {
           </div>
         </main>
       </div>
-      <MyFooter/>
+      <MyFooter />
     </>
   );
 };

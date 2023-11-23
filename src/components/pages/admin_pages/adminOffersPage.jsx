@@ -15,10 +15,7 @@ const AdminOffersPage = () => {
 
   const indexOfLastOffer = currentPage * offerPerPage;
   const indexOfFirstOffer = indexOfLastOffer - offerPerPage;
-  const currentOffers = allOffers.slice(
-    indexOfFirstOffer,
-    indexOfLastOffer
-  );
+  const currentOffers = allOffers.slice(indexOfFirstOffer, indexOfLastOffer);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(allOffers.length / offerPerPage); i++) {
@@ -56,11 +53,9 @@ const AdminOffersPage = () => {
             <div className="offset-8 col-2">
               <label htmlFor="search_field ">Search By:</label>
               <select name="search_field" className="form-control">
-                <option value="property">commented on user</option>
+                <option value="property">user</option>
                 <option value="id">id</option>
-                <option value="first_name">First Name</option>
-                <option value="last_name">Last Name</option>
-                <option value="email">Email</option>
+                <option value="first_name">Property</option>
               </select>
             </div>
           </div>
@@ -85,7 +80,10 @@ const AdminOffersPage = () => {
             </span>
           </div>
         </div>
-        <div style={{minHeight:"428px"}}  className="container border border-1 rounded  mt-5 p-5">
+        <div
+          style={{ minHeight: "428px" }}
+          className="container border border-1 rounded  mt-5 p-5"
+        >
           <h4 className="mb-4">Offers:</h4>
           <table className="table">
             <thead>
@@ -97,7 +95,6 @@ const AdminOffersPage = () => {
                 <th scope="col">Offer</th>
                 <th scope="col">Offered at</th>
                 <th scope="col"></th>
-                
               </tr>
             </thead>
             <tbody>
