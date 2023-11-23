@@ -87,22 +87,6 @@ function App() {
             component={SearchedPropertiesPage}
           />
 
-          <Route exact path="/MyDeals" component={DoneDealPage} />
-          <Route exact path="/register" component={SignupPage} />
-          <Route exact path="/userAds" component={UserAdsPage} />
-          <Route
-            exact
-            path="/EditPropertyAd/:id"
-            component={EditPropertyPage}
-          />
-          <Route exact path="/Property/:id/Offers/" component={OffersPage} />
-          <Route
-            exact
-            path="/EditUserProfile/:id"
-            component={EditProfilePage}
-          />
-          <Route exact path="/Fav" component={FavPage} />
-          <Route exact path="/sellProduct" component={SellPage} />
           <Route exact path="/viewUser/:user_email" component={ViewUsersPage} />
           <Route
             exact
@@ -115,69 +99,81 @@ function App() {
             component={paymentPage}
           />
 
-          {user.is_admin ? (
+          {Object.keys(user).length === 0 ? (
             <>
-              <Route exact path="/admin_panel" component={AdminHomePage} />
+            
+              <Route exact path="/register" component={SignupPage} />
+            </>
+          ) : Object.keys(user).length > 0 ? (
+            <>
+              <Route exact path="/MyDeals" component={DoneDealPage} />
+              <Route exact path="/userAds" component={UserAdsPage} />
               <Route
                 exact
-                path="/admin_panel/users"
-                component={AdminUsersPage}
+                path="/EditPropertyAd/:id"
+                component={EditPropertyPage}
               />
               <Route
                 exact
-                path="/admin_panel/properties"
-                component={AdminPropertiesPage}
+                path="/Property/:id/Offers/"
+                component={OffersPage}
               />
               <Route
                 exact
-                path="/admin_panel/comments"
-                component={AdminCommentsPage}
+                path="/EditUserProfile/:id"
+                component={EditProfilePage}
               />
-              <Route
-                exact
-                path="/admin_panel/offers"
-                component={AdminOffersPage}
-              />
-              <Route
-                exact
-                path="/admin_panel/ratings"
-                component={AdminRatingsPage}
-              />
-              <Route
-                exact
-                path="/admin_panel/deals"
-                component={AdminDealsPage}
-              />
-              <Route
-                exact
-                path="/add_admin_user"
-                component={AddAdminUserPage}
-              />
+              <Route exact path="/Fav" component={FavPage} />
+              <Route exact path="/sellProduct" component={SellPage} />
+              {user.is_admin ? (
+                <>
+                  <Route exact path="/admin_panel" component={AdminHomePage} />
+                  <Route
+                    exact
+                    path="/admin_panel/users"
+                    component={AdminUsersPage}
+                  />
+                  <Route
+                    exact
+                    path="/admin_panel/properties"
+                    component={AdminPropertiesPage}
+                  />
+                  <Route
+                    exact
+                    path="/admin_panel/comments"
+                    component={AdminCommentsPage}
+                  />
+                  <Route
+                    exact
+                    path="/admin_panel/offers"
+                    component={AdminOffersPage}
+                  />
+                  <Route
+                    exact
+                    path="/admin_panel/ratings"
+                    component={AdminRatingsPage}
+                  />
+                  <Route
+                    exact
+                    path="/admin_panel/deals"
+                    component={AdminDealsPage}
+                  />
+                  <Route
+                    exact
+                    path="/add_admin_user"
+                    component={AddAdminUserPage}
+                  />
+                </>
+              ) : (
+                <Redirect to="/" />
+              )}
+              I
             </>
           ) : (
-            <Redirect to="/" />
+            <>
+              <Redirect to="/" />
+            </>
           )}
-          {/* <Route exact path="/admin_panel" component={AdminHomePage} />
-          <Route exact path="/admin_panel/users" component={AdminUsersPage} />
-          <Route
-            exact
-            path="/admin_panel/properties"
-            component={AdminPropertiesPage}
-          />
-          <Route
-            exact
-            path="/admin_panel/comments"
-            component={AdminCommentsPage}
-          />
-          <Route exact path="/admin_panel/offers" component={AdminOffersPage} />
-          <Route
-            exact
-            path="/admin_panel/ratings"
-            component={AdminRatingsPage}
-          />
-          <Route exact path="/admin_panel/deals" component={AdminDealsPage} />
-          <Route exact path="/add_admin_user" component={AddAdminUserPage} /> */}
-
           <Route exact path="/*" component={NotFoundPage} />
         </Switch>
       </BrowserRouter>

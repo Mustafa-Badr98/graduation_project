@@ -7,7 +7,11 @@ import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import axios from "axios";
 import { StoreToken } from "../../store/actions/StoreToken";
 import MessageModal from "../static/messageModal";
+import { useTranslation } from "react-i18next";
+
 const SignupPage = () => {
+  const { t } = useTranslation();
+
   const [showModal, setShowModal] = useState(false);
   const [modalBody, setModalBody] = useState(
     "SignUp Complete. and you are now logged in."
@@ -145,7 +149,7 @@ const SignupPage = () => {
           e.target.value.length === 0
             ? "this field is required"
             : !/^(010|011|012|015)\d{8}$/.test(e.target.value)
-            ? "must be 11 number"
+            ? "must be 11 digit and be an egyptian number"
             : "",
       });
       console.log(formData);
@@ -205,6 +209,7 @@ const SignupPage = () => {
   }, [formData]);
   return (
     <>
+
       <section className="vh-100" style={{ backgroundColor: "#eee" }}>
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -214,7 +219,7 @@ const SignupPage = () => {
                   <div className="row justify-content-center">
                     <div className="col-md-10 col-lg-6 col-xl-5 order-1 order-lg-1">
                       <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                        Sign up
+                        {t("Sign up")} 
                       </p>
 
                       <form className="mx-1 mx-md-4">
@@ -239,7 +244,7 @@ const SignupPage = () => {
                               className="form-label"
                               htmlFor="form3Example1c"
                             >
-                              Your Name
+                              {t("Your Name")}
                             </label>
                           </div>
                         </div>
@@ -265,7 +270,7 @@ const SignupPage = () => {
                               className="form-label"
                               htmlFor="form3Example3c"
                             >
-                              Your Email
+                             {t("Your Email")}
                             </label>
                           </div>
                         </div>
@@ -291,7 +296,7 @@ const SignupPage = () => {
                               className="form-label"
                               htmlFor="form3Example4c"
                             >
-                              Password
+                              {t("Password")} 
                             </label>
                           </div>
                         </div>
@@ -317,7 +322,7 @@ const SignupPage = () => {
                               className="form-label"
                               htmlFor="form3Example4cd"
                             >
-                              Repeat your password
+                             {t("Repeat your password")} 
                             </label>
                           </div>
                         </div>
@@ -345,7 +350,7 @@ const SignupPage = () => {
                                       return (
                                         <option key={index} value={governorate}>
                                           {" "}
-                                          {governorate}{" "}
+                                          {t(governorate)}{" "}
                                         </option>
                                       );
                                     }
@@ -357,7 +362,7 @@ const SignupPage = () => {
                           <div className="col-9 ms-2">
                             {" "}
                             <label className="ms-4" htmlFor="state">
-                              Governorate
+                              {t("Governorate")} 
                             </label>
                           </div>
                         </div>
@@ -384,7 +389,7 @@ const SignupPage = () => {
                             className="form-label"
                             htmlFor="form3Example3c"
                           >
-                            Your Phone
+                            {t("Your Phone")}
                           </label>
                         </div>
                       </div>
@@ -399,7 +404,7 @@ const SignupPage = () => {
                       type="button"
                       className="btn btn-primary btn-lg"
                     >
-                      Register
+                      {t("Register")} 
                     </button>
                   </div>
                 </div>
