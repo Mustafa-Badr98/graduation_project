@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MyFooter from "../static/footer";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import no_profile_pic from "../../assets/images/no-profile.jpg";
 import { useTranslation } from "react-i18next";
 
@@ -30,7 +30,7 @@ const DoneDealPage = () => {
   return (
     <>
       {Object.keys(user).length === 0 ? (
-        <> </>
+        <Redirect to="/" />
       ) : (
         <>
           {" "}

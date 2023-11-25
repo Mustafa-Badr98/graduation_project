@@ -61,6 +61,7 @@ const EditProfilePage = () => {
   const isLoggedIn = useSelector((state) => state.IsLog.isLogedIn);
   // const userInSession = useSelector((state) => state.currentUSER.currentUser);
   const [userInSession, setUser] = useState({});
+  const user = useSelector((state) => state.currentUSER.currentUser);
   const storedAuthToken = localStorage.getItem("authToken");
 
   const egyptGovernorates = [
@@ -200,7 +201,7 @@ const EditProfilePage = () => {
     }
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     if (!hasErrors && Object.keys(userInSession).length > 0) {
       const data = new FormData();
 
@@ -237,6 +238,12 @@ const EditProfilePage = () => {
       setMessageBody("Changes has been saved.");
       handleShowModalMessage();
       // alert("changes has been saved");
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await handleCloseModalMessage();
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      await history.push(`/`);
     } else {
       setMessageBody("Please check all the fields.");
       handleShowModalMessage();
@@ -284,7 +291,7 @@ const EditProfilePage = () => {
   useEffect(() => {
     checkHasError();
     get_user_data();
-  }, [formData]);
+  }, [formData, user]);
   return (
     <>
       <div

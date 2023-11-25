@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import MyAlert from "../static/alert";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LoginAction } from "../../store/actions/loginAction";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import axios from "axios";
 import { StoreToken } from "../../store/actions/StoreToken";
 import MessageModal from "../static/messageModal";
 import { useTranslation } from "react-i18next";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 const SignupPage = () => {
+  const user = useSelector((state) => state.currentUSER.currentUser);
+
   const { t } = useTranslation();
 
   const [showModal, setShowModal] = useState(false);
@@ -209,7 +212,7 @@ const SignupPage = () => {
   }, [formData]);
   return (
     <>
-
+      {Object.keys(user).length > 0 && <Redirect to="/" />}
       <section className="vh-100" style={{ backgroundColor: "#eee" }}>
         <div className="container h-100">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -219,7 +222,7 @@ const SignupPage = () => {
                   <div className="row justify-content-center">
                     <div className="col-md-10 col-lg-6 col-xl-5 order-1 order-lg-1">
                       <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">
-                        {t("Sign up")} 
+                        {t("Sign up")}
                       </p>
 
                       <form className="mx-1 mx-md-4">
@@ -270,7 +273,7 @@ const SignupPage = () => {
                               className="form-label"
                               htmlFor="form3Example3c"
                             >
-                             {t("Your Email")}
+                              {t("Your Email")}
                             </label>
                           </div>
                         </div>
@@ -296,7 +299,7 @@ const SignupPage = () => {
                               className="form-label"
                               htmlFor="form3Example4c"
                             >
-                              {t("Password")} 
+                              {t("Password")}
                             </label>
                           </div>
                         </div>
@@ -322,7 +325,7 @@ const SignupPage = () => {
                               className="form-label"
                               htmlFor="form3Example4cd"
                             >
-                             {t("Repeat your password")} 
+                              {t("Repeat your password")}
                             </label>
                           </div>
                         </div>
@@ -362,7 +365,7 @@ const SignupPage = () => {
                           <div className="col-9 ms-2">
                             {" "}
                             <label className="ms-4" htmlFor="state">
-                              {t("Governorate")} 
+                              {t("Governorate")}
                             </label>
                           </div>
                         </div>
@@ -404,7 +407,7 @@ const SignupPage = () => {
                       type="button"
                       className="btn btn-primary btn-lg"
                     >
-                      {t("Register")} 
+                      {t("Register")}
                     </button>
                   </div>
                 </div>

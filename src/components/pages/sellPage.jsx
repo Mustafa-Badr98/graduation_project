@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddToUserProductListAction } from "../../store/actions/AddToUserProductList";
 import { AddToProductListAction } from "../../store/actions/AddToProductList";
 import axios from "axios";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Redirect, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import no_property_pic from "../../assets/images/no_photo.jpg";
@@ -239,6 +239,7 @@ function SellPage() {
 
   return (
     <>
+    {Object.keys(currentUser).length === 0 && <Redirect to="/" />  }
       <div className="container mt-5 p-5">
         <h1 className="text-secondary text-center mb-4">
           {t("Post Your AD")}{" "}

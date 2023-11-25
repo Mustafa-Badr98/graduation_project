@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Redirect, useParams } from "react-router-dom/cjs/react-router-dom.min";
 import MyFooter from "../static/footer";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import ConfirmationModal from "../static/confirmModal";
 import OfferComp from "../static/offerComp";
 
 const OffersPage = () => {
+  const user = useSelector((state) => state.currentUSER.currentUser);
+
   const history = useHistory();
   const token = localStorage.getItem("authToken");
   const param = useParams();
@@ -27,17 +29,24 @@ const OffersPage = () => {
         .then((res) => {
           console.log(res.data.offers);
           setPropertyOffers(res.data.offers);
-        });
+        })
+        .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    getPropertyOffers();
+    try {
+      getPropertyOffers();
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
   return (
     <>
+      {Object.keys(user).length === 0 && <Redirect to="/" />}
+
       <div className="container mt-5 vh-100">
         <h2>Property offers:</h2>
         {property_offers.length > 0 && property_offers ? (

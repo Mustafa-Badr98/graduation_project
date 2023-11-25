@@ -6,6 +6,7 @@ import UserCard from "../static/UserCard";
 import EmptyUserAdsListAlert from "../static/EmptyUserAdsListAlert";
 import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 import { useTranslation } from "react-i18next";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 const UserAdsPage = () => {
   const { t } = useTranslation();
@@ -22,6 +23,8 @@ const UserAdsPage = () => {
   }, [user]);
   return (
     <>
+      {Object.keys(user).length === 0 && <Redirect to="/" />}
+
       <div className="container">
         {!userProperties ? (
           <>
@@ -33,8 +36,9 @@ const UserAdsPage = () => {
               style={{ minHeight: "100vh" }}
               className="container-fluid mt-5 fw-normal"
             >
-              
-              <span className="fs-4 fw-bold">{t("Manage and view your Ads")} </span>
+              <span className="fs-4 fw-bold">
+                {t("Manage and view your Ads")}{" "}
+              </span>
               {/* <UserCard productObject={testObject} /> */}
 
               {userProperties && userProperties.length === 0 ? (
@@ -50,7 +54,6 @@ const UserAdsPage = () => {
                       })}
                   </div>
                 </>
-                
               )}
             </div>
           </>

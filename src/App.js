@@ -112,9 +112,7 @@ function App() {
           />
           <Route exact path="/Fav" component={FavPage} />
           <Route exact path="/sellProduct" component={SellPage} />I
-          {Object.keys(user).length === 0 && (
-            <Route exact path="/register" component={SignupPage} />
-          )}
+          <Route exact path="/register" component={SignupPage} />
           {user.is_admin ? (
             <>
               <Route exact path="/admin_panel" component={AdminHomePage} />
