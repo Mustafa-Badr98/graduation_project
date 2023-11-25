@@ -11,6 +11,7 @@ import {
 import { GetProductsListAction } from "../../store/actions/GetProductsList";
 import no_property_pic from "../../assets/images/no_photo.jpg";
 import MessageModal from "../static/messageModal";
+import { GetCurrentUserAction } from "../../store/actions/getCurrentUser";
 
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -20,6 +21,8 @@ const client = axios.create({
   baseURL: "http://127.0.0.1:8000",
 });
 function EditPropertyPage() {
+  const storedAuthToken = localStorage.getItem("authToken");
+
   const [showModal, setShowModal] = useState(false);
   const [modalBody, setModalBody] = useState("");
   const handleShowMessage = () => {
@@ -229,8 +232,10 @@ function EditPropertyPage() {
       dispatch(GetProductsListAction());
       setModalBody("Your product has been edited");
       handleShowMessage();
+      dispatch(GetCurrentUserAction(storedAuthToken));
+  
+
       // alert("your product has been Edited");
-      // history.push("/");
     } else {
       setModalBody("Please check all the required fields");
       handleShowMessage();

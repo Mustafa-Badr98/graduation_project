@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import PayPalButton from "../static/paypalButton";
 import PayPalButton2 from "../static/paypalButton2";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-import { Redirect, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  Redirect,
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 import axios from "axios";
 import UserCard from "../static/UserCard";
 import MyFooter from "../static/footer";
@@ -56,28 +60,45 @@ export default function PaymentPage() {
   const [checkout, setCheckOut] = useState(false);
   const [userOffers, setUserOffers] = useState([]);
   const [is_valid, setIsValid] = useState(true);
+  const history = useHistory();
   // console.log(userOffers);
   // console.log(offer);
   // console.log(user);
 
   const getProperty = () => {
-    axios
-      .get(`http://127.0.0.1:8000/api/properties/${param.property_id}`)
-      .then((res) => {
-        console.log(res.data.data);
-        setProperty(res.data.data);
-      })
-      .catch((err) => console.log(err));
+    try {
+      axios
+        .get(`http://127.0.0.1:8000/api/properties/${param.property_id}`)
+        .then((res) => {
+          console.log(res.data.data);
+          setProperty(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          history.push("/");
+        });
+    } catch (error) {
+      console.log(error);
+      history.push("/");
+    }
   };
 
   const getOffer = () => {
-    axios
-      .get(`http://127.0.0.1:8000/api/get_offer/${param.offer_id}/`)
-      .then((res) => {
-        console.log(res.data.data);
-        setOffer(res.data.data);
-      })
-      .catch((err) => console.log(err));
+    try {
+      axios
+        .get(`http://127.0.0.1:8000/api/get_offer/${param.offer_id}/`)
+        .then((res) => {
+          console.log(res.data.data);
+          setOffer(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          history.push("/");
+        });
+    } catch (error) {
+      console.log(error);
+      history.push("/");
+    }
   };
 
   const get_user_offersID = () => {

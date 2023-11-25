@@ -55,7 +55,7 @@ const SignupPage = () => {
     "Sohag",
     "South Sinai",
   ];
-
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
   const dispatch = useDispatch();
   const history = useHistory();
   const [hasErrors, setHasError] = useState(true);
@@ -159,7 +159,7 @@ const SignupPage = () => {
     }
   };
 
-  const handelSubmitButton = () => {
+  const handelSubmitButton = async () => {
     if (!hasErrors) {
       var jsonUser = JSON.stringify(formData);
       let data_send = {
@@ -180,7 +180,7 @@ const SignupPage = () => {
             email: formData.email,
             password: formData.password,
           };
-          axios
+           axios
             .post("http://127.0.0.1:8000/api/user/login", loginData)
             .then((response) => {
               const authToken = response.data.token;
@@ -190,10 +190,12 @@ const SignupPage = () => {
               dispatch(LoginAction());
               dispatch(GetCurrentUserAction(authToken));
             });
+          // setModalBody("SignUp Complete. and you are now logged in.");
           await handleShowMessage();
 
           await new Promise((resolve) => setTimeout(resolve, 5000));
 
+       
           await history.push("/");
 
           // alert(
@@ -201,7 +203,9 @@ const SignupPage = () => {
           // );
         })
         .catch((e) => {
-          alert("your email is already registered");
+          setModalBody("your email is already registered");
+          handleShowMessage();
+
           console.log(e.response.data);
         });
     }

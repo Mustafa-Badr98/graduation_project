@@ -64,7 +64,8 @@ const OfferComp = (props) => {
         },
       })
       .then((res) => {
-        window.location.reload();
+        // window.location.reload();
+        props.refresh()
         console.log(res);
       });
   };

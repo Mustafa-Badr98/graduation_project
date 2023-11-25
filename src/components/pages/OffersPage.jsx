@@ -53,7 +53,7 @@ const OffersPage = () => {
           <div className="mt-5">
             {" "}
             {property_offers.map((offer, index) => (
-              <OfferComp offer={offer} key={index} />
+              <OfferComp offer={offer} key={index} refresh={getPropertyOffers} />
             ))}
           </div>
         ) : (
