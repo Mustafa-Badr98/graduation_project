@@ -222,7 +222,7 @@ function SellPage() {
       }
 
       dispatch(GetCurrentUserAction(storedAuthToken));
-      setModalBody("Congratulations.. Your product has been added");
+      setModalBody("Congratulations.. Your Property has been added");
 
       await handleShowMessage();
 
@@ -232,7 +232,7 @@ function SellPage() {
 
       // history.push("/");
     } else {
-      setModalBody("please login or check all the required fields");
+      setModalBody("please check all the required fields");
       handleShowMessage();
     }
   };

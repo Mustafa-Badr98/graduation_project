@@ -74,6 +74,7 @@ const AdminPropertyRowComp = (props) => {
         <td>{property.title} </td>
         <td> {property.seller.user_name}</td>
         <td>{property.price} </td>
+        <td>{property.location} </td>
         <td>{property.offers.length} </td>
         <td>{property.created_at} </td>
         <td>{property.type} </td>

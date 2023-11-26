@@ -159,7 +159,7 @@ const SignupPage = () => {
     }
   };
 
-  const handelSubmitButton = async () => {
+  const handelSubmitButton = () => {
     if (!hasErrors) {
       var jsonUser = JSON.stringify(formData);
       let data_send = {
@@ -180,9 +180,11 @@ const SignupPage = () => {
             email: formData.email,
             password: formData.password,
           };
-           axios
+          axios
             .post("http://127.0.0.1:8000/api/user/login", loginData)
-            .then((response) => {
+            .then(async (response) => {
+              handleShowMessage();
+              await new Promise((resolve) => setTimeout(resolve, 4000));
               const authToken = response.data.token;
               localStorage.setItem("authToken", authToken);
               dispatch(StoreToken(authToken));
@@ -190,13 +192,9 @@ const SignupPage = () => {
               dispatch(LoginAction());
               dispatch(GetCurrentUserAction(authToken));
             });
+
+          // await history.push("/");
           // setModalBody("SignUp Complete. and you are now logged in.");
-          await handleShowMessage();
-
-          await new Promise((resolve) => setTimeout(resolve, 5000));
-
-       
-          await history.push("/");
 
           // alert(
           //   "SignUp Complete. You will now be redirected to the home page."

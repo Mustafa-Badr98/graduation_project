@@ -230,7 +230,7 @@ function EditPropertyPage() {
       }
 
       dispatch(GetProductsListAction());
-      setModalBody("Your product has been edited");
+      setModalBody("Your Property has been edited");
       handleShowMessage();
       dispatch(GetCurrentUserAction(storedAuthToken));
   

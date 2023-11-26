@@ -161,6 +161,7 @@ const AdminPropertiesPage = () => {
                 <th scope="col">Title</th>
                 <th scope="col">Owner</th>
                 <th scope="col">Price</th>
+                <th scope="col">Location</th>
                 <th scope="col">N Offers</th>
                 <th scope="col">Published at</th>
                 <th scope="col">Type</th>
